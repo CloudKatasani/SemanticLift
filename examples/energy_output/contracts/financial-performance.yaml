@@ -1,0 +1,257 @@
+apiVersion: v3.0.0
+kind: DataContract
+id: urn:datacontract:financial-performance
+version: 1.0.0
+status: proposed
+product: financial-performance
+name: Financial Performance
+domain: finance
+owner: Energy Data Engineering Team
+steward: analytics-team@energy-utility.com
+classification: Internal - Restricted
+retention: 7 years (FERC)
+source_systems:
+- SAP_FICA_PROD
+data_modules:
+- Financial_Performance_DM
+outputs:
+- SEM.SV_FINANCE_PERFORMANCE
+- SEM.SV_MARKET_AND_FUEL
+- DP_FINANCE.OUT_BUDGET_ACTUAL_MONTHLY
+- DP_FINANCE.OUT_BUDGET_ACTUAL_MONTHLY_2
+- DP_FINANCE.OUT_CAPEX_SPEND_MONTHLY
+- DP_FINANCE.OUT_CAPEX_SPEND_MONTHLY_2
+- DP_FINANCE.OUT_FUEL_COST_MONTHLY
+- DP_FINANCE.OUT_MARKET_SETTLEMENT_MONTHLY
+- DP_FINANCE.OUT_MARKET_SETTLEMENT_QUARTERLY
+- DP_FINANCE.OUT_REVENUE_MONTHLY
+- DP_FINANCE.OUT_REVENUE_QUARTERLY
+grain:
+  FCT_BUDGET_ACTUAL:
+  - BUDGET_ACTUAL_ID
+  - DATE_KEY
+  - GL_ACCOUNT_ID
+  FCT_CAPEX_SPEND:
+  - CAPEX_SPEND_ID
+  - CAPEX_PROJECT_ID
+  - DATE_KEY
+  - GL_ACCOUNT_ID
+  FCT_FUEL_COST:
+  - FUEL_COST_ID
+  - DATE_KEY
+  - GL_ACCOUNT_ID
+  FCT_MARKET_SETTLEMENT:
+  - MARKET_SETTLEMENT_ID
+  - COUNTERPARTY_ID
+  - DATE_KEY
+  - GL_ACCOUNT_ID
+  FCT_REVENUE:
+  - REVENUE_RECORD_ID
+  - DATE_KEY
+  - GL_ACCOUNT_ID
+freshness_sla: 24h
+slaProperties:
+- property: latency
+  value: 24h
+default_filters:
+- dimension: fiscal_year
+  value: '2026'
+  cognos_prompt: p_FiscalYear
+quality:
+- not_null:
+  - DIM_CAPEX_PROJECT.CAPEX_PROJECT_ID
+- unique:
+  - DIM_CAPEX_PROJECT.CAPEX_PROJECT_ID
+- not_null:
+  - DIM_COST_CENTER.COST_CENTER
+- unique:
+  - DIM_COST_CENTER.COST_CENTER
+- not_null:
+  - DIM_COUNTERPARTY.COUNTERPARTY_ID
+- unique:
+  - DIM_COUNTERPARTY.COUNTERPARTY_ID
+- not_null:
+  - DIM_GL_ACCOUNT.GL_ACCOUNT_ID
+- unique:
+  - DIM_GL_ACCOUNT.GL_ACCOUNT_ID
+- referential: DIM_GL_ACCOUNT.COST_CENTER -> DIM_COST_CENTER.COST_CENTER
+- not_null:
+  - FCT_BUDGET_ACTUAL.BUDGET_ACTUAL_ID
+- unique:
+  - FCT_BUDGET_ACTUAL.BUDGET_ACTUAL_ID
+- referential: FCT_BUDGET_ACTUAL.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_BUDGET_ACTUAL.GL_ACCOUNT_ID -> DIM_GL_ACCOUNT.GL_ACCOUNT_ID
+- not_null:
+  - FCT_CAPEX_SPEND.CAPEX_SPEND_ID
+- unique:
+  - FCT_CAPEX_SPEND.CAPEX_SPEND_ID
+- referential: FCT_CAPEX_SPEND.CAPEX_PROJECT_ID -> DIM_CAPEX_PROJECT.CAPEX_PROJECT_ID
+- referential: FCT_CAPEX_SPEND.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_CAPEX_SPEND.GL_ACCOUNT_ID -> DIM_GL_ACCOUNT.GL_ACCOUNT_ID
+- not_null:
+  - FCT_FUEL_COST.FUEL_COST_ID
+- unique:
+  - FCT_FUEL_COST.FUEL_COST_ID
+- referential: FCT_FUEL_COST.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_FUEL_COST.GL_ACCOUNT_ID -> DIM_GL_ACCOUNT.GL_ACCOUNT_ID
+- not_null:
+  - FCT_MARKET_SETTLEMENT.MARKET_SETTLEMENT_ID
+- unique:
+  - FCT_MARKET_SETTLEMENT.MARKET_SETTLEMENT_ID
+- referential: FCT_MARKET_SETTLEMENT.COUNTERPARTY_ID -> DIM_COUNTERPARTY.COUNTERPARTY_ID
+- referential: FCT_MARKET_SETTLEMENT.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_MARKET_SETTLEMENT.GL_ACCOUNT_ID -> DIM_GL_ACCOUNT.GL_ACCOUNT_ID
+- not_null:
+  - FCT_REVENUE.REVENUE_RECORD_ID
+- unique:
+  - FCT_REVENUE.REVENUE_RECORD_ID
+- referential: FCT_REVENUE.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_REVENUE.GL_ACCOUNT_ID -> DIM_GL_ACCOUNT.GL_ACCOUNT_ID
+- freshness:
+    max_lag: 24h
+schema:
+- name: OUT_BUDGET_ACTUAL_MONTHLY
+  physicalName: DP_FINANCE.OUT_BUDGET_ACTUAL_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_BUDGET_ACTUAL_MONTH_ACCOUNT (57.97% of BudgetActual demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: ACCOUNT_CODE
+  - name: ACCOUNT_NAME
+  - name: MONTH_NUMBER
+  - name: ACTUAL_AMOUNT
+  - name: BUDGET_AMOUNT
+  - name: VARIANCE_AMOUNT
+  - name: VARIANCE_PCT_SUM
+  - name: VARIANCE_PCT_COUNT
+  - name: BUDGET_ACTUAL_COUNT
+- name: OUT_BUDGET_ACTUAL_MONTHLY_2
+  physicalName: DP_FINANCE.OUT_BUDGET_ACTUAL_MONTHLY_2
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_BUDGET_ACTUAL_MONTH_ACCOUNT_NAME_COST_CENTER (15.63% of BudgetActual demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: ACCOUNT_NAME
+  - name: COST_CENTER
+  - name: MONTH_NUMBER
+  - name: ACTUAL_AMOUNT
+  - name: BUDGET_AMOUNT
+  - name: VARIANCE_AMOUNT
+  - name: VARIANCE_PCT_SUM
+  - name: VARIANCE_PCT_COUNT
+  - name: BUDGET_ACTUAL_COUNT
+- name: OUT_CAPEX_SPEND_MONTHLY
+  physicalName: DP_FINANCE.OUT_CAPEX_SPEND_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_CAPEX_SPEND_MONTH_ACCOUNT (57.38% of CapexProject demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: ACCOUNT_CODE
+  - name: ACCOUNT_NAME
+  - name: MONTH_NUMBER
+  - name: SPENT_TO_DATE
+  - name: CAPEX_SPEND_COUNT
+- name: OUT_CAPEX_SPEND_MONTHLY_2
+  physicalName: DP_FINANCE.OUT_CAPEX_SPEND_MONTHLY_2
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_CAPEX_SPEND_MONTH_ACCOUNT_NAME_COST_CENTER (35.84% of CapexProject demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: ACCOUNT_NAME
+  - name: COST_CENTER
+  - name: MONTH_NUMBER
+  - name: SPENT_TO_DATE
+  - name: CAPEX_SPEND_COUNT
+- name: OUT_FUEL_COST_MONTHLY
+  physicalName: DP_FINANCE.OUT_FUEL_COST_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_FUEL_COST_MONTH_TYPE_ACCOUNT_CODE (44.52% of FuelCost demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: FUEL_TYPE
+  - name: ACCOUNT_CODE
+  - name: MONTH_NUMBER
+  - name: COST_PER_MMBTU_SUM
+  - name: COST_PER_MMBTU_COUNT
+  - name: QUANTITY_MMBTU
+  - name: TOTAL_COST
+  - name: FUEL_COST_COUNT
+- name: OUT_MARKET_SETTLEMENT_MONTHLY
+  physicalName: DP_FINANCE.OUT_MARKET_SETTLEMENT_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_MARKET_SETTLEMENT_MONTH_TYPE_ACCOUNT_CODE (77.08% of MarketSettlement demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: ACCOUNT_CODE
+  - name: MARKET_TYPE
+  - name: MONTH_NUMBER
+  - name: ENERGY_MWH
+  - name: PRICE_MWH_SUM
+  - name: PRICE_MWH_COUNT
+  - name: SETTLEMENT_AMOUNT
+  - name: MARKET_SETTLEMENT_COUNT
+- name: OUT_MARKET_SETTLEMENT_QUARTERLY
+  physicalName: DP_FINANCE.OUT_MARKET_SETTLEMENT_QUARTERLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_MARKET_SETTLEMENT_QUARTER_TYPE_ACCOUNT_NAME (22.92% of MarketSettlement demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: QUARTER
+  - name: ACCOUNT_NAME
+  - name: MARKET_TYPE
+  - name: ENERGY_MWH
+  - name: PRICE_MWH_SUM
+  - name: PRICE_MWH_COUNT
+  - name: SETTLEMENT_AMOUNT
+  - name: MARKET_SETTLEMENT_COUNT
+- name: OUT_REVENUE_MONTHLY
+  physicalName: DP_FINANCE.OUT_REVENUE_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_REVENUE_MONTH_TYPE_CUSTOMER_SEGMENT (75.98% of RevenueRecord demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: CUSTOMER_SEGMENT
+  - name: REVENUE_TYPE
+  - name: MONTH_NUMBER
+  - name: AMOUNT
+  - name: KWH_SOLD
+  - name: REVENUE_PER_KWH_SUM
+  - name: REVENUE_PER_KWH_COUNT
+  - name: REVENUE_COUNT
+- name: OUT_REVENUE_QUARTERLY
+  physicalName: DP_FINANCE.OUT_REVENUE_QUARTERLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_REVENUE_QUARTER_ACCOUNT_NAME (24.02% of RevenueRecord demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: QUARTER
+  - name: ACCOUNT_NAME
+  - name: AMOUNT
+  - name: KWH_SOLD
+  - name: REVENUE_PER_KWH_SUM
+  - name: REVENUE_PER_KWH_COUNT
+  - name: REVENUE_COUNT
+confidence: 0.3
+replaces_cognos_reports: 32 clusters (96 reports)

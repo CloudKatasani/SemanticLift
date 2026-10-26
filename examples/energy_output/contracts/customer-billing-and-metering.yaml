@@ -1,0 +1,112 @@
+apiVersion: v3.0.0
+kind: DataContract
+id: urn:datacontract:customer-billing-and-metering
+version: 1.0.0
+status: proposed
+product: customer-billing-and-metering
+name: Customer Billing and Metering
+domain: billing
+owner: Energy Data Engineering Team
+steward: analytics-team@energy-utility.com
+classification: Internal - Restricted
+retention: 7 years (FERC)
+source_systems:
+- CC_AND_B_PROD
+data_modules:
+- Customer_Billing_DM
+- Meter_Data_Management_DM
+outputs:
+- SEM.SV_BILLING_REVENUE
+- SEM.SV_METER_CONSUMPTION
+- DP_BILLING.OUT_BILLING_MONTHLY
+- DP_BILLING.OUT_METER_READING_MONTHLY
+grain:
+  FCT_BILLING:
+  - BILL_ID
+  - DATE_KEY
+  - METER_ID
+  FCT_METER_READING:
+  - READING_ID
+  - DATE_KEY
+  - METER_ID
+  - TARIFF_ID
+freshness_sla: 24h
+slaProperties:
+- property: latency
+  value: 24h
+default_filters:
+- dimension: fiscal_year
+  value: '2026'
+  cognos_prompt: p_FiscalYear
+quality:
+- not_null:
+  - DIM_METER.METER_ID
+- unique:
+  - DIM_METER.METER_ID
+- referential: DIM_METER.CUSTOMER_ID -> DIM_CUSTOMER.CUSTOMER_ID
+- referential: DIM_METER.LOCATION_ID -> DIM_LOCATION.LOCATION_ID
+- not_null:
+  - DIM_TARIFF.TARIFF_ID
+- unique:
+  - DIM_TARIFF.TARIFF_ID
+- not_null:
+  - FCT_BILLING.BILL_ID
+- unique:
+  - FCT_BILLING.BILL_ID
+- referential: FCT_BILLING.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_BILLING.METER_ID -> DIM_METER.METER_ID
+- accepted_values:
+    FCT_BILLING.PAYMENT_STATUS:
+    - Paid
+    - Unpaid
+    - Overdue
+    - Disputed
+- not_null:
+  - FCT_METER_READING.READING_ID
+- unique:
+  - FCT_METER_READING.READING_ID
+- referential: FCT_METER_READING.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_METER_READING.METER_ID -> DIM_METER.METER_ID
+- referential: FCT_METER_READING.TARIFF_ID -> DIM_TARIFF.TARIFF_ID
+- freshness:
+    max_lag: 24h
+schema:
+- name: OUT_BILLING_MONTHLY
+  physicalName: DP_BILLING.OUT_BILLING_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_BILLING_MONTH_SEGMENT_REGION (29.73% of Billing demand)
+  status: proposed
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: CUSTOMER_SEGMENT
+  - name: REGION
+  - name: MONTH_NUMBER
+  - name: BILL_AMOUNT
+  - name: DEMAND_CHARGE
+  - name: ENERGY_CHARGE
+  - name: TAX_AMOUNT
+  - name: TOTAL_BILL_WITH_TAX
+  - name: BILLING_COUNT
+- name: OUT_METER_READING_MONTHLY
+  physicalName: DP_BILLING.OUT_METER_READING_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_METER_READING_MONTH_REGION_SEGMENT (26.81% of MeterReading demand)
+  status: proposed
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: CUSTOMER_SEGMENT
+  - name: REGION
+  - name: MONTH_NUMBER
+  - name: CO2_ESTIMATE_KG
+  - name: CONSUMPTION_KWH
+  - name: CONSUMPTION_MWH
+  - name: OFF_PEAK_KWH
+  - name: PEAK_DEMAND_KW
+  - name: REACTIVE_KVARH
+  - name: METER_READING_COUNT
+confidence: 0.8
+replaces_cognos_reports: 33 clusters (99 reports)

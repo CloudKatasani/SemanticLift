@@ -1,0 +1,107 @@
+apiVersion: v3.0.0
+kind: DataContract
+id: urn:datacontract:enterprise-reference
+version: 1.0.0
+status: proposed
+product: enterprise-reference
+name: Enterprise Reference
+domain: reference
+owner: Energy Data Engineering Team
+steward: analytics-team@energy-utility.com
+classification: Internal - Restricted
+retention: 7 years (FERC)
+source_systems:
+- ENERGY_DW
+data_modules: []
+outputs:
+- DP_REFERENCE.OUT_CUSTOMER
+- DP_REFERENCE.OUT_DATE
+- DP_REFERENCE.OUT_LOCATION
+grain: {}
+freshness_sla: 24h
+slaProperties:
+- property: latency
+  value: 24h
+default_filters: []
+quality:
+- not_null:
+  - DIM_CUSTOMER.CUSTOMER_ID
+- unique:
+  - DIM_CUSTOMER.CUSTOMER_ID
+- not_null:
+  - DIM_DATE.DATE_KEY
+- unique:
+  - DIM_DATE.DATE_KEY
+- accepted_values:
+    DIM_DATE.FISCAL_YEAR:
+    - '2022'
+    - '2023'
+    - '2024'
+    - '2025'
+    - '2026'
+    - '2027'
+- accepted_values:
+    DIM_DATE.MONTH_NAME:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+- not_null:
+  - DIM_LOCATION.LOCATION_ID
+- unique:
+  - DIM_LOCATION.LOCATION_ID
+- freshness:
+    max_lag: 24h
+schema:
+- name: OUT_CUSTOMER
+  physicalName: DP_REFERENCE.OUT_CUSTOMER
+  physicalType: secure view
+  description: Conformed Customer published once for all data products
+  status: proposed
+  properties:
+  - name: CUSTOMER_ID
+  - name: ACCOUNT_TYPE
+  - name: CHURN_RISK
+  - name: CREDIT_SCORE
+  - name: CUSTOMER_NAME
+  - name: CUSTOMER_SEGMENT
+  - name: SERVICE_TIER
+  - name: LIFETIME_VALUE_USD
+  - name: NPS_SCORE
+- name: OUT_DATE
+  physicalName: DP_REFERENCE.OUT_DATE
+  physicalType: secure view
+  description: Conformed Date published once for all data products
+  status: proposed
+  properties:
+  - name: DATE_KEY
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: ISO_WEEK
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+- name: OUT_LOCATION
+  physicalName: DP_REFERENCE.OUT_LOCATION
+  physicalType: secure view
+  description: Conformed Location published once for all data products
+  status: proposed
+  properties:
+  - name: LOCATION_ID
+  - name: CITY
+  - name: CLIMATE_ZONE
+  - name: POSTAL_CODE
+  - name: REGION
+  - name: STATE_PROVINCE
+confidence: 0.6
+replaces_cognos_reports: shared conformed dimensions

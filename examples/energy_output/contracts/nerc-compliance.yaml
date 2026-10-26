@@ -1,0 +1,226 @@
+apiVersion: v3.0.0
+kind: DataContract
+id: urn:datacontract:nerc-compliance
+version: 1.0.0
+status: proposed
+product: nerc-compliance
+name: NERC Compliance
+domain: nerc
+owner: Energy Data Engineering Team
+steward: analytics-team@energy-utility.com
+classification: Internal - Restricted
+retention: 7 years (FERC)
+source_systems:
+- NERC_COMPLIANCE_DB
+data_modules:
+- NERC_Compliance_DM
+outputs:
+- SEM.SV_NERC_COMPLIANCE
+- DP_NERC.OUT_AUDIT_RECORD
+- DP_NERC.OUT_COMPLIANCE_EVENT
+- DP_NERC.OUT_DATA_SUBMISSION
+- DP_NERC.OUT_MISOPERATION
+- DP_NERC.OUT_PRC004_TEST
+- DP_NERC.OUT_VIOLATION
+grain:
+  FCT_AUDIT_RECORD:
+  - AUDIT_RECORD_ID
+  - DATE_KEY
+  FCT_COMPLIANCE_EVENT:
+  - COMPLIANCE_EVENT_ID
+  - STANDARD_REF
+  - DATE_KEY
+  FCT_DATA_SUBMISSION:
+  - DATA_SUBMISSION_ID
+  - REPORTING_ENTITY
+  - DATE_KEY
+  FCT_MISOPERATION:
+  - MISOP_ID
+  - DATE_KEY
+  FCT_PRC004_TEST:
+  - PRC004_REQUIREMENT_ID
+  - ASSET_ID
+  - DATE_KEY
+  FCT_VIOLATION:
+  - VIOLATION_ID
+  - STANDARD_ID
+  - DATE_KEY
+freshness_sla: 24h
+slaProperties:
+- property: latency
+  value: 24h
+default_filters:
+- dimension: fiscal_year
+  value: '2026'
+  cognos_prompt: p_FiscalYear
+quality:
+- not_null:
+  - DIM_ASSET.ASSET_ID
+- unique:
+  - DIM_ASSET.ASSET_ID
+- not_null:
+  - DIM_NERC_STANDARD.STANDARD_REF
+- unique:
+  - DIM_NERC_STANDARD.STANDARD_REF
+- not_null:
+  - DIM_REPORTING_ENTITY.REPORTING_ENTITY
+- unique:
+  - DIM_REPORTING_ENTITY.REPORTING_ENTITY
+- not_null:
+  - FCT_AUDIT_RECORD.AUDIT_RECORD_ID
+- unique:
+  - FCT_AUDIT_RECORD.AUDIT_RECORD_ID
+- referential: FCT_AUDIT_RECORD.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_COMPLIANCE_EVENT.COMPLIANCE_EVENT_ID
+- unique:
+  - FCT_COMPLIANCE_EVENT.COMPLIANCE_EVENT_ID
+- referential: FCT_COMPLIANCE_EVENT.STANDARD_REF -> DIM_NERC_STANDARD.STANDARD_REF
+- referential: FCT_COMPLIANCE_EVENT.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_DATA_SUBMISSION.DATA_SUBMISSION_ID
+- unique:
+  - FCT_DATA_SUBMISSION.DATA_SUBMISSION_ID
+- referential: FCT_DATA_SUBMISSION.REPORTING_ENTITY -> DIM_REPORTING_ENTITY.REPORTING_ENTITY
+- referential: FCT_DATA_SUBMISSION.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_MISOPERATION.MISOP_ID
+- unique:
+  - FCT_MISOPERATION.MISOP_ID
+- referential: FCT_MISOPERATION.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_PRC004_TEST.PRC004_REQUIREMENT_ID
+- unique:
+  - FCT_PRC004_TEST.PRC004_REQUIREMENT_ID
+- referential: FCT_PRC004_TEST.ASSET_ID -> DIM_ASSET.ASSET_ID
+- referential: FCT_PRC004_TEST.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_VIOLATION.VIOLATION_ID
+- unique:
+  - FCT_VIOLATION.VIOLATION_ID
+- referential: FCT_VIOLATION.STANDARD_ID -> DIM_NERC_STANDARD.STANDARD_REF
+- referential: FCT_VIOLATION.DATE_KEY -> DIM_DATE.DATE_KEY
+- freshness:
+    max_lag: 24h
+schema:
+- name: OUT_AUDIT_RECORD
+  physicalName: DP_NERC.OUT_AUDIT_RECORD
+  physicalType: secure view
+  description: Atomic contracted output for AuditRecord
+  status: stub
+  properties:
+  - name: AUDIT_RECORD_ID
+  - name: DATE_KEY
+  - name: ACTION_REQUIRED
+  - name: AUDIT_TYPE
+  - name: AUDITOR
+  - name: FINDINGS
+  - name: RISK_RATING
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+- name: OUT_COMPLIANCE_EVENT
+  physicalName: DP_NERC.OUT_COMPLIANCE_EVENT
+  physicalType: secure view
+  description: Atomic contracted output for ComplianceEvent
+  status: stub
+  properties:
+  - name: COMPLIANCE_EVENT_ID
+  - name: DATE_KEY
+  - name: EVENT_TYPE
+  - name: REQUIREMENT_REF
+  - name: RESOLUTION_DATE
+  - name: SEVERITY
+  - name: STANDARD_REF
+  - name: STATUS
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+- name: OUT_DATA_SUBMISSION
+  physicalName: DP_NERC.OUT_DATA_SUBMISSION
+  physicalType: secure view
+  description: Atomic contracted output for DataSubmission
+  status: stub
+  properties:
+  - name: DATA_SUBMISSION_ID
+  - name: DATE_KEY
+  - name: FILING_PERIOD
+  - name: REPORTING_ENTITY
+  - name: STATUS
+  - name: SUBMISSION_TYPE
+  - name: SUBMITTED_BY
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+- name: OUT_MISOPERATION
+  physicalName: DP_NERC.OUT_MISOPERATION
+  physicalType: secure view
+  description: Atomic contracted output for MisoperationEvent
+  status: stub
+  properties:
+  - name: MISOP_ID
+  - name: DATE_KEY
+  - name: CAUSE_CATEGORY
+  - name: PROTECTION_SYSTEM
+  - name: DURATION_CYCLES
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+- name: OUT_PRC004_TEST
+  physicalName: DP_NERC.OUT_PRC004_TEST
+  physicalType: secure view
+  description: Atomic contracted output for PRC004Requirement
+  status: stub
+  properties:
+  - name: PRC004_REQUIREMENT_ID
+  - name: DATE_KEY
+  - name: ASSET_ID
+  - name: NEXT_TEST_DUE
+  - name: REQUIREMENT_SECTION
+  - name: TEST_RESULT
+  - name: MAINTENANCE_INTERVAL
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+- name: OUT_VIOLATION
+  physicalName: DP_NERC.OUT_VIOLATION
+  physicalType: secure view
+  description: Atomic contracted output for Violation
+  status: stub
+  properties:
+  - name: VIOLATION_ID
+  - name: DATE_KEY
+  - name: STANDARD_ID
+  - name: CLOSED_DATE
+  - name: DESCRIPTION
+  - name: MITIGATION_PLAN
+  - name: PENALTY
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+confidence: 0.3
+replaces_cognos_reports: 33 clusters (99 reports)

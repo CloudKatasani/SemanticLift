@@ -1,0 +1,86 @@
+# SemLift estate configuration for the Energy & Utilities Cognos export.
+# Merged on top of semlift/config.py DEFAULTS. Only naming and boundaries are
+# estate-specific; every design rule stays generic and deterministic.
+
+as_of_date: 2026-10-11          # export date of all_reports.xml
+
+rationalization:
+  lookback_days: 180
+  min_runs_per_day: 0
+  dormant_before: 2026-01-01
+
+target:
+  database: ENERGY_SEMANTIC
+  raw_schema_overrides:
+    CC_AND_B_PROD: RAW_CCB
+    ENERGY_OPS_DW: RAW_ENERGY_OPS
+    PI_HISTORIAN_PROD: RAW_PI
+    NERC_COMPLIANCE_DB: RAW_NERC
+    SAP_FICA_PROD: RAW_SAP_FICA
+    SF_SERVICE_CLOUD: RAW_SFSC
+    ENERGY_DW: RAW_ENERGY_DW
+
+aggregates:
+  low_volume_domains: [Energy_Compliance_Package]
+
+naming:
+  product_names:
+    Energy_Operations_Package: Grid Operations
+    Energy_Billing_Package: Customer Billing and Metering
+    Energy_Generation_Package: Generation and Energy Mix
+    Energy_Compliance_Package: NERC Compliance
+    Energy_Finance_Package: Financial Performance
+    Energy_CustomerService_Package: Customer Experience
+    ENTERPRISE: Enterprise Reference
+  domain_codes:
+    Energy_Operations_Package: GRID
+    Energy_Billing_Package: BILLING
+    Energy_Generation_Package: GENERATION
+    Energy_Compliance_Package: NERC
+    Energy_Finance_Package: FINANCE
+    Energy_CustomerService_Package: CX
+    ENTERPRISE: REFERENCE
+  fact_names:
+    Substation: SUBSTATION_LOAD
+    TransmissionLine: LINE_LOADING
+    StorageAsset: STORAGE_STATUS
+    CapexProject: CAPEX_SPEND
+    RevenueRecord: REVENUE
+    PRC004Requirement: PRC004_TEST
+    MisoperationEvent: MISOPERATION
+    RECCertificate: REC_CERTIFICATE
+  dimension_names: {}
+  reference_attributes:
+    StandardRef: NERC_STANDARD
+    Violation.StandardID: NERC_STANDARD
+    ReportingEntity: REPORTING_ENTITY
+    GLAccount.CostCenter: COST_CENTER
+    CauseCode: OUTAGE_CAUSE
+  attribute_groups:
+    OUTAGE_CAUSE: [CauseDescription]
+  policy_names:
+    CurrentYearFinanceFilter: RAP_FINANCE_CURRENT_YEAR
+    CreditScore_Mask: MP_CREDIT_SCORE
+  mapping_table_names:
+    RegionFilter: MAP_USER_REGION
+    ActiveMeterFilter: MAP_USER_REGION
+    ComplianceEntityFilter: MAP_USER_COMPLIANCE_ENTITY
+  subject_areas:
+    SV_BILLING_REVENUE:   {domain: Energy_Billing_Package, facts: [Billing], description: Billed revenue, taxes and payment status}
+    SV_METER_CONSUMPTION: {domain: Energy_Billing_Package, facts: [MeterReading], description: Metered consumption, demand and tariffs}
+    SV_GENERATION_MIX:    {domain: Energy_Generation_Package, facts: [Generation, PowerPlant], description: Generation output, emissions and fuel mix}
+    SV_RENEWABLES_STORAGE: {domain: Energy_Generation_Package, facts: [RECCertificate, StorageAsset], description: REC certificates and storage status}
+    SV_GRID_RELIABILITY:  {domain: Energy_Operations_Package, facts: [OutageEvent], description: Outage events and reliability indices}
+    SV_LOAD_AND_CAPACITY: {domain: Energy_Operations_Package, facts: [LoadForecast, Substation, TransmissionLine], description: Load forecast, substation load and line loading}
+    SV_NERC_COMPLIANCE:   {domain: Energy_Compliance_Package, facts: [ComplianceEvent, Violation, AuditRecord, DataSubmission, MisoperationEvent, PRC004Requirement], description: NERC/FERC compliance events, violations, audits and submissions}
+    SV_FINANCE_PERFORMANCE: {domain: Energy_Finance_Package, facts: [BudgetActual, RevenueRecord, CapexProject, GLAccount], description: Budget vs actual, revenue and capex}
+    SV_MARKET_AND_FUEL:   {domain: Energy_Finance_Package, facts: [MarketSettlement, FuelCost], description: Market settlements and fuel cost}
+    SV_CUSTOMER_SERVICE:  {domain: Energy_CustomerService_Package, facts: [ServiceRequest, Complaint, FieldService, Customer], description: Service requests, complaints and field service}
+    SV_EV_CHARGING:       {domain: Energy_CustomerService_Package, facts: [EVCharging], description: EV charging sessions}
+
+security:
+  precedence: security_files
+  rls_default_deny: true
+
+owners:
+  report_owner: Package report owners

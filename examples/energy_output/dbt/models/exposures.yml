@@ -1,0 +1,1047 @@
+version: 2
+exposures:
+- name: customer_billing_summary
+  type: analysis
+  label: Customer Billing Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_001: 3 reports (Customer_Billing_Summary, Customer_Billing_Summary_Archive, Customer_Billing_Summary_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_billing')
+- name: monthly_invoice_detail
+  type: analysis
+  label: Monthly Invoice Detail
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_002: 3 reports (Monthly_Invoice_Detail, Monthly_Invoice_Detail_Archive, Monthly_Invoice_Detail_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_meter')
+  - ref('dim_tariff')
+  - ref('fct_billing')
+  - ref('fct_meter_reading')
+- name: revenue_by_customer_segment
+  type: analysis
+  label: Revenue by Customer Segment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_006: 3 reports (Revenue_by_Customer_Segment, Revenue_by_Customer_Segment_Archive,
+    Revenue_by_Customer_Segment_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_billing')
+  - ref('fct_meter_reading')
+- name: bill_dispute_log
+  type: analysis
+  label: Bill Dispute Log
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_008: 3 reports (Bill_Dispute_Log, Bill_Dispute_Log_Archive, Bill_Dispute_Log_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_tariff')
+  - ref('fct_billing')
+- name: write_off_summary
+  type: analysis
+  label: Write Off Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_013: 3 reports (Write_Off_Summary, Write_Off_Summary_Archive, Write_Off_Summary_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_billing')
+- name: interval_data_usage
+  type: analysis
+  label: Interval Data Usage
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_016: 3 reports (Interval_Data_Usage, Interval_Data_Usage_Archive, Interval_Data_Usage_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_meter_reading')
+- name: seasonal_consumption_trends
+  type: analysis
+  label: Seasonal Consumption Trends
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_017: 3 reports (Seasonal_Consumption_Trends, Seasonal_Consumption_Trends_Archive,
+    Seasonal_Consumption_Trends_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_meter_reading')
+- name: large_customer_account_review
+  type: analysis
+  label: Large Customer Account Review
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_018: 3 reports (Large_Customer_Account_Review, Large_Customer_Account_Review_Archive,
+    Large_Customer_Account_Review_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_location')
+  - ref('dim_tariff')
+  - ref('fct_billing')
+  - ref('fct_meter_reading')
+- name: commercial_rate_analysis
+  type: analysis
+  label: Commercial Rate Analysis
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_019: 3 reports (Commercial_Rate_Analysis, Commercial_Rate_Analysis_Archive, Commercial_Rate_Analysis_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_tariff')
+  - ref('fct_billing')
+- name: industrial_load_profile
+  type: analysis
+  label: Industrial Load Profile
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_020: 3 reports (Industrial_Load_Profile, Industrial_Load_Profile_Archive, Industrial_Load_Profile_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_tariff')
+  - ref('fct_meter_reading')
+- name: tariff_impact_assessment
+  type: analysis
+  label: Tariff Impact Assessment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_022: 3 reports (Tariff_Impact_Assessment, Tariff_Impact_Assessment_Archive, Tariff_Impact_Assessment_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_tariff')
+  - ref('fct_billing')
+- name: revenue_reconciliation
+  type: analysis
+  label: Revenue Reconciliation
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_024: 3 reports (Revenue_Reconciliation, Revenue_Reconciliation_Archive, Revenue_Reconciliation_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_billing')
+- name: budget_billing_status
+  type: analysis
+  label: Budget Billing Status
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_026: 3 reports (Budget_Billing_Status, Budget_Billing_Status_Archive, Budget_Billing_Status_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_billing')
+  - ref('fct_meter_reading')
+- name: meter_exchange_program
+  type: analysis
+  label: Meter Exchange Program
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_031: 3 reports (Meter_Exchange_Program, Meter_Exchange_Program_Archive, Meter_Exchange_Program_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_meter')
+  - ref('fct_meter_reading')
+- name: customer_cost_of_service
+  type: analysis
+  label: Customer Cost of Service
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_032: 3 reports (Customer_Cost_of_Service, Customer_Cost_of_Service_Archive, Customer_Cost_of_Service_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('dim_tariff')
+  - ref('fct_billing')
+- name: bill_frequency_report
+  type: analysis
+  label: Bill Frequency Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster BIL_033: 3 reports (Bill_Frequency_Report, Bill_Frequency_Report_Archive, Bill_Frequency_Report_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_billing')
+- name: prc004_requirement_2_audit_report
+  type: analysis
+  label: PRC004 Requirement 2 Audit Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_001: 3 reports (PRC004_Requirement_2_Audit_Report, PRC004_Requirement_2_Audit_Report_Archive,
+    PRC004_Requirement_2_Audit_Report_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_prc004_test')
+- name: ferc_form_1_summary
+  type: analysis
+  label: FERC Form 1 Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_005: 3 reports (FERC_Form_1_Summary, FERC_Form_1_Summary_Archive, FERC_Form_1_Summary_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_compliance_event')
+  - ref('fct_data_submission')
+- name: fac002_assessment
+  type: analysis
+  label: FAC002 Assessment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_007: 3 reports (FAC002_Assessment, FAC002_Assessment_Archive, FAC002_Assessment_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: fac003_assessment
+  type: analysis
+  label: FAC003 Assessment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_008: 3 reports (FAC003_Assessment, FAC003_Assessment_Archive, FAC003_Assessment_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: cip_002_asset_classification
+  type: analysis
+  label: CIP 002 Asset Classification
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_009: 3 reports (CIP_002_Asset_Classification, CIP_002_Asset_Classification_Archive,
+    CIP_002_Asset_Classification_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: cip_007_systems_management
+  type: analysis
+  label: CIP 007 Systems Management
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_010: 3 reports (CIP_007_Systems_Management, CIP_007_Systems_Management_Archive,
+    CIP_007_Systems_Management_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: cip_010_configuration_management
+  type: analysis
+  label: CIP 010 Configuration Management
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_011: 3 reports (CIP_010_Configuration_Management, CIP_010_Configuration_Management_Archive,
+    CIP_010_Configuration_Management_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: audit_finding_registry
+  type: analysis
+  label: Audit Finding Registry
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_014: 3 reports (Audit_Finding_Registry, Audit_Finding_Registry_Archive, Audit_Finding_Registry_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+- name: protection_system_maintenance
+  type: analysis
+  label: Protection System Maintenance
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_017: 3 reports (Protection_System_Maintenance, Protection_System_Maintenance_Archive,
+    Protection_System_Maintenance_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_prc004_test')
+- name: annual_compliance_summary
+  type: analysis
+  label: Annual Compliance Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_018: 3 reports (Annual_Compliance_Summary, Annual_Compliance_Summary_Archive, Annual_Compliance_Summary_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_compliance_event')
+  - ref('fct_violation')
+- name: physical_security_log
+  type: analysis
+  label: Physical Security Log
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_021: 3 reports (Physical_Security_Log, Physical_Security_Log_Archive, Physical_Security_Log_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: vendor_risk_assessment
+  type: analysis
+  label: Vendor Risk Assessment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_022: 3 reports (Vendor_Risk_Assessment, Vendor_Risk_Assessment_Archive, Vendor_Risk_Assessment_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: control_room_access_log
+  type: analysis
+  label: Control Room Access Log
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_024: 3 reports (Control_Room_Access_Log, Control_Room_Access_Log_Archive, Control_Room_Access_Log_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: critical_asset_inventory
+  type: analysis
+  label: Critical Asset Inventory
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_025: 3 reports (Critical_Asset_Inventory, Critical_Asset_Inventory_Archive, Critical_Asset_Inventory_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+  - ref('fct_prc004_test')
+- name: bulk_electric_system_changes
+  type: analysis
+  label: Bulk Electric System Changes
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_027: 3 reports (Bulk_Electric_System_Changes, Bulk_Electric_System_Changes_Archive,
+    Bulk_Electric_System_Changes_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: mod_procedure_compliance
+  type: analysis
+  label: MOD Procedure Compliance
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_029: 3 reports (MOD_Procedure_Compliance, MOD_Procedure_Compliance_Archive, MOD_Procedure_Compliance_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_compliance_event')
+  - ref('fct_data_submission')
+- name: top_operations_audit
+  type: analysis
+  label: TOP Operations Audit
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_030: 3 reports (TOP_Operations_Audit, TOP_Operations_Audit_Archive, TOP_Operations_Audit_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: insider_threat_report
+  type: analysis
+  label: Insider Threat Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_031: 3 reports (Insider_Threat_Report, Insider_Threat_Report_Archive, Insider_Threat_Report_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+- name: emergency_operating_procedures
+  type: analysis
+  label: Emergency Operating Procedures
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CMP_032: 3 reports (Emergency_Operating_Procedures, Emergency_Operating_Procedures_Archive,
+    Emergency_Operating_Procedures_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_audit_record')
+  - ref('fct_compliance_event')
+  - ref('fct_misoperation')
+- name: customer_satisfaction_summary
+  type: analysis
+  label: Customer Satisfaction Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_001: 3 reports (Customer_Satisfaction_Summary, Customer_Satisfaction_Summary_Archive,
+    Customer_Satisfaction_Summary_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_service_request')
+- name: service_request_aging
+  type: analysis
+  label: Service Request Aging
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_002: 3 reports (Service_Request_Aging, Service_Request_Aging_Archive, Service_Request_Aging_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_service_request')
+- name: ev_charging_demand_forecast
+  type: analysis
+  label: EV Charging Demand Forecast
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_004: 3 reports (EV_Charging_Demand_Forecast, EV_Charging_Demand_Forecast_Archive,
+    EV_Charging_Demand_Forecast_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_ev_charging')
+- name: smart_meter_deployment_status
+  type: analysis
+  label: Smart Meter Deployment Status
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_005: 3 reports (Smart_Meter_Deployment_Status, Smart_Meter_Deployment_Status_Archive,
+    Smart_Meter_Deployment_Status_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_field_service')
+  - ref('fct_service_request')
+- name: nps_trend_report
+  type: analysis
+  label: NPS Trend Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_007: 3 reports (NPS_Trend_Report, NPS_Trend_Report_Archive, NPS_Trend_Report_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_complaint')
+  - ref('fct_service_request')
+- name: call_center_performance
+  type: analysis
+  label: Call Center Performance
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_008: 3 reports (Call_Center_Performance, Call_Center_Performance_Archive, Call_Center_Performance_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_service_request')
+- name: outage_notification_effectiveness
+  type: analysis
+  label: Outage Notification Effectiveness
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_010: 3 reports (Outage_Notification_Effectiveness, Outage_Notification_Effectiveness_Archive,
+    Outage_Notification_Effectiveness_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_complaint')
+  - ref('fct_service_request')
+- name: field_service_efficiency
+  type: analysis
+  label: Field Service Efficiency
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_011: 3 reports (Field_Service_Efficiency, Field_Service_Efficiency_Archive, Field_Service_Efficiency_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_field_service')
+- name: customer_segment_analysis
+  type: analysis
+  label: Customer Segment Analysis
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_013: 3 reports (Customer_Segment_Analysis, Customer_Segment_Analysis_Archive, Customer_Segment_Analysis_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+- name: green_energy_opt_in_rates
+  type: analysis
+  label: Green Energy Opt In Rates
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_016: 3 reports (Green_Energy_Opt_In_Rates, Green_Energy_Opt_In_Rates_Archive, Green_Energy_Opt_In_Rates_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_service_request')
+- name: new_service_connect_times
+  type: analysis
+  label: New Service Connect Times
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_018: 3 reports (New_Service_Connect_Times, New_Service_Connect_Times_Archive, New_Service_Connect_Times_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_field_service')
+  - ref('fct_service_request')
+- name: payment_plan_enrollment
+  type: analysis
+  label: Payment Plan Enrollment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_020: 3 reports (Payment_Plan_Enrollment, Payment_Plan_Enrollment_Archive, Payment_Plan_Enrollment_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_service_request')
+- name: community_solar_enrollment
+  type: analysis
+  label: Community Solar Enrollment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_021: 3 reports (Community_Solar_Enrollment, Community_Solar_Enrollment_Archive,
+    Community_Solar_Enrollment_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_ev_charging')
+  - ref('fct_service_request')
+- name: time_of_use_opt_in
+  type: analysis
+  label: Time Of Use Opt In
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_022: 3 reports (Time_Of_Use_Opt_In, Time_Of_Use_Opt_In_Archive, Time_Of_Use_Opt_In_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_service_request')
+- name: electric_vehicle_incentives
+  type: analysis
+  label: Electric Vehicle Incentives
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_023: 3 reports (Electric_Vehicle_Incentives, Electric_Vehicle_Incentives_Archive,
+    Electric_Vehicle_Incentives_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_ev_charging')
+  - ref('fct_service_request')
+- name: customer_education_participation
+  type: analysis
+  label: Customer Education Participation
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_024: 3 reports (Customer_Education_Participation, Customer_Education_Participation_Archive,
+    Customer_Education_Participation_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_service_request')
+- name: customer_lifetime_value
+  type: analysis
+  label: Customer Lifetime Value
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_028: 3 reports (Customer_Lifetime_Value, Customer_Lifetime_Value_Archive, Customer_Lifetime_Value_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+- name: social_media_sentiment
+  type: analysis
+  label: Social Media Sentiment
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster CSR_030: 3 reports (Social_Media_Sentiment, Social_Media_Sentiment_Archive, Social_Media_Sentiment_Community)'
+  depends_on:
+  - ref('dim_customer')
+  - ref('dim_date')
+  - ref('fct_complaint')
+  - ref('fct_service_request')
+- name: budget_vs_actual_summary
+  type: analysis
+  label: Budget vs Actual Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_001: 3 reports (Budget_vs_Actual_Summary, Budget_vs_Actual_Summary_Archive, Budget_vs_Actual_Summary_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+- name: fuel_cost_variance
+  type: analysis
+  label: Fuel Cost Variance
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_002: 3 reports (Fuel_Cost_Variance, Fuel_Cost_Variance_Archive, Fuel_Cost_Variance_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_fuel_cost')
+- name: wholesale_market_settlement
+  type: analysis
+  label: Wholesale Market Settlement
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_003: 3 reports (Wholesale_Market_Settlement, Wholesale_Market_Settlement_Archive,
+    Wholesale_Market_Settlement_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_market_settlement')
+- name: revenue_by_rate_class
+  type: analysis
+  label: Revenue by Rate Class
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_005: 3 reports (Revenue_by_Rate_Class, Revenue_by_Rate_Class_Archive, Revenue_by_Rate_Class_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_revenue')
+- name: hedging_position_summary
+  type: analysis
+  label: Hedging Position Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_016: 3 reports (Hedging_Position_Summary, Hedging_Position_Summary_Archive, Hedging_Position_Summary_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+  - ref('fct_fuel_cost')
+  - ref('fct_market_settlement')
+- name: treasury_cash_position
+  type: analysis
+  label: Treasury Cash Position
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_019: 3 reports (Treasury_Cash_Position, Treasury_Cash_Position_Archive, Treasury_Cash_Position_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+- name: payroll_cost_allocation
+  type: analysis
+  label: Payroll Cost Allocation
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_020: 3 reports (Payroll_Cost_Allocation, Payroll_Cost_Allocation_Archive, Payroll_Cost_Allocation_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+- name: procurement_savings_report
+  type: analysis
+  label: Procurement Savings Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_023: 3 reports (Procurement_Savings_Report, Procurement_Savings_Report_Archive,
+    Procurement_Savings_Report_Community)'
+  depends_on:
+  - ref('dim_capex_project')
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+- name: vendor_invoice_aging
+  type: analysis
+  label: Vendor Invoice Aging
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_024: 3 reports (Vendor_Invoice_Aging, Vendor_Invoice_Aging_Archive, Vendor_Invoice_Aging_Community)'
+  depends_on:
+  - ref('dim_capex_project')
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+  - ref('fct_capex_spend')
+  - ref('fct_fuel_cost')
+- name: debt_maturity_schedule
+  type: analysis
+  label: Debt Maturity Schedule
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_026: 3 reports (Debt_Maturity_Schedule, Debt_Maturity_Schedule_Archive, Debt_Maturity_Schedule_Community)'
+  depends_on:
+  - ref('dim_capex_project')
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+- name: credit_rating_metrics
+  type: analysis
+  label: Credit Rating Metrics
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_027: 3 reports (Credit_Rating_Metrics, Credit_Rating_Metrics_Archive, Credit_Rating_Metrics_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_budget_actual')
+  - ref('fct_capex_spend')
+  - ref('fct_market_settlement')
+  - ref('fct_revenue')
+- name: earnings_per_share_drivers
+  type: analysis
+  label: Earnings Per Share Drivers
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_028: 3 reports (Earnings_Per_Share_Drivers, Earnings_Per_Share_Drivers_Archive,
+    Earnings_Per_Share_Drivers_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('fct_budget_actual')
+  - ref('fct_revenue')
+- name: cost_of_capital_analysis
+  type: analysis
+  label: Cost of Capital Analysis
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_029: 3 reports (Cost_of_Capital_Analysis, Cost_of_Capital_Analysis_Archive, Cost_of_Capital_Analysis_Community)'
+  depends_on:
+  - ref('dim_capex_project')
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+  - ref('fct_market_settlement')
+  - ref('fct_revenue')
+- name: insurance_premium_summary
+  type: analysis
+  label: Insurance Premium Summary
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster FIN_032: 3 reports (Insurance_Premium_Summary, Insurance_Premium_Summary_Archive, Insurance_Premium_Summary_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_gl_account')
+  - ref('fct_budget_actual')
+- name: renewable_generation_mix
+  type: analysis
+  label: Renewable Generation Mix
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_001: 3 reports (Renewable_Generation_Mix, Renewable_Generation_Mix_Archive, Renewable_Generation_Mix_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('fct_generation')
+- name: co2_emissions_monthly
+  type: analysis
+  label: CO2 Emissions Monthly
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_002: 3 reports (CO2_Emissions_Monthly, CO2_Emissions_Monthly_Archive, CO2_Emissions_Monthly_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: energy_storage_utilization
+  type: analysis
+  label: Energy Storage Utilization
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_003: 3 reports (Energy_Storage_Utilization, Energy_Storage_Utilization_Archive,
+    Energy_Storage_Utilization_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_power_plant')
+  - ref('dim_storage_asset')
+  - ref('fct_storage_status')
+- name: solar_output_report
+  type: analysis
+  label: Solar Output Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_004: 3 reports (Solar_Output_Report, Solar_Output_Report_Archive, Solar_Output_Report_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: wind_generation_performance
+  type: analysis
+  label: Wind Generation Performance
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_005: 3 reports (Wind_Generation_Performance, Wind_Generation_Performance_Archive,
+    Wind_Generation_Performance_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: nuclear_capacity_factor
+  type: analysis
+  label: Nuclear Capacity Factor
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_007: 3 reports (Nuclear_Capacity_Factor, Nuclear_Capacity_Factor_Archive, Nuclear_Capacity_Factor_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: coal_retirement_tracker
+  type: analysis
+  label: Coal Retirement Tracker
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_009: 3 reports (Coal_Retirement_Tracker, Coal_Retirement_Tracker_Archive, Coal_Retirement_Tracker_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: capacity_market_positions
+  type: analysis
+  label: Capacity Market Positions
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_014: 3 reports (Capacity_Market_Positions, Capacity_Market_Positions_Archive, Capacity_Market_Positions_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: curtailment_events
+  type: analysis
+  label: Curtailment Events
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_017: 3 reports (Curtailment_Events, Curtailment_Events_Archive, Curtailment_Events_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: portfolio_emissions_intensity
+  type: analysis
+  label: Portfolio Emissions Intensity
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_019: 3 reports (Portfolio_Emissions_Intensity, Portfolio_Emissions_Intensity_Archive,
+    Portfolio_Emissions_Intensity_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('fct_generation')
+- name: generation_forecast_accuracy
+  type: analysis
+  label: Generation Forecast Accuracy
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_022: 3 reports (Generation_Forecast_Accuracy, Generation_Forecast_Accuracy_Archive,
+    Generation_Forecast_Accuracy_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: power_purchase_agreement_status
+  type: analysis
+  label: Power Purchase Agreement Status
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_026: 3 reports (Power_Purchase_Agreement_Status, Power_Purchase_Agreement_Status_Archive,
+    Power_Purchase_Agreement_Status_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+  - ref('fct_rec_certificate')
+- name: decommission_planning
+  type: analysis
+  label: Decommission Planning
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_028: 3 reports (Decommission_Planning, Decommission_Planning_Archive, Decommission_Planning_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: capacity_factor_benchmarks
+  type: analysis
+  label: Capacity Factor Benchmarks
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster GEN_029: 3 reports (Capacity_Factor_Benchmarks, Capacity_Factor_Benchmarks_Archive,
+    Capacity_Factor_Benchmarks_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_energy_source')
+  - ref('dim_power_plant')
+  - ref('fct_generation')
+- name: outage_event_log
+  type: analysis
+  label: Outage Event Log
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_002: 3 reports (Outage_Event_Log, Outage_Event_Log_Archive, Outage_Event_Log_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_outage_cause')
+  - ref('fct_outage_event')
+- name: transmission_constraint_report
+  type: analysis
+  label: Transmission Constraint Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_003: 3 reports (Transmission_Constraint_Report, Transmission_Constraint_Report_Archive,
+    Transmission_Constraint_Report_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_transmission_line')
+  - ref('fct_line_loading')
+- name: grid_reliability_kp_is
+  type: analysis
+  label: Grid Reliability KPIs
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_004: 3 reports (Grid_Reliability_KPIs, Grid_Reliability_KPIs_Archive, Grid_Reliability_KPIs_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_outage_event')
+- name: emergency_operations_dashboard
+  type: analysis
+  label: Emergency Operations Dashboard
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_006: 3 reports (Emergency_Operations_Dashboard, Emergency_Operations_Dashboard_Archive,
+    Emergency_Operations_Dashboard_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_outage_event')
+- name: power_quality_events
+  type: analysis
+  label: Power Quality Events
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_008: 3 reports (Power_Quality_Events, Power_Quality_Events_Archive, Power_Quality_Events_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_substation')
+  - ref('fct_outage_event')
+- name: peak_load_analysis
+  type: analysis
+  label: Peak Load Analysis
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_015: 3 reports (Peak_Load_Analysis, Peak_Load_Analysis_Archive, Peak_Load_Analysis_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_load_forecast')
+  - ref('fct_substation_load')
+- name: outage_duration_analysis
+  type: analysis
+  label: Outage Duration Analysis
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_017: 3 reports (Outage_Duration_Analysis, Outage_Duration_Analysis_Archive, Outage_Duration_Analysis_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_outage_event')
+- name: smart_grid_performance
+  type: analysis
+  label: Smart Grid Performance
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_020: 3 reports (Smart_Grid_Performance, Smart_Grid_Performance_Archive, Smart_Grid_Performance_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_load_forecast')
+  - ref('fct_outage_event')
+  - ref('fct_substation_load')
+- name: real_time_market_prices
+  type: analysis
+  label: Real Time Market Prices
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_021: 3 reports (Real_Time_Market_Prices, Real_Time_Market_Prices_Archive, Real_Time_Market_Prices_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_transmission_line')
+  - ref('fct_line_loading')
+  - ref('fct_load_forecast')
+- name: ancillary_services_dispatch
+  type: analysis
+  label: Ancillary Services Dispatch
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_022: 3 reports (Ancillary_Services_Dispatch, Ancillary_Services_Dispatch_Archive,
+    Ancillary_Services_Dispatch_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_substation')
+  - ref('fct_load_forecast')
+  - ref('fct_substation_load')
+- name: weather_load_correlation
+  type: analysis
+  label: Weather Load Correlation
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_024: 3 reports (Weather_Load_Correlation, Weather_Load_Correlation_Archive, Weather_Load_Correlation_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('fct_load_forecast')
+- name: protection_system_status
+  type: analysis
+  label: Protection System Status
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_025: 3 reports (Protection_System_Status, Protection_System_Status_Archive, Protection_System_Status_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_substation')
+  - ref('dim_transmission_line')
+  - ref('fct_outage_event')
+  - ref('fct_substation_load')
+- name: switching_orders_log
+  type: analysis
+  label: Switching Orders Log
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_026: 3 reports (Switching_Orders_Log, Switching_Orders_Log_Archive, Switching_Orders_Log_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_substation')
+  - ref('dim_transmission_line')
+  - ref('fct_outage_event')
+- name: frequency_deviation_report
+  type: analysis
+  label: Frequency Deviation Report
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_029: 3 reports (Frequency_Deviation_Report, Frequency_Deviation_Report_Archive,
+    Frequency_Deviation_Report_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_substation')
+  - ref('fct_load_forecast')
+  - ref('fct_outage_event')
+- name: unit_commitment_schedule
+  type: analysis
+  label: Unit Commitment Schedule
+  owner:
+    name: Package report owners
+  description: 'Cognos intent cluster OPS_031: 3 reports (Unit_Commitment_Schedule, Unit_Commitment_Schedule_Archive, Unit_Commitment_Schedule_Community)'
+  depends_on:
+  - ref('dim_date')
+  - ref('dim_location')
+  - ref('dim_substation')
+  - ref('fct_load_forecast')
+  - ref('fct_substation_load')

@@ -1,0 +1,18 @@
+name: semlift_energy_semantic
+version: 1.0.0
+config-version: 2
+profile: semlift_energy_semantic
+model-paths:
+- models
+test-paths:
+- tests
+models:
+  semlift_energy_semantic:
+    core:
+      +schema: core
+      +materialized: view
+    agg:
+      +schema: agg
+      +materialized: dynamic_table
+      +target_lag: 24 hours
+      +snowflake_warehouse: WH_SEMANTIC_REFRESH
