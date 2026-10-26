@@ -241,7 +241,7 @@ class CoreBuilder:
         pk_cols = []
         for a in attrs:
             if a.name in e.primary_key:
-                c = self.item_column(a, e.name, raw)
+                c = self.item_column(a, e.name, f"{raw}.{table}")
                 c.kind = "key"
                 t.columns.append(c)
                 pk_cols.append(c.name)
@@ -257,7 +257,7 @@ class CoreBuilder:
             t.columns.insert(0, ColumnDesign(name=sk, expr="HASH(" + ", ".join(f"src.{c.expr.split('.')[-1]}" for c in t.columns if c.kind == 'key') + ")",
                                              data_type="NUMBER(19,0)", kind="sk", comment="Surrogate key (hash of natural key)", rule="CORE-01"))
         # foreign keys (FM relationships + inferred)
-        self._fk_columns(t, e.name, raw)
+        self._fk_columns(t, e.name, f"{raw}.{table}")
         # attributes & measures
         ext_joins: dict[str, None] = {}
         for obj in list(attrs) + list(meas):
@@ -267,7 +267,7 @@ class CoreBuilder:
             if ref in self.out_ref:
                 dim = self.out_ref[ref]
                 if ref in [k for k in self.outriggers[dim]["keys"]]:
-                    c = self.item_column(obj, e.name, raw)
+                    c = self.item_column(obj, e.name, f"{raw}.{table}")
                     c.kind = "fk"
                     c.rule = "DIM-03"
                     t.columns.append(c)
@@ -363,7 +363,7 @@ class CoreBuilder:
         ft.columns.append(ColumnDesign(name=key, expr=f"src.{key}", data_type="VARCHAR", kind="fk", todo=True,
                                        comment=f"Foreign key to {dim_id}", confidence=0.3, rule="DIM-02",
                                        source_column=f"{raw}.{table}.{key}"))
-        self._fk_columns(ft, e.name, raw)
+        self._fk_columns(ft, e.name, f"{raw}.{table}")
         static = set(sp["static_measures"])
         for a in attrs:
             c = self.item_column(a, e.name, f"{raw}.{table}")

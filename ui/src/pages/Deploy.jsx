@@ -32,7 +32,7 @@ export default function Deploy() {
     <Loading error={error} loading={loading}>
       {data && (
         <div>
-          <h1>8. Deploy & validate</h1>
+          <h1>9. Deploy & validate</h1>
           <p className="lede">Approved objects are committed to a Git branch with a CI pipeline (schemachange or Snowflake CLI). The UI never deploys directly to an account; deployment follows the same controls as any other code change.</p>
           <div className="kpis">
             {Object.entries(data.review_summary).map(([k, v]) => <Kpi key={k} label={k} value={v} tone={k === 'approved' ? 'good' : k === 'stub' ? 'bad' : ''} />)}

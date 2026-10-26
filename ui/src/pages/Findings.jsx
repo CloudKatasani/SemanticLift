@@ -25,7 +25,7 @@ export default function Findings() {
     <Loading error={error} loading={loading}>
       {data && (
         <div>
-          <h1>5. Findings</h1>
+          <h1>6. Findings</h1>
           <p className="lede">Every finding carries evidence, an owner and a resolution. Owner and status changes persist across re-runs. Blocking findings stop deployment.</p>
           <div className="code-strip">
             {codes.map((c) => {

@@ -149,6 +149,8 @@ class Workspace:
         sug = draft_suggestions(res.graph, res.design, cfg, self.suggestions())
         _write_json(self.suggestions_path, sug)
         self.last = res
+        from ..generate.lineage import build_lineage_index
+        _write_json(self.root / "lineage_index.json", build_lineage_index(res.graph, res.design))
         state = self._build_state(res, run_id, diff, files)
         _write_json(self.state_path, state)
         return state

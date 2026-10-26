@@ -405,6 +405,9 @@
         "name": "CREDIT_SCORE"
        },
        {
+        "name": "CUSTOMER_ID"
+       },
+       {
         "name": "CUSTOMER_NAME"
        },
        {
@@ -422,6 +425,17 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "CUSTOMER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.CUSTOMER",
+          "field": "CUSTOMER_ID"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_ID",
+        "transformationType": "IDENTITY"
+       },
        "ACCOUNT_TYPE": {
         "inputFields": [
          {
@@ -495,6 +509,9 @@
      "schema": {
       "fields": [
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "FISCAL_YEAR"
        },
        {
@@ -530,6 +547,17 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
        "FISCAL_YEAR": {
         "inputFields": [
          {
@@ -656,6 +684,9 @@
         "name": "SOURCE_CATEGORY"
        },
        {
+        "name": "SOURCE_ID"
+       },
+       {
         "name": "SOURCE_NAME"
        }
       ]
@@ -670,6 +701,17 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "SOURCE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.ENERGY_SOURCE",
+          "field": "SOURCE_ID"
+         }
+        ],
+        "transformationDescription": "src.SOURCE_ID",
+        "transformationType": "IDENTITY"
+       },
        "IS_REC_ELIGIBLE": {
         "inputFields": [
          {
@@ -749,6 +791,9 @@
         "name": "ACCOUNT_NAME"
        },
        {
+        "name": "COST_CENTER"
+       },
+       {
         "name": "GL_ACCOUNT_ID"
        }
       ]
@@ -795,6 +840,17 @@
         ],
         "transformationDescription": "src.ACCOUNT_NAME",
         "transformationType": "IDENTITY"
+       },
+       "COST_CENTER": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.GL_ACCOUNT",
+          "field": "COST_CENTER"
+         }
+        ],
+        "transformationDescription": "src.COST_CENTER",
+        "transformationType": "IDENTITY"
        }
       }
      },
@@ -831,6 +887,9 @@
         "name": "CLIMATE_ZONE"
        },
        {
+        "name": "LOCATION_ID"
+       },
+       {
         "name": "POSTAL_CODE"
        },
        {
@@ -851,6 +910,17 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "LOCATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.LOCATION",
+          "field": "LOCATION_ID"
+         }
+        ],
+        "transformationDescription": "src.LOCATION_ID",
+        "transformationType": "IDENTITY"
+       },
        "CITY": {
         "inputFields": [
          {
@@ -935,10 +1005,19 @@
      "schema": {
       "fields": [
        {
+        "name": "CUSTOMER_ID"
+       },
+       {
         "name": "INSTALL_DATE"
        },
        {
         "name": "IS_SMART_METER"
+       },
+       {
+        "name": "LOCATION_ID"
+       },
+       {
+        "name": "METER_ID"
        },
        {
         "name": "METER_TYPE"
@@ -958,6 +1037,39 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "METER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER",
+          "field": "METER_ID"
+         }
+        ],
+        "transformationDescription": "src.METER_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER",
+          "field": "CUSTOMER_ID"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_ID",
+        "transformationType": "IDENTITY"
+       },
+       "LOCATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER",
+          "field": "LOCATION_ID"
+         }
+        ],
+        "transformationDescription": "src.LOCATION_ID",
+        "transformationType": "IDENTITY"
+       },
        "INSTALL_DATE": {
         "inputFields": [
          {
@@ -1487,6 +1599,9 @@
         "name": "RATE_PER_KWH"
        },
        {
+        "name": "TARIFF_ID"
+       },
+       {
         "name": "TARIFF_TYPE"
        }
       ]
@@ -1501,6 +1616,17 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "TARIFF_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.TARIFF",
+          "field": "TARIFF_ID"
+         }
+        ],
+        "transformationDescription": "src.TARIFF_ID",
+        "transformationType": "IDENTITY"
+       },
        "TARIFF_TYPE": {
         "inputFields": [
          {
@@ -1739,6 +1865,9 @@
         "name": "AUDIT_TYPE"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "FINDINGS"
        },
        {
@@ -1765,6 +1894,17 @@
          }
         ],
         "transformationDescription": "src.AUDIT_RECORD_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.AUDIT_RECORD",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
         "transformationType": "IDENTITY"
        },
        "ACTION_REQUIRED": {
@@ -1854,6 +1994,12 @@
         "name": "BILL_AMOUNT"
        },
        {
+        "name": "BILL_DATE_KEY"
+       },
+       {
+        "name": "BILL_ID"
+       },
+       {
         "name": "DEMAND_CHARGE"
        },
        {
@@ -1864,6 +2010,9 @@
        },
        {
         "name": "IS_EBILL"
+       },
+       {
+        "name": "METER_ID"
        },
        {
         "name": "PAYMENT_STATUS"
@@ -1883,6 +2032,39 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "BILL_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "BILL_ID"
+         }
+        ],
+        "transformationDescription": "src.BILL_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "BILL_DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.BILL_DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "METER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "METER_ID"
+         }
+        ],
+        "transformationDescription": "src.METER_ID",
+        "transformationType": "IDENTITY"
+       },
        "DUE_DATE": {
         "inputFields": [
          {
@@ -2025,6 +2207,12 @@
         "name": "BUDGET_AMOUNT"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
+        "name": "GL_ACCOUNT_ID"
+       },
+       {
         "name": "VARIANCE_AMOUNT"
        },
        {
@@ -2051,6 +2239,28 @@
          }
         ],
         "transformationDescription": "src.BUDGET_ACTUAL_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "GL_ACCOUNT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+          "field": "GL_ACCOUNT_ID"
+         }
+        ],
+        "transformationDescription": "src.GL_ACCOUNT_ID",
         "transformationType": "IDENTITY"
        },
        "ACTUAL_AMOUNT": {
@@ -2129,6 +2339,12 @@
         "name": "CAPEX_PROJECT_ID"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
+        "name": "GL_ACCOUNT_ID"
+       },
+       {
         "name": "SPENT_TO_DATE"
        }
       ]
@@ -2152,6 +2368,28 @@
          }
         ],
         "transformationDescription": "src.CAPEX_PROJECT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "GL_ACCOUNT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "GL_ACCOUNT_ID"
+         }
+        ],
+        "transformationDescription": "src.GL_ACCOUNT_ID",
         "transformationType": "IDENTITY"
        },
        "SPENT_TO_DATE": {
@@ -2200,6 +2438,12 @@
         "name": "COMPLAINT_ID"
        },
        {
+        "name": "CUSTOMER_ID"
+       },
+       {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "RESOLUTION_DAYS"
        },
        {
@@ -2229,6 +2473,28 @@
          }
         ],
         "transformationDescription": "src.COMPLAINT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.COMPLAINT",
+          "field": "CUSTOMER_ID"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.COMPLAINT",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
         "transformationType": "IDENTITY"
        },
        "CATEGORY": {
@@ -2307,6 +2573,9 @@
         "name": "COMPLIANCE_EVENT_ID"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "EVENT_TYPE"
        },
        {
@@ -2317,6 +2586,9 @@
        },
        {
         "name": "SEVERITY"
+       },
+       {
+        "name": "STANDARD_REF"
        },
        {
         "name": "STATUS"
@@ -2342,6 +2614,17 @@
          }
         ],
         "transformationDescription": "src.COMPLIANCE_EVENT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
         "transformationType": "IDENTITY"
        },
        "EVENT_TYPE": {
@@ -2388,6 +2671,17 @@
         "transformationDescription": "src.SEVERITY",
         "transformationType": "IDENTITY"
        },
+       "STANDARD_REF": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "STANDARD_REF"
+         }
+        ],
+        "transformationDescription": "src.STANDARD_REF",
+        "transformationType": "IDENTITY"
+       },
        "STATUS": {
         "inputFields": [
          {
@@ -2431,7 +2725,13 @@
         "name": "DATA_SUBMISSION_ID"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "FILING_PERIOD"
+       },
+       {
+        "name": "REPORTING_ENTITY"
        },
        {
         "name": "STATUS"
@@ -2465,6 +2765,17 @@
         "transformationDescription": "src.DATA_SUBMISSION_ID",
         "transformationType": "IDENTITY"
        },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
        "FILING_PERIOD": {
         "inputFields": [
          {
@@ -2474,6 +2785,17 @@
          }
         ],
         "transformationDescription": "src.FILING_PERIOD",
+        "transformationType": "IDENTITY"
+       },
+       "REPORTING_ENTITY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "REPORTING_ENTITY"
+         }
+        ],
+        "transformationDescription": "src.REPORTING_ENTITY",
         "transformationType": "IDENTITY"
        },
        "STATUS": {
@@ -2538,7 +2860,16 @@
      "schema": {
       "fields": [
        {
+        "name": "CHARGER_ID"
+       },
+       {
         "name": "COST"
+       },
+       {
+        "name": "CUSTOMER_ID"
+       },
+       {
+        "name": "DATE_KEY"
        },
        {
         "name": "ENERGY_DELIVERED_KWH"
@@ -2570,6 +2901,39 @@
          }
         ],
         "transformationDescription": "src.EV_CHARGING_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "CUSTOMER_ID"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "CHARGER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "CHARGER_ID"
+         }
+        ],
+        "transformationDescription": "src.CHARGER_ID",
         "transformationType": "IDENTITY"
        },
        "COST": {
@@ -2634,6 +2998,12 @@
      "schema": {
       "fields": [
        {
+        "name": "CUSTOMER_ID"
+       },
+       {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "DURATION"
        },
        {
@@ -2641,6 +3011,9 @@
        },
        {
         "name": "OUTCOME"
+       },
+       {
+        "name": "TECHNICIAN_ID"
        },
        {
         "name": "VISIT_TYPE"
@@ -2666,6 +3039,39 @@
          }
         ],
         "transformationDescription": "src.FIELD_SERVICE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "CUSTOMER_ID"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "TECHNICIAN_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "TECHNICIAN_ID"
+         }
+        ],
+        "transformationDescription": "src.TECHNICIAN_ID",
         "transformationType": "IDENTITY"
        },
        "OUTCOME": {
@@ -2733,10 +3139,16 @@
         "name": "COST_PER_MMBTU"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "FUEL_COST_ID"
        },
        {
         "name": "FUEL_TYPE"
+       },
+       {
+        "name": "GL_ACCOUNT_ID"
        },
        {
         "name": "QUANTITY_MMBTU"
@@ -2765,6 +3177,28 @@
          }
         ],
         "transformationDescription": "src.FUEL_COST_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.FUEL_COST",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "GL_ACCOUNT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.FUEL_COST",
+          "field": "GL_ACCOUNT_ID"
+         }
+        ],
+        "transformationDescription": "src.GL_ACCOUNT_ID",
         "transformationType": "IDENTITY"
        },
        "FUEL_TYPE": {
@@ -2849,7 +3283,19 @@
         "name": "CO2_EMISSIONS_KG"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "GENERATED_MWH"
+       },
+       {
+        "name": "GENERATION_ID"
+       },
+       {
+        "name": "POWER_PLANT_ID"
+       },
+       {
+        "name": "SOURCE_ID"
        }
       ]
      }
@@ -2863,6 +3309,50 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "GENERATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "GENERATION_ID"
+         }
+        ],
+        "transformationDescription": "src.GENERATION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "POWER_PLANT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "POWER_PLANT_ID"
+         }
+        ],
+        "transformationDescription": "src.POWER_PLANT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "SOURCE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "SOURCE_ID"
+         }
+        ],
+        "transformationDescription": "src.SOURCE_ID",
+        "transformationType": "IDENTITY"
+       },
        "CO2_EMISSIONS_KG": {
         "inputFields": [
          {
@@ -2939,6 +3429,12 @@
         "name": "CURRENT_LOAD_MW"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
+        "name": "LOCATION_ID"
+       },
+       {
         "name": "TRANSMISSION_LINE_ID"
        }
       ]
@@ -2962,6 +3458,28 @@
          }
         ],
         "transformationDescription": "src.TRANSMISSION_LINE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "LOCATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "LOCATION_ID"
+         }
+        ],
+        "transformationDescription": "src.LOCATION_ID",
         "transformationType": "IDENTITY"
        },
        "CURRENT_LOAD_MW": {
@@ -3007,6 +3525,9 @@
         "name": "ACTUAL_LOAD_MW"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "FORECASTED_LOAD_MW"
        },
        {
@@ -3014,6 +3535,9 @@
        },
        {
         "name": "LOAD_FORECAST_ID"
+       },
+       {
+        "name": "LOCATION_ID"
        },
        {
         "name": "PEAK_FORECAST_MW"
@@ -3042,6 +3566,28 @@
          }
         ],
         "transformationDescription": "src.LOAD_FORECAST_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "LOCATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "LOCATION_ID"
+         }
+        ],
+        "transformationDescription": "src.LOCATION_ID",
         "transformationType": "IDENTITY"
        },
        "ACTUAL_LOAD_MW": {
@@ -3128,7 +3674,16 @@
      "schema": {
       "fields": [
        {
+        "name": "COUNTERPARTY_ID"
+       },
+       {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "ENERGY_MWH"
+       },
+       {
+        "name": "GL_ACCOUNT_ID"
        },
        {
         "name": "MARKET_SETTLEMENT_ID"
@@ -3163,6 +3718,39 @@
          }
         ],
         "transformationDescription": "src.MARKET_SETTLEMENT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "GL_ACCOUNT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "GL_ACCOUNT_ID"
+         }
+        ],
+        "transformationDescription": "src.GL_ACCOUNT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "COUNTERPARTY_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "COUNTERPARTY_ID"
+         }
+        ],
+        "transformationDescription": "src.COUNTERPARTY_ID",
         "transformationType": "IDENTITY"
        },
        "MARKET_TYPE": {
@@ -3241,7 +3829,13 @@
         "name": "CONSUMPTION_KWH"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "IS_INTERVAL_READ"
+       },
+       {
+        "name": "METER_ID"
        },
        {
         "name": "OFF_PEAK_KWH"
@@ -3254,6 +3848,12 @@
        },
        {
         "name": "READING_DATE"
+       },
+       {
+        "name": "READING_ID"
+       },
+       {
+        "name": "TARIFF_ID"
        }
       ]
      }
@@ -3267,6 +3867,50 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "READING_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "READING_ID"
+         }
+        ],
+        "transformationDescription": "src.READING_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "METER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "METER_ID"
+         }
+        ],
+        "transformationDescription": "src.METER_ID",
+        "transformationType": "IDENTITY"
+       },
+       "TARIFF_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "TARIFF_ID"
+         }
+        ],
+        "transformationDescription": "src.TARIFF_ID",
+        "transformationType": "IDENTITY"
+       },
        "IS_INTERVAL_READ": {
         "inputFields": [
          {
@@ -3387,7 +4031,13 @@
         "name": "CAUSE_CATEGORY"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "DURATION_CYCLES"
+       },
+       {
+        "name": "MISOP_ID"
        },
        {
         "name": "PROTECTION_SYSTEM"
@@ -3404,6 +4054,28 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "MISOP_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.MISOPERATION_EVENT",
+          "field": "MISOP_ID"
+         }
+        ],
+        "transformationDescription": "src.MISOP_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.MISOPERATION_EVENT",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
        "CAUSE_CATEGORY": {
         "inputFields": [
          {
@@ -3466,13 +4138,22 @@
      "schema": {
       "fields": [
        {
+        "name": "CAUSE_CODE"
+       },
+       {
         "name": "CUSTOMERS_AFFECTED"
        },
        {
         "name": "DURATION_MINUTES"
        },
        {
+        "name": "LOCATION_ID"
+       },
+       {
         "name": "OUTAGE_END"
+       },
+       {
+        "name": "OUTAGE_ID"
        },
        {
         "name": "OUTAGE_START"
@@ -3492,6 +4173,50 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "OUTAGE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "OUTAGE_ID"
+         }
+        ],
+        "transformationDescription": "src.OUTAGE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "OUTAGE_START"
+         }
+        ],
+        "transformationDescription": "TO_NUMBER(TO_CHAR(src.OUTAGE_START, 'YYYYMMDD'))",
+        "transformationType": "TRANSFORMED"
+       },
+       "LOCATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "LOCATION_ID"
+         }
+        ],
+        "transformationDescription": "src.LOCATION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CAUSE_CODE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "CAUSE_CODE"
+         }
+        ],
+        "transformationDescription": "src.CAUSE_CODE",
+        "transformationType": "IDENTITY"
+       },
        "OUTAGE_END": {
         "inputFields": [
          {
@@ -3576,6 +4301,12 @@
      "schema": {
       "fields": [
        {
+        "name": "ASSET_ID"
+       },
+       {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "MAINTENANCE_INTERVAL"
        },
        {
@@ -3611,6 +4342,28 @@
          }
         ],
         "transformationDescription": "src.PRC004_REQUIREMENT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "ASSET_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "ASSET_ID"
+         }
+        ],
+        "transformationDescription": "src.ASSET_ID",
         "transformationType": "IDENTITY"
        },
        "NEXT_TEST_DUE": {
@@ -3686,10 +4439,22 @@
      "schema": {
       "fields": [
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "EXPIRY_DATE"
        },
        {
         "name": "MWH"
+       },
+       {
+        "name": "POWER_PLANT_ID"
+       },
+       {
+        "name": "REC_ID"
+       },
+       {
+        "name": "SOURCE_ID"
        },
        {
         "name": "STATUS"
@@ -3706,6 +4471,50 @@
     "facets": {
      "columnLineage": {
       "fields": {
+       "REC_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.REC_CERTIFICATE",
+          "field": "REC_ID"
+         }
+        ],
+        "transformationDescription": "src.REC_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.REC_CERTIFICATE",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "SOURCE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.REC_CERTIFICATE",
+          "field": "SOURCE_ID"
+         }
+        ],
+        "transformationDescription": "src.SOURCE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "POWER_PLANT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.REC_CERTIFICATE",
+          "field": "POWER_PLANT_ID"
+         }
+        ],
+        "transformationDescription": "src.POWER_PLANT_ID",
+        "transformationType": "IDENTITY"
+       },
        "EXPIRY_DATE": {
         "inputFields": [
          {
@@ -3774,6 +4583,12 @@
         "name": "CUSTOMER_SEGMENT"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
+        "name": "GL_ACCOUNT_ID"
+       },
+       {
         "name": "KWH_SOLD"
        },
        {
@@ -3806,6 +4621,28 @@
          }
         ],
         "transformationDescription": "src.REVENUE_RECORD_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "GL_ACCOUNT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "GL_ACCOUNT_ID"
+         }
+        ],
+        "transformationDescription": "src.GL_ACCOUNT_ID",
         "transformationType": "IDENTITY"
        },
        "CUSTOMER_SEGMENT": {
@@ -3892,6 +4729,15 @@
      "schema": {
       "fields": [
        {
+        "name": "AGENT_ID"
+       },
+       {
+        "name": "CUSTOMER_ID"
+       },
+       {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "PRIORITY"
        },
        {
@@ -3927,6 +4773,39 @@
          }
         ],
         "transformationDescription": "src.SERVICE_REQUEST_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "CUSTOMER_ID"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "AGENT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "AGENT_ID"
+         }
+        ],
+        "transformationDescription": "src.AGENT_ID",
         "transformationType": "IDENTITY"
        },
        "PRIORITY": {
@@ -4002,7 +4881,16 @@
      "schema": {
       "fields": [
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "DISCHARGE_RATE_MW"
+       },
+       {
+        "name": "POWER_PLANT_ID"
+       },
+       {
+        "name": "SOURCE_ID"
        },
        {
         "name": "STATE_OF_CHARGE_PCT"
@@ -4031,6 +4919,39 @@
          }
         ],
         "transformationDescription": "src.STORAGE_ASSET_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "SOURCE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "SOURCE_ID"
+         }
+        ],
+        "transformationDescription": "src.SOURCE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "POWER_PLANT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "POWER_PLANT_ID"
+         }
+        ],
+        "transformationDescription": "src.POWER_PLANT_ID",
         "transformationType": "IDENTITY"
        },
        "DISCHARGE_RATE_MW": {
@@ -4084,7 +5005,13 @@
      "schema": {
       "fields": [
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "LOAD_FACTOR_PCT"
+       },
+       {
+        "name": "LOCATION_ID"
        },
        {
         "name": "PEAK_LOAD_MW"
@@ -4113,6 +5040,28 @@
          }
         ],
         "transformationDescription": "src.SUBSTATION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "LOCATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "LOCATION_ID"
+         }
+        ],
+        "transformationDescription": "src.LOCATION_ID",
         "transformationType": "IDENTITY"
        },
        "LOAD_FACTOR_PCT": {
@@ -4169,6 +5118,9 @@
         "name": "CLOSED_DATE"
        },
        {
+        "name": "DATE_KEY"
+       },
+       {
         "name": "DESCRIPTION"
        },
        {
@@ -4176,6 +5128,9 @@
        },
        {
         "name": "PENALTY"
+       },
+       {
+        "name": "STANDARD_ID"
        },
        {
         "name": "VIOLATION_ID"
@@ -4201,6 +5156,28 @@
          }
         ],
         "transformationDescription": "src.VIOLATION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DATE_KEY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.VIOLATION",
+          "field": "DATE_KEY"
+         }
+        ],
+        "transformationDescription": "src.DATE_KEY",
+        "transformationType": "IDENTITY"
+       },
+       "STANDARD_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.VIOLATION",
+          "field": "STANDARD_ID"
+         }
+        ],
+        "transformationDescription": "src.STANDARD_ID",
         "transformationType": "IDENTITY"
        },
        "CLOSED_DATE": {

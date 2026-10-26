@@ -9,6 +9,7 @@ For a report query that uses a fact F and an entity X:
 """
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 
 import networkx as nx
@@ -89,10 +90,11 @@ def infer_relationships(g: MetaGraph, cfg: dict) -> None:
 
 
 def _date_attr(g: MetaGraph, ent: str) -> str:
-    for a in sorted(g.attributes.values(), key=lambda a: a.name):
-        if a.entity == ent and a.data_type in ("date", "datetime") and a.origin == "FM":
-            return a.name
-    return ""
+    cands = [a for a in g.attributes.values()
+             if a.entity == ent and a.data_type in ("date", "datetime") and a.origin == "FM"]
+    # prefer the event's start / business date over end or audit timestamps
+    rank = lambda a: (0 if re.search(r"(Start|Begin|Date)$", a.name) else 1 if not re.search(r"End$", a.name) else 2, a.name)
+    return sorted(cands, key=rank)[0].name if cands else ""
 
 
 def fm_graph(g: MetaGraph) -> nx.MultiDiGraph:
