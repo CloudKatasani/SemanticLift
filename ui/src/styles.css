@@ -114,3 +114,8 @@ textarea.code.edit { width: 100%; min-height: 520px; border: 2px solid var(--war
 .ldm-canvas { overflow: auto; max-height: 78vh; padding: 8px; }
 .ldm-side { max-height: 78vh; overflow: auto; position: sticky; top: 12px; }
 @media (max-width: 1300px) { .ldm { grid-template-columns: 1fr; } }
+
+.lin { display: grid; grid-template-columns: 260px 1fr; gap: 16px; align-items: start; }
+.lin > * { min-width: 0; }
+.lin .list .tabs .tab { padding: 6px 8px; font-size: 12.5px; }
+.lin-canvas { overflow: auto; max-height: 72vh; }

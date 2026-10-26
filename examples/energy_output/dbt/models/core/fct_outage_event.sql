@@ -4,7 +4,7 @@
 
 select
     src.OUTAGE_ID as outage_id,
-    TO_NUMBER(TO_CHAR(src.OUTAGE_END, 'YYYYMMDD')) as date_key,
+    TO_NUMBER(TO_CHAR(src.OUTAGE_START, 'YYYYMMDD')) as date_key,
     src.LOCATION_ID as location_id,
     src.CAUSE_CODE as cause_code,
     src.OUTAGE_END as outage_end,

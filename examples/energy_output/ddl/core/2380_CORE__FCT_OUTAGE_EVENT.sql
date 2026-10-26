@@ -9,7 +9,7 @@
 -- ==========================================================================
 CREATE OR REPLACE VIEW CORE.FCT_OUTAGE_EVENT (
     OUTAGE_ID COMMENT 'Identifier ''outage id''. Origin: FM Business Layer.OutageEvent.OutageID',
-    DATE_KEY COMMENT 'Date key derived from OUTAGE_END (assumes YYYYMMDD DATE_KEY) - rule REL-INF-02',
+    DATE_KEY COMMENT 'Date key derived from OUTAGE_START (assumes YYYYMMDD DATE_KEY) - rule REL-INF-02',
     LOCATION_ID COMMENT 'Foreign key to Location (OutageEvent_to_Location)',
     CAUSE_CODE COMMENT 'Attribute ''cause code''. Origin: FM Business Layer.OutageEvent.CauseCode',
     OUTAGE_END COMMENT 'Attribute ''outage end''. Origin: FM Business Layer.OutageEvent.OutageEnd',
@@ -25,7 +25,7 @@ CREATE OR REPLACE VIEW CORE.FCT_OUTAGE_EVENT (
 AS
 SELECT
     src.OUTAGE_ID                                 AS OUTAGE_ID,
-    TO_NUMBER(TO_CHAR(src.OUTAGE_END, 'YYYYMMDD')) AS DATE_KEY,
+    TO_NUMBER(TO_CHAR(src.OUTAGE_START, 'YYYYMMDD')) AS DATE_KEY,
     src.LOCATION_ID                               AS LOCATION_ID,
     src.CAUSE_CODE                                AS CAUSE_CODE,
     src.OUTAGE_END                                AS OUTAGE_END,

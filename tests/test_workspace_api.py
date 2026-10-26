@@ -36,6 +36,23 @@ def test_package_written(ws):
     assert json.loads((out / "lineage.json").read_text())
 
 
+def test_lineage_index(ws):
+    lin = json.loads((ws.root / "lineage_index.json").read_text())
+    col = next(c for c in lin["columns"] if c["id"] == "CORE.FCT_BILLING.BILL_AMOUNT")
+    assert col["cognos"]["fm_item"] == "Business Layer.Billing.BillAmount"
+    assert col["cognos"]["physical"] == ["ENERGY_DW.BILLING.BILL_AMOUNT"]
+    assert col["sources"] == ["RAW_CCB.BILLING.BILL_AMOUNT"]
+    assert {s["object"] for s in col["semantic"]} == {"SEM.SV_BILLING_REVENUE"}
+    assert any(a["object"] == "AGG.AGG_BILLING_MONTH_SEGMENT_REGION" for a in col["aggregates"])
+    assert any(o["object"] == "DP_BILLING.OUT_BILLING_MONTHLY" for o in col["outputs"])
+    assert len(col["reports"]) == 75
+    assert all(s.count(".") >= 2 for c in lin["columns"] for s in c["sources"])   # schema.table.column everywhere
+    s = lin["summary"]
+    assert s["active_items_to_semantic"] == s["active_report_items"] and s["gaps"] == 0
+    outage = next(c for c in lin["columns"] if c["id"] == "CORE.FCT_OUTAGE_EVENT.DATE_KEY")
+    assert outage["sources"] == ["RAW_ENERGY_OPS.OUTAGE_EVENT.OUTAGE_START"]
+
+
 def test_review_rules_and_persistence(ws):
     with pytest.raises(ReviewError):
         ws.review("CORE.FCT_LOAD_FORECAST", "approve")          # inferred, below 0.6
@@ -113,6 +130,7 @@ def test_api_smoke(tmp_path, monkeypatch):
     r = c.post("/api/run", json={"config": "energy_estate"})
     assert r.status_code == 200 and r.json()["entities"] == 32
     assert c.get("/api/model").json()["entities"]
+    assert c.get("/api/lineage").json()["summary"]["core_columns"] > 200
     ldm = c.get("/api/logical-model").json()
     billing = next(t for t in ldm["tables"] if t["id"] == "CORE.FCT_BILLING")
     assert billing["kind"] == "fact" and billing["primary_key"] == ["BILL_ID"]

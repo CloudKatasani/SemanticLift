@@ -957,7 +957,7 @@ models:
     - not_null
     - unique
   - name: date_key
-    description: Date key derived from OUTAGE_END (assumes YYYYMMDD DATE_KEY) - rule REL-INF-02
+    description: Date key derived from OUTAGE_START (assumes YYYYMMDD DATE_KEY) - rule REL-INF-02
     tests:
     - relationships:
         to: ref('dim_date')

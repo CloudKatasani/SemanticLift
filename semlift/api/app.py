@@ -9,6 +9,7 @@ from typing import Optional
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, Response, StreamingResponse
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -21,6 +22,7 @@ UI_DIST = Path(os.environ.get("SEMLIFT_UI_DIST", ROOT / "ui" / "dist"))
 
 app = FastAPI(title="SemLift", version=__version__,
               description="Cognos-to-Data-Platform Semantic Layer Migrator")
+app.add_middleware(GZipMiddleware, minimum_size=2048)
 _ws: Workspace | None = None
 
 
@@ -189,6 +191,15 @@ def logical_model():
     if "logical" not in st:
         raise HTTPException(404, "logical model not in this run - re-run the pipeline")
     return st["logical"]
+
+
+@app.get("/api/lineage", dependencies=[Depends(auth)])
+def lineage():
+    state()
+    p = ws().root / "lineage_index.json"
+    if not p.exists():
+        raise HTTPException(404, "lineage not in this run - re-run the pipeline")
+    return FileResponse(p, media_type="application/json")
 
 
 @app.get("/api/findings", dependencies=[Depends(auth)])
