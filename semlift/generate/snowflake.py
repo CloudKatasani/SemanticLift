@@ -53,6 +53,7 @@ class SnowflakeGenerator:
         self.counters[layer] += 10
         order = LAYER_BASE[layer] + self.counters[layer]
         schema, _, name = oid.partition(".")
+        stub = stub or conf < self.cfg["confidence"]["auto_approve_min"]
         status = "stub" if stub else "proposed"
         text = header(oid, otype, rules or [], conf, status, lineage or [], owner, cls) + ddl.rstrip() + "\n"
         t = TargetObject(id=oid, layer=LAYER_DIR[layer], object_type=otype, schema=schema, name=name or schema,

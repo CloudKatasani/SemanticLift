@@ -1,0 +1,184 @@
+apiVersion: v3.0.0
+kind: DataContract
+id: urn:datacontract:grid-operations
+version: 1.0.0
+status: proposed
+product: grid-operations
+name: Grid Operations
+domain: grid
+owner: Energy Data Engineering Team
+steward: analytics-team@energy-utility.com
+classification: Internal - Restricted
+retention: 7 years (FERC)
+source_systems:
+- ENERGY_OPS_DW
+data_modules:
+- Grid_Operations_DM
+- Outage_Management_DM
+- Transmission_Analytics_DM
+outputs:
+- SEM.SV_GRID_RELIABILITY
+- SEM.SV_LOAD_AND_CAPACITY
+- DP_GRID.OUT_LOAD_FORECAST_DAILY
+- DP_GRID.OUT_OUTAGE_EVENT_DAILY
+- DP_GRID.OUT_SUBSTATION_LOAD_DAILY
+- DP_GRID.OUT_LINE_LOADING
+grain:
+  FCT_LINE_LOADING:
+  - LINE_LOADING_ID
+  - TRANSMISSION_LINE_ID
+  - DATE_KEY
+  - LOCATION_ID
+  FCT_LOAD_FORECAST:
+  - LOAD_FORECAST_ID
+  - DATE_KEY
+  - LOCATION_ID
+  FCT_OUTAGE_EVENT:
+  - OUTAGE_ID
+  - CAUSE_CODE
+  - DATE_KEY
+  - LOCATION_ID
+  FCT_SUBSTATION_LOAD:
+  - SUBSTATION_LOAD_ID
+  - SUBSTATION_ID
+  - DATE_KEY
+  - LOCATION_ID
+freshness_sla: 24h
+slaProperties:
+- property: latency
+  value: 24h
+default_filters:
+- dimension: fiscal_year
+  value: '2026'
+  cognos_prompt: p_FiscalYear
+quality:
+- not_null:
+  - DIM_OUTAGE_CAUSE.CAUSE_CODE
+- unique:
+  - DIM_OUTAGE_CAUSE.CAUSE_CODE
+- not_null:
+  - DIM_SUBSTATION.SUBSTATION_ID
+- unique:
+  - DIM_SUBSTATION.SUBSTATION_ID
+- not_null:
+  - DIM_TRANSMISSION_LINE.TRANSMISSION_LINE_ID
+- unique:
+  - DIM_TRANSMISSION_LINE.TRANSMISSION_LINE_ID
+- not_null:
+  - FCT_LINE_LOADING.LINE_LOADING_ID
+- unique:
+  - FCT_LINE_LOADING.LINE_LOADING_ID
+- referential: FCT_LINE_LOADING.TRANSMISSION_LINE_ID -> DIM_TRANSMISSION_LINE.TRANSMISSION_LINE_ID
+- referential: FCT_LINE_LOADING.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_LINE_LOADING.LOCATION_ID -> DIM_LOCATION.LOCATION_ID
+- not_null:
+  - FCT_LOAD_FORECAST.LOAD_FORECAST_ID
+- unique:
+  - FCT_LOAD_FORECAST.LOAD_FORECAST_ID
+- referential: FCT_LOAD_FORECAST.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_LOAD_FORECAST.LOCATION_ID -> DIM_LOCATION.LOCATION_ID
+- not_null:
+  - FCT_OUTAGE_EVENT.OUTAGE_ID
+- unique:
+  - FCT_OUTAGE_EVENT.OUTAGE_ID
+- referential: FCT_OUTAGE_EVENT.CAUSE_CODE -> DIM_OUTAGE_CAUSE.CAUSE_CODE
+- referential: FCT_OUTAGE_EVENT.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_OUTAGE_EVENT.LOCATION_ID -> DIM_LOCATION.LOCATION_ID
+- not_null:
+  - FCT_SUBSTATION_LOAD.SUBSTATION_LOAD_ID
+- unique:
+  - FCT_SUBSTATION_LOAD.SUBSTATION_LOAD_ID
+- referential: FCT_SUBSTATION_LOAD.SUBSTATION_ID -> DIM_SUBSTATION.SUBSTATION_ID
+- referential: FCT_SUBSTATION_LOAD.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_SUBSTATION_LOAD.LOCATION_ID -> DIM_LOCATION.LOCATION_ID
+- freshness:
+    max_lag: 24h
+schema:
+- name: OUT_LOAD_FORECAST_DAILY
+  physicalName: DP_GRID.OUT_LOAD_FORECAST_DAILY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_LOAD_FORECAST_DAY_REGION (98.23% of LoadForecast demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: REGION
+  - name: MONTH_NUMBER
+  - name: ACTUAL_LOAD_MW_SUM
+  - name: ACTUAL_LOAD_MW_COUNT
+  - name: FORECAST_ACCURACY_PCT_SUM
+  - name: FORECAST_ACCURACY_PCT_COUNT
+  - name: FORECASTED_LOAD_MW_SUM
+  - name: FORECASTED_LOAD_MW_COUNT
+  - name: PEAK_FORECAST_MW
+  - name: VARIANCE_MW_SUM
+  - name: VARIANCE_MW_COUNT
+  - name: LOAD_FORECAST_COUNT
+- name: OUT_OUTAGE_EVENT_DAILY
+  physicalName: DP_GRID.OUT_OUTAGE_EVENT_DAILY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_OUTAGE_EVENT_DAY_REGION_CAUSE_CODE (84.45% of OutageEvent demand)
+  status: proposed
+  properties:
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: REGION
+  - name: CAUSE_CODE
+  - name: MONTH_NUMBER
+  - name: CUSTOMERS_AFFECTED
+  - name: DURATION_MINUTES
+  - name: MAIFI_COUNT
+  - name: SAIDI_MINUTES
+  - name: SAIFI_COUNT
+  - name: OUTAGE_EVENT_COUNT
+- name: OUT_SUBSTATION_LOAD_DAILY
+  physicalName: DP_GRID.OUT_SUBSTATION_LOAD_DAILY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_SUBSTATION_LOAD_DAY_REGION (55.45% of Substation demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: REGION
+  - name: MONTH_NUMBER
+  - name: LOAD_FACTOR_PCT_SUM
+  - name: LOAD_FACTOR_PCT_COUNT
+  - name: PEAK_LOAD_MW
+  - name: SUBSTATION_LOAD_COUNT
+- name: OUT_LINE_LOADING
+  physicalName: DP_GRID.OUT_LINE_LOADING
+  physicalType: secure view
+  description: Atomic contracted output for TransmissionLine
+  status: stub
+  properties:
+  - name: LINE_LOADING_ID
+  - name: TRANSMISSION_LINE_ID
+  - name: DATE_KEY
+  - name: LOCATION_ID
+  - name: CURRENT_LOAD_MW
+  - name: CONSTRAINT_FLAG
+  - name: LINE_NAME
+  - name: VOLTAGE_KV
+  - name: THERMAL_LIMIT_MW
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+  - name: CITY
+  - name: CLIMATE_ZONE
+  - name: REGION
+confidence: 0.3
+replaces_cognos_reports: 33 clusters (99 reports)

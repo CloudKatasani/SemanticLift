@@ -1,0 +1,184 @@
+apiVersion: v3.0.0
+kind: DataContract
+id: urn:datacontract:customer-experience
+version: 1.0.0
+status: proposed
+product: customer-experience
+name: Customer Experience
+domain: cx
+owner: Energy Data Engineering Team
+steward: analytics-team@energy-utility.com
+classification: Internal - Restricted
+retention: 7 years (FERC)
+source_systems:
+- SF_SERVICE_CLOUD
+data_modules:
+- Customer_Experience_DM
+- EV_Analytics_DM
+outputs:
+- SEM.SV_CUSTOMER_SERVICE
+- SEM.SV_EV_CHARGING
+- DP_CX.OUT_COMPLAINT_MONTHLY
+- DP_CX.OUT_EV_CHARGING_DAILY
+- DP_CX.OUT_FIELD_SERVICE_DAILY
+- DP_CX.OUT_FIELD_SERVICE_MONTHLY
+- DP_CX.OUT_SERVICE_REQUEST_DAILY
+- DP_CX.OUT_SERVICE_REQUEST_MONTHLY
+grain:
+  FCT_COMPLAINT:
+  - COMPLAINT_ID
+  - CUSTOMER_ID
+  - DATE_KEY
+  FCT_EV_CHARGING:
+  - EV_CHARGING_ID
+  - CHARGER_ID
+  - CUSTOMER_ID
+  - DATE_KEY
+  FCT_FIELD_SERVICE:
+  - FIELD_SERVICE_ID
+  - TECHNICIAN_ID
+  - CUSTOMER_ID
+  - DATE_KEY
+  FCT_SERVICE_REQUEST:
+  - SERVICE_REQUEST_ID
+  - AGENT_ID
+  - CUSTOMER_ID
+  - DATE_KEY
+freshness_sla: 24h
+slaProperties:
+- property: latency
+  value: 24h
+default_filters:
+- dimension: fiscal_year
+  value: '2026'
+  cognos_prompt: p_FiscalYear
+quality:
+- not_null:
+  - DIM_AGENT.AGENT_ID
+- unique:
+  - DIM_AGENT.AGENT_ID
+- not_null:
+  - DIM_CHARGER.CHARGER_ID
+- unique:
+  - DIM_CHARGER.CHARGER_ID
+- not_null:
+  - DIM_TECHNICIAN.TECHNICIAN_ID
+- unique:
+  - DIM_TECHNICIAN.TECHNICIAN_ID
+- not_null:
+  - FCT_COMPLAINT.COMPLAINT_ID
+- unique:
+  - FCT_COMPLAINT.COMPLAINT_ID
+- referential: FCT_COMPLAINT.CUSTOMER_ID -> DIM_CUSTOMER.CUSTOMER_ID
+- referential: FCT_COMPLAINT.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_EV_CHARGING.EV_CHARGING_ID
+- unique:
+  - FCT_EV_CHARGING.EV_CHARGING_ID
+- referential: FCT_EV_CHARGING.CHARGER_ID -> DIM_CHARGER.CHARGER_ID
+- referential: FCT_EV_CHARGING.CUSTOMER_ID -> DIM_CUSTOMER.CUSTOMER_ID
+- referential: FCT_EV_CHARGING.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_FIELD_SERVICE.FIELD_SERVICE_ID
+- unique:
+  - FCT_FIELD_SERVICE.FIELD_SERVICE_ID
+- referential: FCT_FIELD_SERVICE.TECHNICIAN_ID -> DIM_TECHNICIAN.TECHNICIAN_ID
+- referential: FCT_FIELD_SERVICE.CUSTOMER_ID -> DIM_CUSTOMER.CUSTOMER_ID
+- referential: FCT_FIELD_SERVICE.DATE_KEY -> DIM_DATE.DATE_KEY
+- not_null:
+  - FCT_SERVICE_REQUEST.SERVICE_REQUEST_ID
+- unique:
+  - FCT_SERVICE_REQUEST.SERVICE_REQUEST_ID
+- referential: FCT_SERVICE_REQUEST.AGENT_ID -> DIM_AGENT.AGENT_ID
+- referential: FCT_SERVICE_REQUEST.CUSTOMER_ID -> DIM_CUSTOMER.CUSTOMER_ID
+- referential: FCT_SERVICE_REQUEST.DATE_KEY -> DIM_DATE.DATE_KEY
+- freshness:
+    max_lag: 24h
+schema:
+- name: OUT_COMPLAINT_MONTHLY
+  physicalName: DP_CX.OUT_COMPLAINT_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_COMPLAINT_MONTH_SEGMENT_SEVERITY (67.03% of Complaint demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: SEVERITY
+  - name: CUSTOMER_SEGMENT
+  - name: MONTH_NUMBER
+  - name: RESOLUTION_DAYS_SUM
+  - name: RESOLUTION_DAYS_COUNT
+  - name: COMPLAINT_COUNT
+- name: OUT_EV_CHARGING_DAILY
+  physicalName: DP_CX.OUT_EV_CHARGING_DAILY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_EV_CHARGING_DAY (17.37% of EVCharging demand)
+  status: stub
+  properties:
+  - name: FULL_DATE
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: COST
+  - name: ENERGY_DELIVERED_KWH
+  - name: PEAK_KW
+  - name: EV_CHARGING_COUNT
+- name: OUT_FIELD_SERVICE_DAILY
+  physicalName: DP_CX.OUT_FIELD_SERVICE_DAILY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_FIELD_SERVICE_DAY_SEGMENT_VISIT_TYPE (10.93% of FieldService demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: QUARTER
+  - name: CUSTOMER_SEGMENT
+  - name: VISIT_TYPE
+  - name: DURATION
+  - name: FIELD_SERVICE_COUNT
+- name: OUT_FIELD_SERVICE_MONTHLY
+  physicalName: DP_CX.OUT_FIELD_SERVICE_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_FIELD_SERVICE_MONTH_VISIT_TYPE_OUTCOME (32.95% of FieldService demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: OUTCOME
+  - name: VISIT_TYPE
+  - name: MONTH_NUMBER
+  - name: DURATION
+  - name: FIELD_SERVICE_COUNT
+- name: OUT_SERVICE_REQUEST_DAILY
+  physicalName: DP_CX.OUT_SERVICE_REQUEST_DAILY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_SERVICE_REQUEST_DAY_STATUS_SEGMENT (26.81% of ServiceRequest demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: CUSTOMER_SEGMENT
+  - name: REQUEST_TYPE
+  - name: STATUS
+  - name: MONTH_NUMBER
+  - name: SERVICE_REQUEST_COUNT
+- name: OUT_SERVICE_REQUEST_MONTHLY
+  physicalName: DP_CX.OUT_SERVICE_REQUEST_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_SERVICE_REQUEST_MONTH_STATUS_SEGMENT (10.33% of ServiceRequest demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: CUSTOMER_SEGMENT
+  - name: RESOLUTION_DATE
+  - name: STATUS
+  - name: MONTH_NUMBER
+  - name: SERVICE_REQUEST_COUNT
+confidence: 0.3
+replaces_cognos_reports: 33 clusters (99 reports)

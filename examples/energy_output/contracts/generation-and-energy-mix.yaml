@@ -1,0 +1,204 @@
+apiVersion: v3.0.0
+kind: DataContract
+id: urn:datacontract:generation-and-energy-mix
+version: 1.0.0
+status: proposed
+product: generation-and-energy-mix
+name: Generation and Energy Mix
+domain: generation
+owner: Energy Data Engineering Team
+steward: analytics-team@energy-utility.com
+classification: Internal - Restricted
+retention: 7 years (FERC)
+source_systems:
+- PI_HISTORIAN_PROD
+data_modules:
+- Renewable_Generation_DM
+- Asset_Performance_DM
+outputs:
+- SEM.SV_GENERATION_MIX
+- SEM.SV_RENEWABLES_STORAGE
+- DP_GENERATION.OUT_GENERATION_MONTHLY
+- DP_GENERATION.OUT_GENERATION_MONTHLY_2
+- DP_GENERATION.OUT_GENERATION_MONTHLY_3
+- DP_GENERATION.OUT_REC_CERTIFICATE
+- DP_GENERATION.OUT_STORAGE_STATUS
+grain:
+  FCT_GENERATION:
+  - GENERATION_ID
+  - DATE_KEY
+  - POWER_PLANT_ID
+  - SOURCE_ID
+  FCT_REC_CERTIFICATE:
+  - REC_ID
+  - DATE_KEY
+  - SOURCE_ID
+  - POWER_PLANT_ID
+  FCT_STORAGE_STATUS:
+  - STORAGE_STATUS_ID
+  - STORAGE_ASSET_ID
+  - DATE_KEY
+  - SOURCE_ID
+  - POWER_PLANT_ID
+freshness_sla: 24h
+slaProperties:
+- property: latency
+  value: 24h
+default_filters:
+- dimension: fiscal_year
+  value: '2026'
+  cognos_prompt: p_FiscalYear
+quality:
+- not_null:
+  - DIM_ENERGY_SOURCE.SOURCE_ID
+- unique:
+  - DIM_ENERGY_SOURCE.SOURCE_ID
+- not_null:
+  - DIM_POWER_PLANT.POWER_PLANT_ID
+- unique:
+  - DIM_POWER_PLANT.POWER_PLANT_ID
+- not_null:
+  - DIM_STORAGE_ASSET.STORAGE_ASSET_ID
+- unique:
+  - DIM_STORAGE_ASSET.STORAGE_ASSET_ID
+- not_null:
+  - FCT_GENERATION.GENERATION_ID
+- unique:
+  - FCT_GENERATION.GENERATION_ID
+- referential: FCT_GENERATION.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_GENERATION.POWER_PLANT_ID -> DIM_POWER_PLANT.POWER_PLANT_ID
+- referential: FCT_GENERATION.SOURCE_ID -> DIM_ENERGY_SOURCE.SOURCE_ID
+- not_null:
+  - FCT_REC_CERTIFICATE.REC_ID
+- unique:
+  - FCT_REC_CERTIFICATE.REC_ID
+- referential: FCT_REC_CERTIFICATE.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_REC_CERTIFICATE.SOURCE_ID -> DIM_ENERGY_SOURCE.SOURCE_ID
+- referential: FCT_REC_CERTIFICATE.POWER_PLANT_ID -> DIM_POWER_PLANT.POWER_PLANT_ID
+- not_null:
+  - FCT_STORAGE_STATUS.STORAGE_STATUS_ID
+- unique:
+  - FCT_STORAGE_STATUS.STORAGE_STATUS_ID
+- referential: FCT_STORAGE_STATUS.STORAGE_ASSET_ID -> DIM_STORAGE_ASSET.STORAGE_ASSET_ID
+- referential: FCT_STORAGE_STATUS.DATE_KEY -> DIM_DATE.DATE_KEY
+- referential: FCT_STORAGE_STATUS.SOURCE_ID -> DIM_ENERGY_SOURCE.SOURCE_ID
+- referential: FCT_STORAGE_STATUS.POWER_PLANT_ID -> DIM_POWER_PLANT.POWER_PLANT_ID
+- freshness:
+    max_lag: 24h
+schema:
+- name: OUT_GENERATION_MONTHLY
+  physicalName: DP_GENERATION.OUT_GENERATION_MONTHLY
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_GENERATION_MONTH_SOURCE_CATEGORY (28.21% of Generation demand)
+  status: proposed
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: SOURCE_CATEGORY
+  - name: MONTH_NUMBER
+  - name: CO2_EMISSIONS_KG
+  - name: CAPACITY_FACTOR_PCT_SUM
+  - name: CAPACITY_FACTOR_PCT_COUNT
+  - name: CAPACITY_MW
+  - name: FUEL_COST_PER_MWH_SUM
+  - name: FUEL_COST_PER_MWH_COUNT
+  - name: GENERATED_MWH
+  - name: GENERATION_COUNT
+- name: OUT_GENERATION_MONTHLY_2
+  physicalName: DP_GENERATION.OUT_GENERATION_MONTHLY_2
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_GENERATION_MONTH_SOURCE_CATEGORY_REGION (35.59% of Generation demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: SOURCE_CATEGORY
+  - name: PLANT_NAME
+  - name: REGION
+  - name: MONTH_NUMBER
+  - name: CO2_EMISSIONS_KG
+  - name: CAPACITY_FACTOR_PCT_SUM
+  - name: CAPACITY_FACTOR_PCT_COUNT
+  - name: CAPACITY_MW
+  - name: FUEL_COST_PER_MWH_SUM
+  - name: FUEL_COST_PER_MWH_COUNT
+  - name: GENERATED_MWH
+  - name: GENERATION_COUNT
+- name: OUT_GENERATION_MONTHLY_3
+  physicalName: DP_GENERATION.OUT_GENERATION_MONTHLY_3
+  physicalType: secure view
+  description: Contracted output over AGG.AGG_GENERATION_MONTH_SOURCE_REGION (16.43% of Generation demand)
+  status: stub
+  properties:
+  - name: FISCAL_YEAR
+  - name: MONTH_NAME
+  - name: QUARTER
+  - name: SOURCE_CATEGORY
+  - name: SOURCE_NAME
+  - name: REGION
+  - name: MONTH_NUMBER
+  - name: CO2_EMISSIONS_KG
+  - name: CAPACITY_FACTOR_PCT_SUM
+  - name: CAPACITY_FACTOR_PCT_COUNT
+  - name: CAPACITY_MW
+  - name: FUEL_COST_PER_MWH_SUM
+  - name: FUEL_COST_PER_MWH_COUNT
+  - name: GENERATED_MWH
+  - name: GENERATION_COUNT
+- name: OUT_REC_CERTIFICATE
+  physicalName: DP_GENERATION.OUT_REC_CERTIFICATE
+  physicalType: secure view
+  description: Atomic contracted output for RECCertificate
+  status: stub
+  properties:
+  - name: REC_ID
+  - name: DATE_KEY
+  - name: SOURCE_ID
+  - name: POWER_PLANT_ID
+  - name: EXPIRY_DATE
+  - name: STATUS
+  - name: MWH
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+  - name: IS_REC_ELIGIBLE
+  - name: SOURCE_CATEGORY
+  - name: SOURCE_NAME
+  - name: PLANT_NAME
+  - name: PLANT_TYPE
+  - name: REGION
+- name: OUT_STORAGE_STATUS
+  physicalName: DP_GENERATION.OUT_STORAGE_STATUS
+  physicalType: secure view
+  description: Atomic contracted output for StorageAsset
+  status: stub
+  properties:
+  - name: STORAGE_STATUS_ID
+  - name: STORAGE_ASSET_ID
+  - name: DATE_KEY
+  - name: SOURCE_ID
+  - name: POWER_PLANT_ID
+  - name: DISCHARGE_RATE_MW
+  - name: STATE_OF_CHARGE_PCT
+  - name: ASSET_NAME
+  - name: STORAGE_CAPACITY_MWH
+  - name: FISCAL_YEAR
+  - name: FULL_DATE
+  - name: IS_HOLIDAY
+  - name: IS_WEEKEND
+  - name: MONTH_NAME
+  - name: MONTH_NUMBER
+  - name: QUARTER
+  - name: IS_REC_ELIGIBLE
+  - name: SOURCE_CATEGORY
+  - name: SOURCE_NAME
+  - name: PLANT_NAME
+  - name: PLANT_TYPE
+  - name: REGION
+confidence: 0.3
+replaces_cognos_reports: 32 clusters (96 reports)

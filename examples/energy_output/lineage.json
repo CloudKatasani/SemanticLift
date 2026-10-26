@@ -1,0 +1,6087 @@
+[
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_AGENT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SFSC.SERVICE_REQUEST",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "AGENT_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_AGENT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "AGENT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "AGENT_ID"
+         }
+        ],
+        "transformationDescription": "src.AGENT_ID",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension AGENT derived from distinct ServiceRequest.AgentID values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_ASSET"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.PRC004_REQUIREMENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ASSET_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_ASSET",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "ASSET_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "ASSET_ID"
+         }
+        ],
+        "transformationDescription": "src.ASSET_ID",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension ASSET derived from distinct PRC004Requirement.AssetID values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_CAPEX_PROJECT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "APPROVED_BUDGET"
+       },
+       {
+        "name": "CAPEX_PROJECT_ID"
+       },
+       {
+        "name": "CATEGORY"
+       },
+       {
+        "name": "PROJECT_NAME"
+       },
+       {
+        "name": "STATUS"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CAPEX_PROJECT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "CAPEX_PROJECT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "CAPEX_PROJECT_ID"
+         }
+        ],
+        "transformationDescription": "src.CAPEX_PROJECT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CATEGORY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "CATEGORY"
+         }
+        ],
+        "transformationDescription": "src.CATEGORY",
+        "transformationType": "IDENTITY"
+       },
+       "PROJECT_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "PROJECT_NAME"
+         }
+        ],
+        "transformationDescription": "src.PROJECT_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "STATUS"
+         }
+        ],
+        "transformationDescription": "src.STATUS",
+        "transformationType": "IDENTITY"
+       },
+       "APPROVED_BUDGET": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "APPROVED_BUDGET"
+         }
+        ],
+        "transformationDescription": "src.APPROVED_BUDGET",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension for CapexProject (split from report usage, rule DIM-02). Source: RAW_SAP_FICA.CAPEX_PROJECT (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_CHARGER"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SFSC.EV_CHARGING",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CHARGER_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CHARGER",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "CHARGER_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "CHARGER_ID"
+         }
+        ],
+        "transformationDescription": "src.CHARGER_ID",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension CHARGER derived from distinct EVCharging.ChargerID values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_COST_CENTER"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.GL_ACCOUNT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "COST_CENTER"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_COST_CENTER",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "COST_CENTER": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.GL_ACCOUNT",
+          "field": "COST_CENTER"
+         }
+        ],
+        "transformationDescription": "src.COST_CENTER",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension COST_CENTER derived from distinct GLAccount.CostCenter values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_COUNTERPARTY"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "COUNTERPARTY_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_COUNTERPARTY",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "COUNTERPARTY_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "COUNTERPARTY_ID"
+         }
+        ],
+        "transformationDescription": "src.COUNTERPARTY_ID",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension COUNTERPARTY derived from distinct MarketSettlement.CounterpartyID values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_CUSTOMER"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_DW.CUSTOMER",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ACCOUNT_TYPE"
+       },
+       {
+        "name": "CREDIT_SCORE"
+       },
+       {
+        "name": "CUSTOMER_NAME"
+       },
+       {
+        "name": "CUSTOMER_SEGMENT"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CUSTOMER",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "ACCOUNT_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.CUSTOMER",
+          "field": "ACCOUNT_TYPE"
+         }
+        ],
+        "transformationDescription": "src.ACCOUNT_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "CREDIT_SCORE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.CUSTOMER",
+          "field": "CREDIT_SCORE"
+         }
+        ],
+        "transformationDescription": "src.CREDIT_SCORE",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.CUSTOMER",
+          "field": "CUSTOMER_NAME"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_SEGMENT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.CUSTOMER",
+          "field": "CUSTOMER_SEGMENT"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_SEGMENT",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at Customer grain. Source: ENERGY_DW.CUSTOMER. Origin: FM Business Layer.Customer (conformed across Energy_Billing_Package, Energy_CustomerService_Package)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_DATE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_DW.DATE_DIM",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "FISCAL_YEAR"
+       },
+       {
+        "name": "FULL_DATE"
+       },
+       {
+        "name": "ISO_WEEK"
+       },
+       {
+        "name": "IS_HOLIDAY"
+       },
+       {
+        "name": "IS_WEEKEND"
+       },
+       {
+        "name": "MONTH_NAME"
+       },
+       {
+        "name": "MONTH_NUMBER"
+       },
+       {
+        "name": "QUARTER"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "FISCAL_YEAR": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "FISCAL_YEAR"
+         }
+        ],
+        "transformationDescription": "src.FISCAL_YEAR",
+        "transformationType": "IDENTITY"
+       },
+       "FULL_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "FULL_DATE"
+         }
+        ],
+        "transformationDescription": "src.FULL_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "ISO_WEEK": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "ISO_WEEK"
+         }
+        ],
+        "transformationDescription": "src.ISO_WEEK",
+        "transformationType": "IDENTITY"
+       },
+       "IS_HOLIDAY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "IS_HOLIDAY"
+         }
+        ],
+        "transformationDescription": "src.IS_HOLIDAY",
+        "transformationType": "IDENTITY"
+       },
+       "IS_WEEKEND": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "IS_WEEKEND"
+         }
+        ],
+        "transformationDescription": "src.IS_WEEKEND",
+        "transformationType": "IDENTITY"
+       },
+       "MONTH_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "MONTH_NAME"
+         }
+        ],
+        "transformationDescription": "src.MONTH_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "MONTH_NUMBER": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "MONTH_NUMBER"
+         }
+        ],
+        "transformationDescription": "src.MONTH_NUMBER",
+        "transformationType": "IDENTITY"
+       },
+       "QUARTER": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.DATE_DIM",
+          "field": "QUARTER"
+         }
+        ],
+        "transformationDescription": "src.QUARTER",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at Date grain. Source: ENERGY_DW.DATE_DIM. Origin: FM Business Layer.Date (conformed across Energy_Billing_Package, Energy_Compliance_Package, Energy_CustomerService_Package, Energy_Finance_Package, Energy_Generation_Package, Energy_Operations_Package)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_ENERGY_SOURCE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_PI.ENERGY_SOURCE",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CO2_FACTOR_KG_KWH"
+       },
+       {
+        "name": "IS_REC_ELIGIBLE"
+       },
+       {
+        "name": "SOURCE_CATEGORY"
+       },
+       {
+        "name": "SOURCE_NAME"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_ENERGY_SOURCE",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "IS_REC_ELIGIBLE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.ENERGY_SOURCE",
+          "field": "IS_REC_ELIGIBLE"
+         }
+        ],
+        "transformationDescription": "src.IS_REC_ELIGIBLE",
+        "transformationType": "IDENTITY"
+       },
+       "SOURCE_CATEGORY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.ENERGY_SOURCE",
+          "field": "SOURCE_CATEGORY"
+         }
+        ],
+        "transformationDescription": "src.SOURCE_CATEGORY",
+        "transformationType": "IDENTITY"
+       },
+       "SOURCE_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.ENERGY_SOURCE",
+          "field": "SOURCE_NAME"
+         }
+        ],
+        "transformationDescription": "src.SOURCE_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "CO2_FACTOR_KG_KWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.ENERGY_SOURCE",
+          "field": "CO2_FACTOR_KG_KWH"
+         }
+        ],
+        "transformationDescription": "src.CO2_FACTOR_KG_KWH",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at EnergySource grain. Source: PI_HISTORIAN_PROD.ENERGY_SOURCE. Origin: FM Business Layer.EnergySource"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_GL_ACCOUNT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.GL_ACCOUNT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ACCOUNT_CODE"
+       },
+       {
+        "name": "ACCOUNT_NAME"
+       },
+       {
+        "name": "GL_ACCOUNT_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_GL_ACCOUNT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "GL_ACCOUNT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.GL_ACCOUNT",
+          "field": "GL_ACCOUNT_ID"
+         }
+        ],
+        "transformationDescription": "src.GL_ACCOUNT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "ACCOUNT_CODE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.GL_ACCOUNT",
+          "field": "ACCOUNT_CODE"
+         }
+        ],
+        "transformationDescription": "src.ACCOUNT_CODE",
+        "transformationType": "IDENTITY"
+       },
+       "ACCOUNT_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.GL_ACCOUNT",
+          "field": "ACCOUNT_NAME"
+         }
+        ],
+        "transformationDescription": "src.ACCOUNT_NAME",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at GLAccount grain. Source: SAP_FICA_PROD.GL_ACCOUNT. Origin: inferred from Energy_Finance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_LOCATION"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_DW.LOCATION",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CITY"
+       },
+       {
+        "name": "CLIMATE_ZONE"
+       },
+       {
+        "name": "POSTAL_CODE"
+       },
+       {
+        "name": "REGION"
+       },
+       {
+        "name": "STATE_PROVINCE"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_LOCATION",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "CITY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.LOCATION",
+          "field": "CITY"
+         }
+        ],
+        "transformationDescription": "src.CITY",
+        "transformationType": "IDENTITY"
+       },
+       "CLIMATE_ZONE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.LOCATION",
+          "field": "CLIMATE_ZONE"
+         }
+        ],
+        "transformationDescription": "src.CLIMATE_ZONE",
+        "transformationType": "IDENTITY"
+       },
+       "POSTAL_CODE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.LOCATION",
+          "field": "POSTAL_CODE"
+         }
+        ],
+        "transformationDescription": "src.POSTAL_CODE",
+        "transformationType": "IDENTITY"
+       },
+       "REGION": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.LOCATION",
+          "field": "REGION"
+         }
+        ],
+        "transformationDescription": "src.REGION",
+        "transformationType": "IDENTITY"
+       },
+       "STATE_PROVINCE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_DW.LOCATION",
+          "field": "STATE_PROVINCE"
+         }
+        ],
+        "transformationDescription": "src.STATE_PROVINCE",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at Location grain. Source: ENERGY_DW.LOCATION. Origin: FM Business Layer.Location (conformed across Energy_Billing_Package, Energy_Operations_Package)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_METER"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_CCB.METER",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "INSTALL_DATE"
+       },
+       {
+        "name": "IS_SMART_METER"
+       },
+       {
+        "name": "METER_TYPE"
+       },
+       {
+        "name": "STATUS"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_METER",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "INSTALL_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER",
+          "field": "INSTALL_DATE"
+         }
+        ],
+        "transformationDescription": "src.INSTALL_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "IS_SMART_METER": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER",
+          "field": "IS_SMART_METER"
+         }
+        ],
+        "transformationDescription": "src.IS_SMART_METER",
+        "transformationType": "IDENTITY"
+       },
+       "STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER",
+          "field": "STATUS"
+         }
+        ],
+        "transformationDescription": "src.STATUS",
+        "transformationType": "IDENTITY"
+       },
+       "METER_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER",
+          "field": "METER_TYPE"
+         }
+        ],
+        "transformationDescription": "src.METER_TYPE",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at Meter grain. Source: CC_AND_B_PROD.METER. Origin: FM Business Layer.Meter"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_NERC_STANDARD"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.COMPLIANCE_EVENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "STANDARD_REF"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_NERC_STANDARD",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "STANDARD_REF": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "STANDARD_REF"
+         }
+        ],
+        "transformationDescription": "src.STANDARD_REF",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension NERC_STANDARD derived from ComplianceEvent.StandardRef, Violation.StandardID; union of distinct values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_OUTAGE_CAUSE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CAUSE_CODE"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_OUTAGE_CAUSE",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "CAUSE_CODE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "CAUSE_CODE"
+         }
+        ],
+        "transformationDescription": "src.CAUSE_CODE",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension OUTAGE_CAUSE derived from distinct OutageEvent.CauseCode values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_POWER_PLANT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_PI.POWER_PLANT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "INSTALLED_CAPACITY_MW"
+       },
+       {
+        "name": "PLANT_NAME"
+       },
+       {
+        "name": "PLANT_TYPE"
+       },
+       {
+        "name": "POWER_PLANT_ID"
+       },
+       {
+        "name": "REGION"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_POWER_PLANT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "POWER_PLANT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.POWER_PLANT",
+          "field": "POWER_PLANT_ID"
+         }
+        ],
+        "transformationDescription": "src.POWER_PLANT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "PLANT_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.POWER_PLANT",
+          "field": "PLANT_NAME"
+         }
+        ],
+        "transformationDescription": "src.PLANT_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "PLANT_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.POWER_PLANT",
+          "field": "PLANT_TYPE"
+         }
+        ],
+        "transformationDescription": "src.PLANT_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "REGION": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.POWER_PLANT",
+          "field": "REGION"
+         }
+        ],
+        "transformationDescription": "src.REGION",
+        "transformationType": "IDENTITY"
+       },
+       "INSTALLED_CAPACITY_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.POWER_PLANT",
+          "field": "INSTALLED_CAPACITY_MW"
+         }
+        ],
+        "transformationDescription": "src.INSTALLED_CAPACITY_MW",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at PowerPlant grain. Source: PI_HISTORIAN_PROD.POWER_PLANT. Origin: inferred from Energy_Generation_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_REPORTING_ENTITY"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.DATA_SUBMISSION",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "REPORTING_ENTITY"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_REPORTING_ENTITY",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "REPORTING_ENTITY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "REPORTING_ENTITY"
+         }
+        ],
+        "transformationDescription": "src.REPORTING_ENTITY",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension REPORTING_ENTITY derived from distinct DataSubmission.ReportingEntity values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_STORAGE_ASSET"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_PI.STORAGE_ASSET",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ASSET_NAME"
+       },
+       {
+        "name": "STORAGE_ASSET_ID"
+       },
+       {
+        "name": "STORAGE_CAPACITY_MWH"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_STORAGE_ASSET",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "STORAGE_ASSET_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "STORAGE_ASSET_ID"
+         }
+        ],
+        "transformationDescription": "src.STORAGE_ASSET_ID",
+        "transformationType": "IDENTITY"
+       },
+       "ASSET_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "ASSET_NAME"
+         }
+        ],
+        "transformationDescription": "src.ASSET_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "STORAGE_CAPACITY_MWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "STORAGE_CAPACITY_MWH"
+         }
+        ],
+        "transformationDescription": "src.STORAGE_CAPACITY_MWH",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension for StorageAsset (split from report usage, rule DIM-02). Source: RAW_PI.STORAGE_ASSET (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_SUBSTATION"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_OPS.SUBSTATION",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CAPACITY_MVA"
+       },
+       {
+        "name": "REGION"
+       },
+       {
+        "name": "SUBSTATION_ID"
+       },
+       {
+        "name": "SUBSTATION_NAME"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_SUBSTATION",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "SUBSTATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "SUBSTATION_ID"
+         }
+        ],
+        "transformationDescription": "src.SUBSTATION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "REGION": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "REGION"
+         }
+        ],
+        "transformationDescription": "src.REGION",
+        "transformationType": "IDENTITY"
+       },
+       "SUBSTATION_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "SUBSTATION_NAME"
+         }
+        ],
+        "transformationDescription": "src.SUBSTATION_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "CAPACITY_MVA": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "CAPACITY_MVA"
+         }
+        ],
+        "transformationDescription": "src.CAPACITY_MVA",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension for Substation (split from report usage, rule DIM-02). Source: RAW_ENERGY_OPS.SUBSTATION (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_TARIFF"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_CCB.TARIFF",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "DEMAND_CHARGE_RATE"
+       },
+       {
+        "name": "RATE_PER_KWH"
+       },
+       {
+        "name": "TARIFF_TYPE"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_TARIFF",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "TARIFF_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.TARIFF",
+          "field": "TARIFF_TYPE"
+         }
+        ],
+        "transformationDescription": "src.TARIFF_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "DEMAND_CHARGE_RATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.TARIFF",
+          "field": "DEMAND_CHARGE_RATE"
+         }
+        ],
+        "transformationDescription": "src.DEMAND_CHARGE_RATE",
+        "transformationType": "IDENTITY"
+       },
+       "RATE_PER_KWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.TARIFF",
+          "field": "RATE_PER_KWH"
+         }
+        ],
+        "transformationDescription": "src.RATE_PER_KWH",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension at Tariff grain. Source: CC_AND_B_PROD.TARIFF. Origin: FM Business Layer.Tariff"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_TECHNICIAN"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SFSC.FIELD_SERVICE",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "TECHNICIAN_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_TECHNICIAN",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "TECHNICIAN_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "TECHNICIAN_ID"
+         }
+        ],
+        "transformationDescription": "src.TECHNICIAN_ID",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Reference dimension TECHNICIAN derived from distinct FieldService.TechnicianID values until a master table is mapped (rule DIM-03)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.DIM_TRANSMISSION_LINE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CONSTRAINT_FLAG"
+       },
+       {
+        "name": "LINE_NAME"
+       },
+       {
+        "name": "THERMAL_LIMIT_MW"
+       },
+       {
+        "name": "TRANSMISSION_LINE_ID"
+       },
+       {
+        "name": "VOLTAGE_KV"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_TRANSMISSION_LINE",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "TRANSMISSION_LINE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "TRANSMISSION_LINE_ID"
+         }
+        ],
+        "transformationDescription": "src.TRANSMISSION_LINE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CONSTRAINT_FLAG": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "CONSTRAINT_FLAG"
+         }
+        ],
+        "transformationDescription": "src.CONSTRAINT_FLAG",
+        "transformationType": "IDENTITY"
+       },
+       "LINE_NAME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "LINE_NAME"
+         }
+        ],
+        "transformationDescription": "src.LINE_NAME",
+        "transformationType": "IDENTITY"
+       },
+       "VOLTAGE_KV": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "VOLTAGE_KV"
+         }
+        ],
+        "transformationDescription": "src.VOLTAGE_KV",
+        "transformationType": "IDENTITY"
+       },
+       "THERMAL_LIMIT_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "THERMAL_LIMIT_MW"
+         }
+        ],
+        "transformationDescription": "src.THERMAL_LIMIT_MW",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Dimension for TransmissionLine (split from report usage, rule DIM-02). Source: RAW_ENERGY_OPS.TRANSMISSION_LINE (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_AUDIT_RECORD"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.AUDIT_RECORD",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ACTION_REQUIRED"
+       },
+       {
+        "name": "AUDITOR"
+       },
+       {
+        "name": "AUDIT_RECORD_ID"
+       },
+       {
+        "name": "AUDIT_TYPE"
+       },
+       {
+        "name": "FINDINGS"
+       },
+       {
+        "name": "RISK_RATING"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_AUDIT_RECORD",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "AUDIT_RECORD_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.AUDIT_RECORD",
+          "field": "AUDIT_RECORD_ID"
+         }
+        ],
+        "transformationDescription": "src.AUDIT_RECORD_ID",
+        "transformationType": "IDENTITY"
+       },
+       "ACTION_REQUIRED": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.AUDIT_RECORD",
+          "field": "ACTION_REQUIRED"
+         }
+        ],
+        "transformationDescription": "src.ACTION_REQUIRED",
+        "transformationType": "IDENTITY"
+       },
+       "AUDIT_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.AUDIT_RECORD",
+          "field": "AUDIT_TYPE"
+         }
+        ],
+        "transformationDescription": "src.AUDIT_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "AUDITOR": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.AUDIT_RECORD",
+          "field": "AUDITOR"
+         }
+        ],
+        "transformationDescription": "src.AUDITOR",
+        "transformationType": "IDENTITY"
+       },
+       "FINDINGS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.AUDIT_RECORD",
+          "field": "FINDINGS"
+         }
+        ],
+        "transformationDescription": "src.FINDINGS",
+        "transformationType": "IDENTITY"
+       },
+       "RISK_RATING": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.AUDIT_RECORD",
+          "field": "RISK_RATING"
+         }
+        ],
+        "transformationDescription": "src.RISK_RATING",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at AuditRecord grain. Source: NERC_COMPLIANCE_DB.AUDIT_RECORD. Origin: inferred from Energy_Compliance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_BILLING"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_CCB.BILLING",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "BILL_AMOUNT"
+       },
+       {
+        "name": "DEMAND_CHARGE"
+       },
+       {
+        "name": "DUE_DATE"
+       },
+       {
+        "name": "ENERGY_CHARGE"
+       },
+       {
+        "name": "IS_EBILL"
+       },
+       {
+        "name": "PAYMENT_STATUS"
+       },
+       {
+        "name": "TAX_AMOUNT"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_BILLING",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "DUE_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "DUE_DATE"
+         }
+        ],
+        "transformationDescription": "src.DUE_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "IS_EBILL": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "IS_EBILL"
+         }
+        ],
+        "transformationDescription": "src.IS_EBILL",
+        "transformationType": "IDENTITY"
+       },
+       "IS_OVERDUE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "PAYMENT_STATUS"
+         }
+        ],
+        "transformationDescription": "IFF(src.PAYMENT_STATUS = 'Overdue', 'Yes', 'No')",
+        "transformationType": "TRANSFORMED"
+       },
+       "PAYMENT_STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "PAYMENT_STATUS"
+         }
+        ],
+        "transformationDescription": "src.PAYMENT_STATUS",
+        "transformationType": "IDENTITY"
+       },
+       "BILL_AMOUNT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "BILL_AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.BILL_AMOUNT",
+        "transformationType": "IDENTITY"
+       },
+       "DEMAND_CHARGE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "DEMAND_CHARGE"
+         }
+        ],
+        "transformationDescription": "src.DEMAND_CHARGE",
+        "transformationType": "IDENTITY"
+       },
+       "ENERGY_CHARGE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "ENERGY_CHARGE"
+         }
+        ],
+        "transformationDescription": "src.ENERGY_CHARGE",
+        "transformationType": "IDENTITY"
+       },
+       "TAX_AMOUNT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "TAX_AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.TAX_AMOUNT",
+        "transformationType": "IDENTITY"
+       },
+       "TOTAL_BILL_WITH_TAX": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "BILL_AMOUNT"
+         },
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.BILLING",
+          "field": "TAX_AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.BILL_AMOUNT + src.TAX_AMOUNT",
+        "transformationType": "TRANSFORMED"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at Billing grain. Source: CC_AND_B_PROD.BILLING. Origin: FM Business Layer.Billing"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_BUDGET_ACTUAL"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ACTUAL_AMOUNT"
+       },
+       {
+        "name": "BUDGET_ACTUAL_ID"
+       },
+       {
+        "name": "BUDGET_AMOUNT"
+       },
+       {
+        "name": "VARIANCE_AMOUNT"
+       },
+       {
+        "name": "VARIANCE_PCT"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_BUDGET_ACTUAL",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "BUDGET_ACTUAL_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+          "field": "BUDGET_ACTUAL_ID"
+         }
+        ],
+        "transformationDescription": "src.BUDGET_ACTUAL_ID",
+        "transformationType": "IDENTITY"
+       },
+       "ACTUAL_AMOUNT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+          "field": "ACTUAL_AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.ACTUAL_AMOUNT",
+        "transformationType": "IDENTITY"
+       },
+       "BUDGET_AMOUNT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+          "field": "BUDGET_AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.BUDGET_AMOUNT",
+        "transformationType": "IDENTITY"
+       },
+       "VARIANCE_AMOUNT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+          "field": "VARIANCE_AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.VARIANCE_AMOUNT",
+        "transformationType": "IDENTITY"
+       },
+       "VARIANCE_PCT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.BUDGET_ACTUAL",
+          "field": "VARIANCE_PCT"
+         }
+        ],
+        "transformationDescription": "src.VARIANCE_PCT",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at BudgetActual grain. Source: SAP_FICA_PROD.BUDGET_ACTUAL. Origin: inferred from Energy_Finance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_CAPEX_SPEND"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CAPEX_PROJECT_ID"
+       },
+       {
+        "name": "SPENT_TO_DATE"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_CAPEX_SPEND",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "CAPEX_PROJECT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "CAPEX_PROJECT_ID"
+         }
+        ],
+        "transformationDescription": "src.CAPEX_PROJECT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "SPENT_TO_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.CAPEX_PROJECT",
+          "field": "SPENT_TO_DATE"
+         }
+        ],
+        "transformationDescription": "src.SPENT_TO_DATE",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact CAPEX_SPEND for CapexProject measurements (rule DIM-02). Source: RAW_SAP_FICA.CAPEX_PROJECT (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_COMPLAINT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SFSC.COMPLAINT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CATEGORY"
+       },
+       {
+        "name": "COMPLAINT_ID"
+       },
+       {
+        "name": "RESOLUTION_DAYS"
+       },
+       {
+        "name": "SEVERITY"
+       },
+       {
+        "name": "STATUS"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_COMPLAINT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "COMPLAINT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.COMPLAINT",
+          "field": "COMPLAINT_ID"
+         }
+        ],
+        "transformationDescription": "src.COMPLAINT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CATEGORY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.COMPLAINT",
+          "field": "CATEGORY"
+         }
+        ],
+        "transformationDescription": "src.CATEGORY",
+        "transformationType": "IDENTITY"
+       },
+       "SEVERITY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.COMPLAINT",
+          "field": "SEVERITY"
+         }
+        ],
+        "transformationDescription": "src.SEVERITY",
+        "transformationType": "IDENTITY"
+       },
+       "STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.COMPLAINT",
+          "field": "STATUS"
+         }
+        ],
+        "transformationDescription": "src.STATUS",
+        "transformationType": "IDENTITY"
+       },
+       "RESOLUTION_DAYS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.COMPLAINT",
+          "field": "RESOLUTION_DAYS"
+         }
+        ],
+        "transformationDescription": "src.RESOLUTION_DAYS",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at Complaint grain. Source: SF_SERVICE_CLOUD.COMPLAINT. Origin: inferred from Energy_CustomerService_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_COMPLIANCE_EVENT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.COMPLIANCE_EVENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "COMPLIANCE_EVENT_ID"
+       },
+       {
+        "name": "EVENT_TYPE"
+       },
+       {
+        "name": "REQUIREMENT_REF"
+       },
+       {
+        "name": "RESOLUTION_DATE"
+       },
+       {
+        "name": "SEVERITY"
+       },
+       {
+        "name": "STATUS"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_COMPLIANCE_EVENT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "COMPLIANCE_EVENT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "COMPLIANCE_EVENT_ID"
+         }
+        ],
+        "transformationDescription": "src.COMPLIANCE_EVENT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "EVENT_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "EVENT_TYPE"
+         }
+        ],
+        "transformationDescription": "src.EVENT_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "REQUIREMENT_REF": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "REQUIREMENT_REF"
+         }
+        ],
+        "transformationDescription": "src.REQUIREMENT_REF",
+        "transformationType": "IDENTITY"
+       },
+       "RESOLUTION_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "RESOLUTION_DATE"
+         }
+        ],
+        "transformationDescription": "src.RESOLUTION_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "SEVERITY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "SEVERITY"
+         }
+        ],
+        "transformationDescription": "src.SEVERITY",
+        "transformationType": "IDENTITY"
+       },
+       "STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.COMPLIANCE_EVENT",
+          "field": "STATUS"
+         }
+        ],
+        "transformationDescription": "src.STATUS",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at ComplianceEvent grain. Source: NERC_COMPLIANCE_DB.COMPLIANCE_EVENT. Origin: inferred from Energy_Compliance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_DATA_SUBMISSION"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.DATA_SUBMISSION",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "DATA_SUBMISSION_ID"
+       },
+       {
+        "name": "FILING_PERIOD"
+       },
+       {
+        "name": "STATUS"
+       },
+       {
+        "name": "SUBMISSION_TYPE"
+       },
+       {
+        "name": "SUBMITTED_BY"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_DATA_SUBMISSION",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "DATA_SUBMISSION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "DATA_SUBMISSION_ID"
+         }
+        ],
+        "transformationDescription": "src.DATA_SUBMISSION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "FILING_PERIOD": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "FILING_PERIOD"
+         }
+        ],
+        "transformationDescription": "src.FILING_PERIOD",
+        "transformationType": "IDENTITY"
+       },
+       "STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "STATUS"
+         }
+        ],
+        "transformationDescription": "src.STATUS",
+        "transformationType": "IDENTITY"
+       },
+       "SUBMISSION_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "SUBMISSION_TYPE"
+         }
+        ],
+        "transformationDescription": "src.SUBMISSION_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "SUBMITTED_BY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.DATA_SUBMISSION",
+          "field": "SUBMITTED_BY"
+         }
+        ],
+        "transformationDescription": "src.SUBMITTED_BY",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at DataSubmission grain. Source: NERC_COMPLIANCE_DB.DATA_SUBMISSION. Origin: inferred from Energy_Compliance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_EV_CHARGING"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SFSC.EV_CHARGING",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "COST"
+       },
+       {
+        "name": "ENERGY_DELIVERED_KWH"
+       },
+       {
+        "name": "EV_CHARGING_ID"
+       },
+       {
+        "name": "PEAK_KW"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_EV_CHARGING",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "EV_CHARGING_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "EV_CHARGING_ID"
+         }
+        ],
+        "transformationDescription": "src.EV_CHARGING_ID",
+        "transformationType": "IDENTITY"
+       },
+       "COST": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "COST"
+         }
+        ],
+        "transformationDescription": "src.COST",
+        "transformationType": "IDENTITY"
+       },
+       "ENERGY_DELIVERED_KWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "ENERGY_DELIVERED_KWH"
+         }
+        ],
+        "transformationDescription": "src.ENERGY_DELIVERED_KWH",
+        "transformationType": "IDENTITY"
+       },
+       "PEAK_KW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.EV_CHARGING",
+          "field": "PEAK_KW"
+         }
+        ],
+        "transformationDescription": "src.PEAK_KW",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at EVCharging grain. Source: SF_SERVICE_CLOUD.EV_CHARGING. Origin: inferred from Energy_CustomerService_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_FIELD_SERVICE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SFSC.FIELD_SERVICE",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "DURATION"
+       },
+       {
+        "name": "FIELD_SERVICE_ID"
+       },
+       {
+        "name": "OUTCOME"
+       },
+       {
+        "name": "VISIT_TYPE"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_FIELD_SERVICE",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "FIELD_SERVICE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "FIELD_SERVICE_ID"
+         }
+        ],
+        "transformationDescription": "src.FIELD_SERVICE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "OUTCOME": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "OUTCOME"
+         }
+        ],
+        "transformationDescription": "src.OUTCOME",
+        "transformationType": "IDENTITY"
+       },
+       "VISIT_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "VISIT_TYPE"
+         }
+        ],
+        "transformationDescription": "src.VISIT_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "DURATION": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.FIELD_SERVICE",
+          "field": "DURATION"
+         }
+        ],
+        "transformationDescription": "src.DURATION",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at FieldService grain. Source: SF_SERVICE_CLOUD.FIELD_SERVICE. Origin: inferred from Energy_CustomerService_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_FUEL_COST"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.FUEL_COST",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "COST_PER_MMBTU"
+       },
+       {
+        "name": "FUEL_COST_ID"
+       },
+       {
+        "name": "FUEL_TYPE"
+       },
+       {
+        "name": "QUANTITY_MMBTU"
+       },
+       {
+        "name": "TOTAL_COST"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_FUEL_COST",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "FUEL_COST_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.FUEL_COST",
+          "field": "FUEL_COST_ID"
+         }
+        ],
+        "transformationDescription": "src.FUEL_COST_ID",
+        "transformationType": "IDENTITY"
+       },
+       "FUEL_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.FUEL_COST",
+          "field": "FUEL_TYPE"
+         }
+        ],
+        "transformationDescription": "src.FUEL_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "COST_PER_MMBTU": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.FUEL_COST",
+          "field": "COST_PER_MMBTU"
+         }
+        ],
+        "transformationDescription": "src.COST_PER_MMBTU",
+        "transformationType": "IDENTITY"
+       },
+       "QUANTITY_MMBTU": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.FUEL_COST",
+          "field": "QUANTITY_MMBTU"
+         }
+        ],
+        "transformationDescription": "src.QUANTITY_MMBTU",
+        "transformationType": "IDENTITY"
+       },
+       "TOTAL_COST": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.FUEL_COST",
+          "field": "TOTAL_COST"
+         }
+        ],
+        "transformationDescription": "src.TOTAL_COST",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at FuelCost grain. Source: SAP_FICA_PROD.FUEL_COST. Origin: inferred from Energy_Finance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_GENERATION"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_PI.GENERATION",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CAPACITY_FACTOR_PCT"
+       },
+       {
+        "name": "CAPACITY_MW"
+       },
+       {
+        "name": "CO2_EMISSIONS_KG"
+       },
+       {
+        "name": "GENERATED_MWH"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_GENERATION",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "CO2_EMISSIONS_KG": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "CO2_EMISSIONS_KG"
+         }
+        ],
+        "transformationDescription": "src.CO2_EMISSIONS_KG",
+        "transformationType": "IDENTITY"
+       },
+       "CAPACITY_FACTOR_PCT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "CAPACITY_FACTOR_PCT"
+         }
+        ],
+        "transformationDescription": "src.CAPACITY_FACTOR_PCT",
+        "transformationType": "IDENTITY"
+       },
+       "CAPACITY_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "CAPACITY_MW"
+         }
+        ],
+        "transformationDescription": "src.CAPACITY_MW",
+        "transformationType": "IDENTITY"
+       },
+       "GENERATED_MWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.GENERATION",
+          "field": "GENERATED_MWH"
+         }
+        ],
+        "transformationDescription": "src.GENERATED_MWH",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at Generation grain. Source: PI_HISTORIAN_PROD.GENERATION. Origin: FM Business Layer.Generation"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_LINE_LOADING"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CURRENT_LOAD_MW"
+       },
+       {
+        "name": "TRANSMISSION_LINE_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_LINE_LOADING",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "TRANSMISSION_LINE_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "TRANSMISSION_LINE_ID"
+         }
+        ],
+        "transformationDescription": "src.TRANSMISSION_LINE_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CURRENT_LOAD_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.TRANSMISSION_LINE",
+          "field": "CURRENT_LOAD_MW"
+         }
+        ],
+        "transformationDescription": "src.CURRENT_LOAD_MW",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact LINE_LOADING for TransmissionLine measurements (rule DIM-02). Source: RAW_ENERGY_OPS.TRANSMISSION_LINE (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_LOAD_FORECAST"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ACTUAL_LOAD_MW"
+       },
+       {
+        "name": "FORECASTED_LOAD_MW"
+       },
+       {
+        "name": "FORECAST_ACCURACY_PCT"
+       },
+       {
+        "name": "LOAD_FORECAST_ID"
+       },
+       {
+        "name": "PEAK_FORECAST_MW"
+       },
+       {
+        "name": "VARIANCE_MW"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_LOAD_FORECAST",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "LOAD_FORECAST_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "LOAD_FORECAST_ID"
+         }
+        ],
+        "transformationDescription": "src.LOAD_FORECAST_ID",
+        "transformationType": "IDENTITY"
+       },
+       "ACTUAL_LOAD_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "ACTUAL_LOAD_MW"
+         }
+        ],
+        "transformationDescription": "src.ACTUAL_LOAD_MW",
+        "transformationType": "IDENTITY"
+       },
+       "FORECAST_ACCURACY_PCT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "FORECAST_ACCURACY_PCT"
+         }
+        ],
+        "transformationDescription": "src.FORECAST_ACCURACY_PCT",
+        "transformationType": "IDENTITY"
+       },
+       "FORECASTED_LOAD_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "FORECASTED_LOAD_MW"
+         }
+        ],
+        "transformationDescription": "src.FORECASTED_LOAD_MW",
+        "transformationType": "IDENTITY"
+       },
+       "PEAK_FORECAST_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "PEAK_FORECAST_MW"
+         }
+        ],
+        "transformationDescription": "src.PEAK_FORECAST_MW",
+        "transformationType": "IDENTITY"
+       },
+       "VARIANCE_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.LOAD_FORECAST",
+          "field": "VARIANCE_MW"
+         }
+        ],
+        "transformationDescription": "src.VARIANCE_MW",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at LoadForecast grain. Source: ENERGY_OPS_DW.LOAD_FORECAST. Origin: inferred from Energy_Operations_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_MARKET_SETTLEMENT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "ENERGY_MWH"
+       },
+       {
+        "name": "MARKET_SETTLEMENT_ID"
+       },
+       {
+        "name": "MARKET_TYPE"
+       },
+       {
+        "name": "PRICE_MWH"
+       },
+       {
+        "name": "SETTLEMENT_AMOUNT"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_MARKET_SETTLEMENT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "MARKET_SETTLEMENT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "MARKET_SETTLEMENT_ID"
+         }
+        ],
+        "transformationDescription": "src.MARKET_SETTLEMENT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "MARKET_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "MARKET_TYPE"
+         }
+        ],
+        "transformationDescription": "src.MARKET_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "ENERGY_MWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "ENERGY_MWH"
+         }
+        ],
+        "transformationDescription": "src.ENERGY_MWH",
+        "transformationType": "IDENTITY"
+       },
+       "PRICE_MWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "PRICE_MWH"
+         }
+        ],
+        "transformationDescription": "src.PRICE_MWH",
+        "transformationType": "IDENTITY"
+       },
+       "SETTLEMENT_AMOUNT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.MARKET_SETTLEMENT",
+          "field": "SETTLEMENT_AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.SETTLEMENT_AMOUNT",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at MarketSettlement grain. Source: SAP_FICA_PROD.MARKET_SETTLEMENT. Origin: inferred from Energy_Finance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_METER_READING"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_CCB.METER_READING",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CONSUMPTION_KWH"
+       },
+       {
+        "name": "IS_INTERVAL_READ"
+       },
+       {
+        "name": "OFF_PEAK_KWH"
+       },
+       {
+        "name": "PEAK_DEMAND_KW"
+       },
+       {
+        "name": "REACTIVE_KVARH"
+       },
+       {
+        "name": "READING_DATE"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_METER_READING",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "IS_INTERVAL_READ": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "IS_INTERVAL_READ"
+         }
+        ],
+        "transformationDescription": "src.IS_INTERVAL_READ",
+        "transformationType": "IDENTITY"
+       },
+       "READING_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "READING_DATE"
+         }
+        ],
+        "transformationDescription": "src.READING_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "CO2_ESTIMATE_KG": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "CONSUMPTION_KWH"
+         }
+        ],
+        "transformationDescription": "src.CONSUMPTION_KWH * ref_1.FACTOR_VALUE",
+        "transformationType": "TRANSFORMED"
+       },
+       "CONSUMPTION_KWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "CONSUMPTION_KWH"
+         }
+        ],
+        "transformationDescription": "src.CONSUMPTION_KWH",
+        "transformationType": "IDENTITY"
+       },
+       "CONSUMPTION_MWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "CONSUMPTION_KWH"
+         }
+        ],
+        "transformationDescription": "src.CONSUMPTION_KWH / 1000",
+        "transformationType": "IDENTITY"
+       },
+       "OFF_PEAK_KWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "OFF_PEAK_KWH"
+         }
+        ],
+        "transformationDescription": "src.OFF_PEAK_KWH",
+        "transformationType": "IDENTITY"
+       },
+       "PEAK_DEMAND_KW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "PEAK_DEMAND_KW"
+         }
+        ],
+        "transformationDescription": "src.PEAK_DEMAND_KW",
+        "transformationType": "IDENTITY"
+       },
+       "REACTIVE_KVARH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_CCB.METER_READING",
+          "field": "REACTIVE_KVARH"
+         }
+        ],
+        "transformationDescription": "src.REACTIVE_KVARH",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at MeterReading grain. Source: CC_AND_B_PROD.METER_READING. Origin: FM Business Layer.MeterReading"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_MISOPERATION"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.MISOPERATION_EVENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CAUSE_CATEGORY"
+       },
+       {
+        "name": "DURATION_CYCLES"
+       },
+       {
+        "name": "PROTECTION_SYSTEM"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_MISOPERATION",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "CAUSE_CATEGORY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.MISOPERATION_EVENT",
+          "field": "CAUSE_CATEGORY"
+         }
+        ],
+        "transformationDescription": "src.CAUSE_CATEGORY",
+        "transformationType": "IDENTITY"
+       },
+       "PROTECTION_SYSTEM": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.MISOPERATION_EVENT",
+          "field": "PROTECTION_SYSTEM"
+         }
+        ],
+        "transformationDescription": "src.PROTECTION_SYSTEM",
+        "transformationType": "IDENTITY"
+       },
+       "DURATION_CYCLES": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.MISOPERATION_EVENT",
+          "field": "DURATION_CYCLES"
+         }
+        ],
+        "transformationDescription": "src.DURATION_CYCLES",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at MisoperationEvent grain. Source: NERC_COMPLIANCE_DB.MISOPERATION_EVENT. Origin: inferred from Energy_Compliance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_OUTAGE_EVENT"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CUSTOMERS_AFFECTED"
+       },
+       {
+        "name": "DURATION_MINUTES"
+       },
+       {
+        "name": "OUTAGE_END"
+       },
+       {
+        "name": "OUTAGE_START"
+       },
+       {
+        "name": "SAIDI_MINUTES"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_OUTAGE_EVENT",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "OUTAGE_END": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "OUTAGE_END"
+         }
+        ],
+        "transformationDescription": "src.OUTAGE_END",
+        "transformationType": "IDENTITY"
+       },
+       "OUTAGE_START": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "OUTAGE_START"
+         }
+        ],
+        "transformationDescription": "src.OUTAGE_START",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMERS_AFFECTED": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "CUSTOMERS_AFFECTED"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMERS_AFFECTED",
+        "transformationType": "IDENTITY"
+       },
+       "DURATION_MINUTES": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "DURATION_MINUTES"
+         }
+        ],
+        "transformationDescription": "src.DURATION_MINUTES",
+        "transformationType": "IDENTITY"
+       },
+       "SAIDI_MINUTES": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.OUTAGE_EVENT",
+          "field": "SAIDI_MINUTES"
+         }
+        ],
+        "transformationDescription": "src.SAIDI_MINUTES",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at OutageEvent grain. Source: ENERGY_OPS_DW.OUTAGE_EVENT. Origin: FM Business Layer.OutageEvent"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_PRC004_TEST"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.PRC004_REQUIREMENT",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "MAINTENANCE_INTERVAL"
+       },
+       {
+        "name": "NEXT_TEST_DUE"
+       },
+       {
+        "name": "PRC004_REQUIREMENT_ID"
+       },
+       {
+        "name": "REQUIREMENT_SECTION"
+       },
+       {
+        "name": "TEST_RESULT"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_PRC004_TEST",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "PRC004_REQUIREMENT_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "PRC004_REQUIREMENT_ID"
+         }
+        ],
+        "transformationDescription": "src.PRC004_REQUIREMENT_ID",
+        "transformationType": "IDENTITY"
+       },
+       "NEXT_TEST_DUE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "NEXT_TEST_DUE"
+         }
+        ],
+        "transformationDescription": "src.NEXT_TEST_DUE",
+        "transformationType": "IDENTITY"
+       },
+       "REQUIREMENT_SECTION": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "REQUIREMENT_SECTION"
+         }
+        ],
+        "transformationDescription": "src.REQUIREMENT_SECTION",
+        "transformationType": "IDENTITY"
+       },
+       "TEST_RESULT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "TEST_RESULT"
+         }
+        ],
+        "transformationDescription": "src.TEST_RESULT",
+        "transformationType": "IDENTITY"
+       },
+       "MAINTENANCE_INTERVAL": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.PRC004_REQUIREMENT",
+          "field": "MAINTENANCE_INTERVAL"
+         }
+        ],
+        "transformationDescription": "src.MAINTENANCE_INTERVAL",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at PRC004Requirement grain. Source: NERC_COMPLIANCE_DB.PRC004_REQUIREMENT. Origin: inferred from Energy_Compliance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_REC_CERTIFICATE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_PI.REC_CERTIFICATE",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "EXPIRY_DATE"
+       },
+       {
+        "name": "MWH"
+       },
+       {
+        "name": "STATUS"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_REC_CERTIFICATE",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "EXPIRY_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.REC_CERTIFICATE",
+          "field": "EXPIRY_DATE"
+         }
+        ],
+        "transformationDescription": "src.EXPIRY_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.REC_CERTIFICATE",
+          "field": "STATUS"
+         }
+        ],
+        "transformationDescription": "src.STATUS",
+        "transformationType": "IDENTITY"
+       },
+       "MWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.REC_CERTIFICATE",
+          "field": "MWH"
+         }
+        ],
+        "transformationDescription": "src.MWH",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at RECCertificate grain. Source: PI_HISTORIAN_PROD.REC_CERTIFICATE. Origin: inferred from Energy_Generation_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_REVENUE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SAP_FICA.REVENUE_RECORD",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "AMOUNT"
+       },
+       {
+        "name": "CUSTOMER_SEGMENT"
+       },
+       {
+        "name": "KWH_SOLD"
+       },
+       {
+        "name": "REVENUE_PER_KWH"
+       },
+       {
+        "name": "REVENUE_RECORD_ID"
+       },
+       {
+        "name": "REVENUE_TYPE"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_REVENUE",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "REVENUE_RECORD_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "REVENUE_RECORD_ID"
+         }
+        ],
+        "transformationDescription": "src.REVENUE_RECORD_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CUSTOMER_SEGMENT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "CUSTOMER_SEGMENT"
+         }
+        ],
+        "transformationDescription": "src.CUSTOMER_SEGMENT",
+        "transformationType": "IDENTITY"
+       },
+       "REVENUE_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "REVENUE_TYPE"
+         }
+        ],
+        "transformationDescription": "src.REVENUE_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "AMOUNT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "AMOUNT"
+         }
+        ],
+        "transformationDescription": "src.AMOUNT",
+        "transformationType": "IDENTITY"
+       },
+       "KWH_SOLD": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "KWH_SOLD"
+         }
+        ],
+        "transformationDescription": "src.KWH_SOLD",
+        "transformationType": "IDENTITY"
+       },
+       "REVENUE_PER_KWH": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SAP_FICA.REVENUE_RECORD",
+          "field": "REVENUE_PER_KWH"
+         }
+        ],
+        "transformationDescription": "src.REVENUE_PER_KWH",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at RevenueRecord grain. Source: SAP_FICA_PROD.REVENUE_RECORD. Origin: inferred from Energy_Finance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_SERVICE_REQUEST"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_SFSC.SERVICE_REQUEST",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "PRIORITY"
+       },
+       {
+        "name": "REQUEST_TYPE"
+       },
+       {
+        "name": "RESOLUTION_DATE"
+       },
+       {
+        "name": "SERVICE_REQUEST_ID"
+       },
+       {
+        "name": "STATUS"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_SERVICE_REQUEST",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "SERVICE_REQUEST_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "SERVICE_REQUEST_ID"
+         }
+        ],
+        "transformationDescription": "src.SERVICE_REQUEST_ID",
+        "transformationType": "IDENTITY"
+       },
+       "PRIORITY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "PRIORITY"
+         }
+        ],
+        "transformationDescription": "src.PRIORITY",
+        "transformationType": "IDENTITY"
+       },
+       "REQUEST_TYPE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "REQUEST_TYPE"
+         }
+        ],
+        "transformationDescription": "src.REQUEST_TYPE",
+        "transformationType": "IDENTITY"
+       },
+       "RESOLUTION_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "RESOLUTION_DATE"
+         }
+        ],
+        "transformationDescription": "src.RESOLUTION_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "STATUS": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_SFSC.SERVICE_REQUEST",
+          "field": "STATUS"
+         }
+        ],
+        "transformationDescription": "src.STATUS",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at ServiceRequest grain. Source: SF_SERVICE_CLOUD.SERVICE_REQUEST. Origin: inferred from Energy_CustomerService_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_STORAGE_STATUS"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_PI.STORAGE_ASSET",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "DISCHARGE_RATE_MW"
+       },
+       {
+        "name": "STATE_OF_CHARGE_PCT"
+       },
+       {
+        "name": "STORAGE_ASSET_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_STORAGE_STATUS",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "STORAGE_ASSET_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "STORAGE_ASSET_ID"
+         }
+        ],
+        "transformationDescription": "src.STORAGE_ASSET_ID",
+        "transformationType": "IDENTITY"
+       },
+       "DISCHARGE_RATE_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "DISCHARGE_RATE_MW"
+         }
+        ],
+        "transformationDescription": "src.DISCHARGE_RATE_MW",
+        "transformationType": "IDENTITY"
+       },
+       "STATE_OF_CHARGE_PCT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_PI.STORAGE_ASSET",
+          "field": "STATE_OF_CHARGE_PCT"
+         }
+        ],
+        "transformationDescription": "src.STATE_OF_CHARGE_PCT",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact STORAGE_STATUS for StorageAsset measurements (rule DIM-02). Source: RAW_PI.STORAGE_ASSET (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_SUBSTATION_LOAD"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_ENERGY_OPS.SUBSTATION",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "LOAD_FACTOR_PCT"
+       },
+       {
+        "name": "PEAK_LOAD_MW"
+       },
+       {
+        "name": "SUBSTATION_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_SUBSTATION_LOAD",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "SUBSTATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "SUBSTATION_ID"
+         }
+        ],
+        "transformationDescription": "src.SUBSTATION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "LOAD_FACTOR_PCT": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "LOAD_FACTOR_PCT"
+         }
+        ],
+        "transformationDescription": "src.LOAD_FACTOR_PCT",
+        "transformationType": "IDENTITY"
+       },
+       "PEAK_LOAD_MW": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_ENERGY_OPS.SUBSTATION",
+          "field": "PEAK_LOAD_MW"
+         }
+        ],
+        "transformationDescription": "src.PEAK_LOAD_MW",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact SUBSTATION_LOAD for Substation measurements (rule DIM-02). Source: RAW_ENERGY_OPS.SUBSTATION (TODO confirm)"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "schemaURL": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/definitions/RunEvent",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.CORE.FCT_VIOLATION"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "RAW_NERC.VIOLATION",
+    "facets": {
+     "schema": {
+      "fields": [
+       {
+        "name": "CLOSED_DATE"
+       },
+       {
+        "name": "DESCRIPTION"
+       },
+       {
+        "name": "MITIGATION_PLAN"
+       },
+       {
+        "name": "PENALTY"
+       },
+       {
+        "name": "VIOLATION_ID"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_VIOLATION",
+    "facets": {
+     "columnLineage": {
+      "fields": {
+       "VIOLATION_ID": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.VIOLATION",
+          "field": "VIOLATION_ID"
+         }
+        ],
+        "transformationDescription": "src.VIOLATION_ID",
+        "transformationType": "IDENTITY"
+       },
+       "CLOSED_DATE": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.VIOLATION",
+          "field": "CLOSED_DATE"
+         }
+        ],
+        "transformationDescription": "src.CLOSED_DATE",
+        "transformationType": "IDENTITY"
+       },
+       "DESCRIPTION": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.VIOLATION",
+          "field": "DESCRIPTION"
+         }
+        ],
+        "transformationDescription": "src.DESCRIPTION",
+        "transformationType": "IDENTITY"
+       },
+       "MITIGATION_PLAN": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.VIOLATION",
+          "field": "MITIGATION_PLAN"
+         }
+        ],
+        "transformationDescription": "src.MITIGATION_PLAN",
+        "transformationType": "IDENTITY"
+       },
+       "PENALTY": {
+        "inputFields": [
+         {
+          "namespace": "snowflake://energy_semantic",
+          "name": "RAW_NERC.VIOLATION",
+          "field": "PENALTY"
+         }
+        ],
+        "transformationDescription": "src.PENALTY",
+        "transformationType": "IDENTITY"
+       }
+      }
+     },
+     "documentation": {
+      "description": "Fact at Violation grain. Source: NERC_COMPLIANCE_DB.VIOLATION. Origin: inferred from Energy_Compliance_Package report usage"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_BILLING_REVENUE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_BILLING"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_METER"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CUSTOMER"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_LOCATION"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bill_Dispute_Log"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bill_Dispute_Log_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bill_Dispute_Log_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bill_Frequency_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bill_Frequency_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bill_Frequency_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_Billing_Status"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_Billing_Status_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_Billing_Status_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Commercial_Rate_Analysis"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Commercial_Rate_Analysis_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Commercial_Rate_Analysis_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Billing_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Billing_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Billing_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Cost_of_Service"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Cost_of_Service_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Cost_of_Service_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Large_Customer_Account_Review"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Large_Customer_Account_Review_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Large_Customer_Account_Review_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Monthly_Invoice_Detail"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Monthly_Invoice_Detail_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Monthly_Invoice_Detail_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_Reconciliation"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_Reconciliation_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_Reconciliation_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Customer_Segment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Customer_Segment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Customer_Segment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Tariff_Impact_Assessment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Tariff_Impact_Assessment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Tariff_Impact_Assessment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Write_Off_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Write_Off_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Write_Off_Summary_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_BILLING_REVENUE"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_CUSTOMER_SERVICE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_SERVICE_REQUEST"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_COMPLAINT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_FIELD_SERVICE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CUSTOMER"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_AGENT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_TECHNICIAN"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Call_Center_Performance"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Call_Center_Performance_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Call_Center_Performance_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Community_Solar_Enrollment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Community_Solar_Enrollment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Community_Solar_Enrollment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Education_Participation"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Education_Participation_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Education_Participation_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Lifetime_Value"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Lifetime_Value_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Lifetime_Value_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Satisfaction_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Satisfaction_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Satisfaction_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Segment_Analysis"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Segment_Analysis_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Customer_Segment_Analysis_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Electric_Vehicle_Incentives"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Electric_Vehicle_Incentives_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Electric_Vehicle_Incentives_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Field_Service_Efficiency"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Field_Service_Efficiency_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Field_Service_Efficiency_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Green_Energy_Opt_In_Rates"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Green_Energy_Opt_In_Rates_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Green_Energy_Opt_In_Rates_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "NPS_Trend_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "NPS_Trend_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "NPS_Trend_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "New_Service_Connect_Times"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "New_Service_Connect_Times_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "New_Service_Connect_Times_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Notification_Effectiveness"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Notification_Effectiveness_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Notification_Effectiveness_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Payment_Plan_Enrollment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Payment_Plan_Enrollment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Payment_Plan_Enrollment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Service_Request_Aging"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Service_Request_Aging_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Service_Request_Aging_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Meter_Deployment_Status"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Meter_Deployment_Status_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Meter_Deployment_Status_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Social_Media_Sentiment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Social_Media_Sentiment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Social_Media_Sentiment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Time_Of_Use_Opt_In"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Time_Of_Use_Opt_In_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Time_Of_Use_Opt_In_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_CUSTOMER_SERVICE"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_EV_CHARGING"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_EV_CHARGING"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CHARGER"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CUSTOMER"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Community_Solar_Enrollment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Community_Solar_Enrollment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Community_Solar_Enrollment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "EV_Charging_Demand_Forecast"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "EV_Charging_Demand_Forecast_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "EV_Charging_Demand_Forecast_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Electric_Vehicle_Incentives"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Electric_Vehicle_Incentives_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Electric_Vehicle_Incentives_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_EV_CHARGING"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_FINANCE_PERFORMANCE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_BUDGET_ACTUAL"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_REVENUE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CAPEX_PROJECT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_CAPEX_SPEND"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_GL_ACCOUNT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_COST_CENTER"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_vs_Actual_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_vs_Actual_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_vs_Actual_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Cost_of_Capital_Analysis"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Cost_of_Capital_Analysis_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Cost_of_Capital_Analysis_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Credit_Rating_Metrics"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Credit_Rating_Metrics_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Credit_Rating_Metrics_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Debt_Maturity_Schedule"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Debt_Maturity_Schedule_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Debt_Maturity_Schedule_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Earnings_Per_Share_Drivers"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Earnings_Per_Share_Drivers_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Earnings_Per_Share_Drivers_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Hedging_Position_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Hedging_Position_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Hedging_Position_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Insurance_Premium_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Insurance_Premium_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Insurance_Premium_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Payroll_Cost_Allocation"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Payroll_Cost_Allocation_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Payroll_Cost_Allocation_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Procurement_Savings_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Procurement_Savings_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Procurement_Savings_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Rate_Class"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Rate_Class_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Rate_Class_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Treasury_Cash_Position"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Treasury_Cash_Position_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Treasury_Cash_Position_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Invoice_Aging"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Invoice_Aging_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Invoice_Aging_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_FINANCE_PERFORMANCE"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_GENERATION_MIX"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_GENERATION"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_POWER_PLANT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_ENERGY_SOURCE"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CO2_Emissions_Monthly"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CO2_Emissions_Monthly_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CO2_Emissions_Monthly_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Capacity_Factor_Benchmarks"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Capacity_Factor_Benchmarks_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Capacity_Factor_Benchmarks_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Capacity_Market_Positions"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Capacity_Market_Positions_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Capacity_Market_Positions_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Coal_Retirement_Tracker"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Coal_Retirement_Tracker_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Coal_Retirement_Tracker_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Curtailment_Events"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Curtailment_Events_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Curtailment_Events_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Decommission_Planning"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Decommission_Planning_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Decommission_Planning_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Generation_Forecast_Accuracy"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Generation_Forecast_Accuracy_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Generation_Forecast_Accuracy_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Nuclear_Capacity_Factor"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Nuclear_Capacity_Factor_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Nuclear_Capacity_Factor_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Portfolio_Emissions_Intensity"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Portfolio_Emissions_Intensity_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Portfolio_Emissions_Intensity_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Purchase_Agreement_Status"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Purchase_Agreement_Status_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Purchase_Agreement_Status_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Renewable_Generation_Mix"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Renewable_Generation_Mix_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Renewable_Generation_Mix_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Solar_Output_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Solar_Output_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Solar_Output_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Wind_Generation_Performance"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Wind_Generation_Performance_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Wind_Generation_Performance_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_GENERATION_MIX"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_GRID_RELIABILITY"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_OUTAGE_EVENT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_LOCATION"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_OUTAGE_CAUSE"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Emergency_Operations_Dashboard"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Emergency_Operations_Dashboard_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Emergency_Operations_Dashboard_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Frequency_Deviation_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Frequency_Deviation_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Frequency_Deviation_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Grid_Reliability_KPIs"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Grid_Reliability_KPIs_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Grid_Reliability_KPIs_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Duration_Analysis"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Duration_Analysis_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Duration_Analysis_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Event_Log"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Event_Log_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Outage_Event_Log_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Quality_Events"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Quality_Events_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Quality_Events_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Status"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Status_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Status_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Grid_Performance"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Grid_Performance_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Grid_Performance_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Switching_Orders_Log"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Switching_Orders_Log_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Switching_Orders_Log_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_GRID_RELIABILITY"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_LOAD_AND_CAPACITY"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_LOAD_FORECAST"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_SUBSTATION"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_SUBSTATION_LOAD"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_TRANSMISSION_LINE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_LINE_LOADING"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_LOCATION"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Ancillary_Services_Dispatch"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Ancillary_Services_Dispatch_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Ancillary_Services_Dispatch_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Frequency_Deviation_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Frequency_Deviation_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Frequency_Deviation_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Peak_Load_Analysis"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Peak_Load_Analysis_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Peak_Load_Analysis_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Quality_Events"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Quality_Events_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Quality_Events_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Status"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Status_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Status_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Real_Time_Market_Prices"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Real_Time_Market_Prices_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Real_Time_Market_Prices_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Grid_Performance"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Grid_Performance_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Smart_Grid_Performance_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Switching_Orders_Log"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Switching_Orders_Log_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Switching_Orders_Log_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Transmission_Constraint_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Transmission_Constraint_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Transmission_Constraint_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Unit_Commitment_Schedule"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Unit_Commitment_Schedule_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Unit_Commitment_Schedule_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Weather_Load_Correlation"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Weather_Load_Correlation_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Weather_Load_Correlation_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_LOAD_AND_CAPACITY"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_MARKET_AND_FUEL"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_MARKET_SETTLEMENT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_FUEL_COST"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_COUNTERPARTY"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_GL_ACCOUNT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_COST_CENTER"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Cost_of_Capital_Analysis"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Cost_of_Capital_Analysis_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Cost_of_Capital_Analysis_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Credit_Rating_Metrics"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Credit_Rating_Metrics_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Credit_Rating_Metrics_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Fuel_Cost_Variance"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Fuel_Cost_Variance_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Fuel_Cost_Variance_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Hedging_Position_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Hedging_Position_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Hedging_Position_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Invoice_Aging"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Invoice_Aging_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Invoice_Aging_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Wholesale_Market_Settlement"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Wholesale_Market_Settlement_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Wholesale_Market_Settlement_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_MARKET_AND_FUEL"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_METER_CONSUMPTION"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_METER_READING"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_METER"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_TARIFF"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_CUSTOMER"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_LOCATION"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_Billing_Status"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_Billing_Status_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Budget_Billing_Status_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Industrial_Load_Profile"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Industrial_Load_Profile_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Industrial_Load_Profile_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Interval_Data_Usage"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Interval_Data_Usage_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Interval_Data_Usage_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Large_Customer_Account_Review"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Large_Customer_Account_Review_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Large_Customer_Account_Review_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Meter_Exchange_Program"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Meter_Exchange_Program_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Meter_Exchange_Program_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Monthly_Invoice_Detail"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Monthly_Invoice_Detail_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Monthly_Invoice_Detail_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Customer_Segment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Customer_Segment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Revenue_by_Customer_Segment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Seasonal_Consumption_Trends"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Seasonal_Consumption_Trends_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Seasonal_Consumption_Trends_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_METER_CONSUMPTION"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_NERC_COMPLIANCE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_COMPLIANCE_EVENT"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_VIOLATION"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_AUDIT_RECORD"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_DATA_SUBMISSION"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_MISOPERATION"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_PRC004_TEST"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_NERC_STANDARD"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_REPORTING_ENTITY"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_ASSET"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Annual_Compliance_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Annual_Compliance_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Annual_Compliance_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Audit_Finding_Registry"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Audit_Finding_Registry_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Audit_Finding_Registry_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bulk_Electric_System_Changes"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bulk_Electric_System_Changes_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Bulk_Electric_System_Changes_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_002_Asset_Classification"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_002_Asset_Classification_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_002_Asset_Classification_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_007_Systems_Management"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_007_Systems_Management_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_007_Systems_Management_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_010_Configuration_Management"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_010_Configuration_Management_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "CIP_010_Configuration_Management_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Control_Room_Access_Log"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Control_Room_Access_Log_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Control_Room_Access_Log_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Critical_Asset_Inventory"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Critical_Asset_Inventory_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Critical_Asset_Inventory_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Emergency_Operating_Procedures"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Emergency_Operating_Procedures_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Emergency_Operating_Procedures_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FAC002_Assessment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FAC002_Assessment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FAC002_Assessment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FAC003_Assessment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FAC003_Assessment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FAC003_Assessment_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FERC_Form_1_Summary"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FERC_Form_1_Summary_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "FERC_Form_1_Summary_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Insider_Threat_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Insider_Threat_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Insider_Threat_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "MOD_Procedure_Compliance"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "MOD_Procedure_Compliance_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "MOD_Procedure_Compliance_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "PRC004_Requirement_2_Audit_Report"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "PRC004_Requirement_2_Audit_Report_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "PRC004_Requirement_2_Audit_Report_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Physical_Security_Log"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Physical_Security_Log_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Physical_Security_Log_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Maintenance"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Maintenance_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Protection_System_Maintenance_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "TOP_Operations_Audit"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "TOP_Operations_Audit_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "TOP_Operations_Audit_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Risk_Assessment"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Risk_Assessment_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Vendor_Risk_Assessment_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_NERC_COMPLIANCE"
+   }
+  ]
+ },
+ {
+  "eventType": "COMPLETE",
+  "eventTime": "1970-01-01T00:00:00Z",
+  "producer": "https://semlift/1.0.0",
+  "run": {
+   "runId": "18c54a9b-ab41-3a8b-d8a1-33dd3dfda099"
+  },
+  "job": {
+   "namespace": "semlift",
+   "name": "design.SEM.SV_RENEWABLES_STORAGE"
+  },
+  "inputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_REC_CERTIFICATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_STORAGE_ASSET"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.FCT_STORAGE_STATUS"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_DATE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_ENERGY_SOURCE"
+   },
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "CORE.DIM_POWER_PLANT"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Energy_Storage_Utilization"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Energy_Storage_Utilization_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Energy_Storage_Utilization_Community"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Purchase_Agreement_Status"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Purchase_Agreement_Status_Archive"
+   },
+   {
+    "namespace": "cognos://content-store",
+    "name": "Power_Purchase_Agreement_Status_Community"
+   }
+  ],
+  "outputs": [
+   {
+    "namespace": "snowflake://energy_semantic",
+    "name": "SEM.SV_RENEWABLES_STORAGE"
+   }
+  ]
+ }
+]

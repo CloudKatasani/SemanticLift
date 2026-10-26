@@ -1,0 +1,1918 @@
+{
+  "tool": "SemLift 1.0.0",
+  "objects": [
+    {
+      "id": "SETUP.SCHEMAS",
+      "file": "ddl/setup/0010_SETUP__SCHEMAS.sql",
+      "layer": "setup",
+      "type": "schema",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [],
+      "hash": "f239b30bd27b"
+    },
+    {
+      "id": "SETUP.ROLES",
+      "file": "ddl/setup/0020_SETUP__ROLES.sql",
+      "layer": "setup",
+      "type": "role",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [],
+      "hash": "f0a6188ba446"
+    },
+    {
+      "id": "SETUP.TAGS",
+      "file": "ddl/setup/0030_SETUP__TAGS.sql",
+      "layer": "setup",
+      "type": "tag",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "f76faa32ec0a"
+    },
+    {
+      "id": "REF.PARAM_DEFINITION",
+      "file": "ddl/ref/1010_REF__PARAM_DEFINITION.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "87be0d0e45c5"
+    },
+    {
+      "id": "REF.PARAM_CUSTOMER_SEGMENT",
+      "file": "ddl/ref/1020_REF__PARAM_CUSTOMER_SEGMENT.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "79c670d4c19c"
+    },
+    {
+      "id": "REF.PARAM_FISCAL_YEAR",
+      "file": "ddl/ref/1030_REF__PARAM_FISCAL_YEAR.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "64f4dd8d8fa9"
+    },
+    {
+      "id": "REF.PARAM_MONTH",
+      "file": "ddl/ref/1040_REF__PARAM_MONTH.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "0f4130d75952"
+    },
+    {
+      "id": "REF.PARAM_PAY_STATUS",
+      "file": "ddl/ref/1050_REF__PARAM_PAY_STATUS.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "baf5b2b56be2"
+    },
+    {
+      "id": "REF.PARAM_QUARTER",
+      "file": "ddl/ref/1060_REF__PARAM_QUARTER.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "30fd49e9b7ff"
+    },
+    {
+      "id": "REF.PARAM_REGION",
+      "file": "ddl/ref/1070_REF__PARAM_REGION.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "198372754e5d"
+    },
+    {
+      "id": "REF.PARAM_SOURCE_CATEGORY",
+      "file": "ddl/ref/1080_REF__PARAM_SOURCE_CATEGORY.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "14564d42ed23"
+    },
+    {
+      "id": "REF.PARAM_STANDARD",
+      "file": "ddl/ref/1090_REF__PARAM_STANDARD.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "492fc39f16e7"
+    },
+    {
+      "id": "REF.REF_EMISSION_FACTOR",
+      "file": "ddl/ref/1100_REF__REF_EMISSION_FACTOR.sql",
+      "layer": "ref",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "7f61cb819444"
+    },
+    {
+      "id": "SEC.MAP_ROLE_GRANT",
+      "file": "ddl/sec/1510_SEC__MAP_ROLE_GRANT.sql",
+      "layer": "sec",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "6cf33dfb939a"
+    },
+    {
+      "id": "SEC.MAP_USER_ATTRIBUTE",
+      "file": "ddl/sec/1520_SEC__MAP_USER_ATTRIBUTE.sql",
+      "layer": "sec",
+      "type": "table",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "8b439796cc0b"
+    },
+    {
+      "id": "SEC.MAP_USER_COMPLIANCE_ENTITY",
+      "file": "ddl/sec/1530_SEC__MAP_USER_COMPLIANCE_ENTITY.sql",
+      "layer": "sec",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "1a659779810f"
+    },
+    {
+      "id": "SEC.MAP_USER_REGION",
+      "file": "ddl/sec/1540_SEC__MAP_USER_REGION.sql",
+      "layer": "sec",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS"
+      ],
+      "hash": "cf98aad6604a"
+    },
+    {
+      "id": "SEC.MP_COUNTERPARTY_ID",
+      "file": "ddl/sec/1610_SEC__MP_COUNTERPARTY_ID.sql",
+      "layer": "sec",
+      "type": "masking policy",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "cb36684e8a42"
+    },
+    {
+      "id": "SEC.MP_CREDIT_SCORE",
+      "file": "ddl/sec/1620_SEC__MP_CREDIT_SCORE.sql",
+      "layer": "sec",
+      "type": "masking policy",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "c9dd498d4cbd"
+    },
+    {
+      "id": "SEC.MP_CUSTOMER_ADDRESS",
+      "file": "ddl/sec/1630_SEC__MP_CUSTOMER_ADDRESS.sql",
+      "layer": "sec",
+      "type": "masking policy",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "7587b31cb920"
+    },
+    {
+      "id": "SEC.MP_RESTRICTED_AMOUNT",
+      "file": "ddl/sec/1640_SEC__MP_RESTRICTED_AMOUNT.sql",
+      "layer": "sec",
+      "type": "masking policy",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MAP_ROLE_GRANT"
+      ],
+      "hash": "62f8a0cef096"
+    },
+    {
+      "id": "SEC.MP_RESTRICTED_TEXT",
+      "file": "ddl/sec/1650_SEC__MP_RESTRICTED_TEXT.sql",
+      "layer": "sec",
+      "type": "masking policy",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MAP_ROLE_GRANT"
+      ],
+      "hash": "4a26cbb599e0"
+    },
+    {
+      "id": "SEC.RAP_ACTIVE_METER",
+      "file": "ddl/sec/1660_SEC__RAP_ACTIVE_METER.sql",
+      "layer": "sec",
+      "type": "row access policy",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MAP_USER_REGION"
+      ],
+      "hash": "82a0a490cf10"
+    },
+    {
+      "id": "SEC.RAP_COMPLIANCE_ENTITY",
+      "file": "ddl/sec/1670_SEC__RAP_COMPLIANCE_ENTITY.sql",
+      "layer": "sec",
+      "type": "row access policy",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MAP_USER_COMPLIANCE_ENTITY"
+      ],
+      "hash": "2d482a749f55"
+    },
+    {
+      "id": "SEC.RAP_FINANCE_CURRENT_YEAR",
+      "file": "ddl/sec/1680_SEC__RAP_FINANCE_CURRENT_YEAR.sql",
+      "layer": "sec",
+      "type": "row access policy",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "72d19ea6e865"
+    },
+    {
+      "id": "SEC.RAP_REGION",
+      "file": "ddl/sec/1690_SEC__RAP_REGION.sql",
+      "layer": "sec",
+      "type": "row access policy",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MAP_USER_REGION"
+      ],
+      "hash": "879b244b3f39"
+    },
+    {
+      "id": "CORE.DIM_AGENT",
+      "file": "ddl/core/2010_CORE__DIM_AGENT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "7b46a56ebd5d"
+    },
+    {
+      "id": "CORE.DIM_ASSET",
+      "file": "ddl/core/2020_CORE__DIM_ASSET.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "a411de00212e"
+    },
+    {
+      "id": "CORE.DIM_CAPEX_PROJECT",
+      "file": "ddl/core/2030_CORE__DIM_CAPEX_PROJECT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "043b76c8b040"
+    },
+    {
+      "id": "CORE.DIM_CHARGER",
+      "file": "ddl/core/2040_CORE__DIM_CHARGER.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "365981d35e36"
+    },
+    {
+      "id": "CORE.DIM_COST_CENTER",
+      "file": "ddl/core/2050_CORE__DIM_COST_CENTER.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "f391a6240890"
+    },
+    {
+      "id": "CORE.DIM_COUNTERPARTY",
+      "file": "ddl/core/2060_CORE__DIM_COUNTERPARTY.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "663348615fe3"
+    },
+    {
+      "id": "CORE.DIM_CUSTOMER",
+      "file": "ddl/core/2070_CORE__DIM_CUSTOMER.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MP_CREDIT_SCORE"
+      ],
+      "hash": "191ef0c3e02b"
+    },
+    {
+      "id": "CORE.DIM_DATE",
+      "file": "ddl/core/2080_CORE__DIM_DATE.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "1a8b8334b0cb"
+    },
+    {
+      "id": "CORE.DIM_ENERGY_SOURCE",
+      "file": "ddl/core/2090_CORE__DIM_ENERGY_SOURCE.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "0ef459b9cd77"
+    },
+    {
+      "id": "CORE.DIM_GL_ACCOUNT",
+      "file": "ddl/core/2100_CORE__DIM_GL_ACCOUNT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "931c007f8ce2"
+    },
+    {
+      "id": "CORE.DIM_LOCATION",
+      "file": "ddl/core/2110_CORE__DIM_LOCATION.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.RAP_REGION"
+      ],
+      "hash": "8505e6d24e61"
+    },
+    {
+      "id": "CORE.DIM_METER",
+      "file": "ddl/core/2120_CORE__DIM_METER.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.RAP_ACTIVE_METER"
+      ],
+      "hash": "3e49b9f4be81"
+    },
+    {
+      "id": "CORE.DIM_NERC_STANDARD",
+      "file": "ddl/core/2130_CORE__DIM_NERC_STANDARD.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "5a89575f4098"
+    },
+    {
+      "id": "CORE.DIM_OUTAGE_CAUSE",
+      "file": "ddl/core/2140_CORE__DIM_OUTAGE_CAUSE.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "f56c48006578"
+    },
+    {
+      "id": "CORE.DIM_POWER_PLANT",
+      "file": "ddl/core/2150_CORE__DIM_POWER_PLANT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "4696456c7d80"
+    },
+    {
+      "id": "CORE.DIM_REPORTING_ENTITY",
+      "file": "ddl/core/2160_CORE__DIM_REPORTING_ENTITY.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "c16d7f4a725e"
+    },
+    {
+      "id": "CORE.DIM_STORAGE_ASSET",
+      "file": "ddl/core/2170_CORE__DIM_STORAGE_ASSET.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "2876a804c9c3"
+    },
+    {
+      "id": "CORE.DIM_SUBSTATION",
+      "file": "ddl/core/2180_CORE__DIM_SUBSTATION.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "486980eb0ccb"
+    },
+    {
+      "id": "CORE.DIM_TARIFF",
+      "file": "ddl/core/2190_CORE__DIM_TARIFF.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "e64f21ae1c65"
+    },
+    {
+      "id": "CORE.DIM_TECHNICIAN",
+      "file": "ddl/core/2200_CORE__DIM_TECHNICIAN.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "be8d0a34d61b"
+    },
+    {
+      "id": "CORE.DIM_TRANSMISSION_LINE",
+      "file": "ddl/core/2210_CORE__DIM_TRANSMISSION_LINE.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "6dd49a91f927"
+    },
+    {
+      "id": "CORE.FCT_AUDIT_RECORD",
+      "file": "ddl/core/2220_CORE__FCT_AUDIT_RECORD.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MP_RESTRICTED_TEXT"
+      ],
+      "hash": "345edb3e4b9c"
+    },
+    {
+      "id": "CORE.FCT_BILLING",
+      "file": "ddl/core/2230_CORE__FCT_BILLING.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MP_RESTRICTED_AMOUNT"
+      ],
+      "hash": "e8fb1789a6aa"
+    },
+    {
+      "id": "CORE.FCT_BUDGET_ACTUAL",
+      "file": "ddl/core/2240_CORE__FCT_BUDGET_ACTUAL.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.RAP_FINANCE_CURRENT_YEAR",
+        "SEC.MP_RESTRICTED_AMOUNT"
+      ],
+      "hash": "83ea88ac1431"
+    },
+    {
+      "id": "CORE.FCT_CAPEX_SPEND",
+      "file": "ddl/core/2250_CORE__FCT_CAPEX_SPEND.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "3dfef318268c"
+    },
+    {
+      "id": "CORE.FCT_COMPLAINT",
+      "file": "ddl/core/2260_CORE__FCT_COMPLAINT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "be6f39fe7838"
+    },
+    {
+      "id": "CORE.FCT_COMPLIANCE_EVENT",
+      "file": "ddl/core/2270_CORE__FCT_COMPLIANCE_EVENT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "2f7b84a7a2ed"
+    },
+    {
+      "id": "CORE.FCT_DATA_SUBMISSION",
+      "file": "ddl/core/2280_CORE__FCT_DATA_SUBMISSION.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.RAP_COMPLIANCE_ENTITY"
+      ],
+      "hash": "4a53980b1dd6"
+    },
+    {
+      "id": "CORE.FCT_EV_CHARGING",
+      "file": "ddl/core/2290_CORE__FCT_EV_CHARGING.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "23d446f73c4e"
+    },
+    {
+      "id": "CORE.FCT_FIELD_SERVICE",
+      "file": "ddl/core/2300_CORE__FCT_FIELD_SERVICE.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "e56d555ec1e6"
+    },
+    {
+      "id": "CORE.FCT_FUEL_COST",
+      "file": "ddl/core/2310_CORE__FCT_FUEL_COST.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MP_RESTRICTED_AMOUNT"
+      ],
+      "hash": "924b4dd82e75"
+    },
+    {
+      "id": "CORE.FCT_GENERATION",
+      "file": "ddl/core/2320_CORE__FCT_GENERATION.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "2972fbd9938e"
+    },
+    {
+      "id": "CORE.FCT_LINE_LOADING",
+      "file": "ddl/core/2330_CORE__FCT_LINE_LOADING.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "0a5e7ca0025d"
+    },
+    {
+      "id": "CORE.FCT_LOAD_FORECAST",
+      "file": "ddl/core/2340_CORE__FCT_LOAD_FORECAST.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "91bca4439db9"
+    },
+    {
+      "id": "CORE.FCT_MARKET_SETTLEMENT",
+      "file": "ddl/core/2350_CORE__FCT_MARKET_SETTLEMENT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MP_COUNTERPARTY_ID",
+        "SEC.MP_RESTRICTED_AMOUNT"
+      ],
+      "hash": "6041faaaf63e"
+    },
+    {
+      "id": "CORE.FCT_METER_READING",
+      "file": "ddl/core/2360_CORE__FCT_METER_READING.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "SETUP.TAGS",
+        "REF.REF_EMISSION_FACTOR"
+      ],
+      "hash": "21fc27380bc4"
+    },
+    {
+      "id": "CORE.FCT_MISOPERATION",
+      "file": "ddl/core/2370_CORE__FCT_MISOPERATION.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "0cc6a1c9ba6c"
+    },
+    {
+      "id": "CORE.FCT_OUTAGE_EVENT",
+      "file": "ddl/core/2380_CORE__FCT_OUTAGE_EVENT.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "5f96004a4499"
+    },
+    {
+      "id": "CORE.FCT_PRC004_TEST",
+      "file": "ddl/core/2390_CORE__FCT_PRC004_TEST.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "6715b47d5073"
+    },
+    {
+      "id": "CORE.FCT_REC_CERTIFICATE",
+      "file": "ddl/core/2400_CORE__FCT_REC_CERTIFICATE.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "7bb1bf6c5ba1"
+    },
+    {
+      "id": "CORE.FCT_REVENUE",
+      "file": "ddl/core/2410_CORE__FCT_REVENUE.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "40088bfe232c"
+    },
+    {
+      "id": "CORE.FCT_SERVICE_REQUEST",
+      "file": "ddl/core/2420_CORE__FCT_SERVICE_REQUEST.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "05db30b9d073"
+    },
+    {
+      "id": "CORE.FCT_STORAGE_STATUS",
+      "file": "ddl/core/2430_CORE__FCT_STORAGE_STATUS.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "28ce3765e8de"
+    },
+    {
+      "id": "CORE.FCT_SUBSTATION_LOAD",
+      "file": "ddl/core/2440_CORE__FCT_SUBSTATION_LOAD.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS"
+      ],
+      "hash": "5f0012ebf304"
+    },
+    {
+      "id": "CORE.FCT_VIOLATION",
+      "file": "ddl/core/2450_CORE__FCT_VIOLATION.sql",
+      "layer": "core",
+      "type": "view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "SETUP.TAGS",
+        "SEC.MP_RESTRICTED_AMOUNT",
+        "SEC.MP_RESTRICTED_TEXT"
+      ],
+      "hash": "89253aff7d1c"
+    },
+    {
+      "id": "AGG.AGG_BILLING_MONTH_SEGMENT_REGION",
+      "file": "ddl/agg/4010_AGG__AGG_BILLING_MONTH_SEGMENT_REGION.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.FCT_BILLING",
+        "CORE.DIM_DATE",
+        "CORE.DIM_METER",
+        "CORE.DIM_CUSTOMER",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "9416dcd2792a"
+    },
+    {
+      "id": "AGG.AGG_BUDGET_ACTUAL_MONTH_ACCOUNT",
+      "file": "ddl/agg/4020_AGG__AGG_BUDGET_ACTUAL_MONTH_ACCOUNT.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_BUDGET_ACTUAL",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "ceb8508acf44"
+    },
+    {
+      "id": "AGG.AGG_BUDGET_ACTUAL_MONTH_ACCOUNT_NAME_COST_CENTER",
+      "file": "ddl/agg/4030_AGG__AGG_BUDGET_ACTUAL_MONTH_ACCOUNT_NAME_COST_CENTER.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_BUDGET_ACTUAL",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "cc5249435c34"
+    },
+    {
+      "id": "AGG.AGG_CAPEX_SPEND_MONTH_ACCOUNT",
+      "file": "ddl/agg/4040_AGG__AGG_CAPEX_SPEND_MONTH_ACCOUNT.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_CAPEX_SPEND",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "542d9d9fe833"
+    },
+    {
+      "id": "AGG.AGG_CAPEX_SPEND_MONTH_ACCOUNT_NAME_COST_CENTER",
+      "file": "ddl/agg/4050_AGG__AGG_CAPEX_SPEND_MONTH_ACCOUNT_NAME_COST_CENTER.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_CAPEX_SPEND",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "0677edcc530b"
+    },
+    {
+      "id": "AGG.AGG_COMPLAINT_MONTH_SEGMENT_SEVERITY",
+      "file": "ddl/agg/4060_AGG__AGG_COMPLAINT_MONTH_SEGMENT_SEVERITY.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_COMPLAINT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_CUSTOMER"
+      ],
+      "hash": "22df5ac67744"
+    },
+    {
+      "id": "AGG.AGG_EV_CHARGING_DAY",
+      "file": "ddl/agg/4070_AGG__AGG_EV_CHARGING_DAY.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_EV_CHARGING",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "58446e1eeddd"
+    },
+    {
+      "id": "AGG.AGG_FIELD_SERVICE_DAY_SEGMENT_VISIT_TYPE",
+      "file": "ddl/agg/4080_AGG__AGG_FIELD_SERVICE_DAY_SEGMENT_VISIT_TYPE.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_FIELD_SERVICE",
+        "CORE.DIM_DATE",
+        "CORE.DIM_CUSTOMER"
+      ],
+      "hash": "b6803b423ddf"
+    },
+    {
+      "id": "AGG.AGG_FIELD_SERVICE_MONTH_VISIT_TYPE_OUTCOME",
+      "file": "ddl/agg/4090_AGG__AGG_FIELD_SERVICE_MONTH_VISIT_TYPE_OUTCOME.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_FIELD_SERVICE",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "89be3c10268d"
+    },
+    {
+      "id": "AGG.AGG_FUEL_COST_MONTH_TYPE_ACCOUNT_CODE",
+      "file": "ddl/agg/4100_AGG__AGG_FUEL_COST_MONTH_TYPE_ACCOUNT_CODE.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_FUEL_COST",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "9343718158ba"
+    },
+    {
+      "id": "AGG.AGG_GENERATION_MONTH_SOURCE_CATEGORY",
+      "file": "ddl/agg/4110_AGG__AGG_GENERATION_MONTH_SOURCE_CATEGORY.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.FCT_GENERATION",
+        "CORE.DIM_DATE",
+        "CORE.DIM_ENERGY_SOURCE"
+      ],
+      "hash": "b69dd0843e24"
+    },
+    {
+      "id": "AGG.AGG_GENERATION_MONTH_SOURCE_CATEGORY_REGION",
+      "file": "ddl/agg/4120_AGG__AGG_GENERATION_MONTH_SOURCE_CATEGORY_REGION.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_GENERATION",
+        "CORE.DIM_DATE",
+        "CORE.DIM_ENERGY_SOURCE",
+        "CORE.DIM_POWER_PLANT"
+      ],
+      "hash": "8910c4d17f95"
+    },
+    {
+      "id": "AGG.AGG_GENERATION_MONTH_SOURCE_REGION",
+      "file": "ddl/agg/4130_AGG__AGG_GENERATION_MONTH_SOURCE_REGION.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_GENERATION",
+        "CORE.DIM_DATE",
+        "CORE.DIM_ENERGY_SOURCE",
+        "CORE.DIM_POWER_PLANT"
+      ],
+      "hash": "b3433b172c9a"
+    },
+    {
+      "id": "AGG.AGG_LOAD_FORECAST_DAY_REGION",
+      "file": "ddl/agg/4140_AGG__AGG_LOAD_FORECAST_DAY_REGION.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_LOAD_FORECAST",
+        "CORE.DIM_DATE",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "e557f42548fc"
+    },
+    {
+      "id": "AGG.AGG_MARKET_SETTLEMENT_MONTH_TYPE_ACCOUNT_CODE",
+      "file": "ddl/agg/4150_AGG__AGG_MARKET_SETTLEMENT_MONTH_TYPE_ACCOUNT_CODE.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_MARKET_SETTLEMENT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "8000b929e424"
+    },
+    {
+      "id": "AGG.AGG_MARKET_SETTLEMENT_QUARTER_TYPE_ACCOUNT_NAME",
+      "file": "ddl/agg/4160_AGG__AGG_MARKET_SETTLEMENT_QUARTER_TYPE_ACCOUNT_NAME.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_MARKET_SETTLEMENT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "5feb7a52aafb"
+    },
+    {
+      "id": "AGG.AGG_METER_READING_MONTH_REGION_SEGMENT",
+      "file": "ddl/agg/4170_AGG__AGG_METER_READING_MONTH_REGION_SEGMENT.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.FCT_METER_READING",
+        "CORE.DIM_DATE",
+        "CORE.DIM_METER",
+        "CORE.DIM_CUSTOMER",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "3b2fc026595f"
+    },
+    {
+      "id": "AGG.AGG_OUTAGE_EVENT_DAY_REGION_CAUSE_CODE",
+      "file": "ddl/agg/4180_AGG__AGG_OUTAGE_EVENT_DAY_REGION_CAUSE_CODE.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.FCT_OUTAGE_EVENT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "76ed40ee1264"
+    },
+    {
+      "id": "AGG.AGG_REVENUE_MONTH_TYPE_CUSTOMER_SEGMENT",
+      "file": "ddl/agg/4190_AGG__AGG_REVENUE_MONTH_TYPE_CUSTOMER_SEGMENT.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_REVENUE",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "e665ffdaa531"
+    },
+    {
+      "id": "AGG.AGG_REVENUE_QUARTER_ACCOUNT_NAME",
+      "file": "ddl/agg/4200_AGG__AGG_REVENUE_QUARTER_ACCOUNT_NAME.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_REVENUE",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT"
+      ],
+      "hash": "9b7d854847bf"
+    },
+    {
+      "id": "AGG.AGG_SERVICE_REQUEST_DAY_STATUS_SEGMENT",
+      "file": "ddl/agg/4210_AGG__AGG_SERVICE_REQUEST_DAY_STATUS_SEGMENT.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_SERVICE_REQUEST",
+        "CORE.DIM_DATE",
+        "CORE.DIM_CUSTOMER"
+      ],
+      "hash": "6a3639b85912"
+    },
+    {
+      "id": "AGG.AGG_SERVICE_REQUEST_MONTH_STATUS_SEGMENT",
+      "file": "ddl/agg/4220_AGG__AGG_SERVICE_REQUEST_MONTH_STATUS_SEGMENT.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_SERVICE_REQUEST",
+        "CORE.DIM_DATE",
+        "CORE.DIM_CUSTOMER"
+      ],
+      "hash": "12ff86b11aa0"
+    },
+    {
+      "id": "AGG.AGG_SUBSTATION_LOAD_DAY_REGION",
+      "file": "ddl/agg/4230_AGG__AGG_SUBSTATION_LOAD_DAY_REGION.sql",
+      "layer": "agg",
+      "type": "dynamic table",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_SUBSTATION_LOAD",
+        "CORE.DIM_DATE",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "f077458cf02d"
+    },
+    {
+      "id": "SEM.SV_BILLING_REVENUE",
+      "file": "ddl/sem/5010_SEM__SV_BILLING_REVENUE.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.FCT_BILLING",
+        "CORE.DIM_DATE",
+        "CORE.DIM_METER",
+        "CORE.DIM_CUSTOMER",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "50572dede3f7"
+    },
+    {
+      "id": "SEM.SV_CUSTOMER_SERVICE",
+      "file": "ddl/sem/5020_SEM__SV_CUSTOMER_SERVICE.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_SERVICE_REQUEST",
+        "CORE.FCT_COMPLAINT",
+        "CORE.FCT_FIELD_SERVICE",
+        "CORE.DIM_CUSTOMER",
+        "CORE.DIM_AGENT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_TECHNICIAN"
+      ],
+      "hash": "60becafc4dc1"
+    },
+    {
+      "id": "SEM.SV_EV_CHARGING",
+      "file": "ddl/sem/5030_SEM__SV_EV_CHARGING.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_EV_CHARGING",
+        "CORE.DIM_CHARGER",
+        "CORE.DIM_CUSTOMER",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "30281b256868"
+    },
+    {
+      "id": "SEM.SV_FINANCE_PERFORMANCE",
+      "file": "ddl/sem/5040_SEM__SV_FINANCE_PERFORMANCE.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_BUDGET_ACTUAL",
+        "CORE.FCT_REVENUE",
+        "CORE.DIM_CAPEX_PROJECT",
+        "CORE.FCT_CAPEX_SPEND",
+        "CORE.DIM_GL_ACCOUNT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_COST_CENTER"
+      ],
+      "hash": "3215dfc5f3bc"
+    },
+    {
+      "id": "SEM.SV_GENERATION_MIX",
+      "file": "ddl/sem/5050_SEM__SV_GENERATION_MIX.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_GENERATION",
+        "CORE.DIM_POWER_PLANT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_ENERGY_SOURCE"
+      ],
+      "hash": "4e5fa8f40f1e"
+    },
+    {
+      "id": "SEM.SV_GRID_RELIABILITY",
+      "file": "ddl/sem/5060_SEM__SV_GRID_RELIABILITY.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.FCT_OUTAGE_EVENT",
+        "CORE.DIM_DATE",
+        "CORE.DIM_LOCATION",
+        "CORE.DIM_OUTAGE_CAUSE"
+      ],
+      "hash": "c6f47ae67d47"
+    },
+    {
+      "id": "SEM.SV_LOAD_AND_CAPACITY",
+      "file": "ddl/sem/5070_SEM__SV_LOAD_AND_CAPACITY.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_LOAD_FORECAST",
+        "CORE.DIM_SUBSTATION",
+        "CORE.FCT_SUBSTATION_LOAD",
+        "CORE.DIM_TRANSMISSION_LINE",
+        "CORE.FCT_LINE_LOADING",
+        "CORE.DIM_DATE",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "c7a263e5737a"
+    },
+    {
+      "id": "SEM.SV_MARKET_AND_FUEL",
+      "file": "ddl/sem/5080_SEM__SV_MARKET_AND_FUEL.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_MARKET_SETTLEMENT",
+        "CORE.FCT_FUEL_COST",
+        "CORE.DIM_COUNTERPARTY",
+        "CORE.DIM_DATE",
+        "CORE.DIM_GL_ACCOUNT",
+        "CORE.DIM_COST_CENTER"
+      ],
+      "hash": "0ed20b987064"
+    },
+    {
+      "id": "SEM.SV_METER_CONSUMPTION",
+      "file": "ddl/sem/5090_SEM__SV_METER_CONSUMPTION.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.FCT_METER_READING",
+        "CORE.DIM_DATE",
+        "CORE.DIM_METER",
+        "CORE.DIM_TARIFF",
+        "CORE.DIM_CUSTOMER",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "32921eba8c62"
+    },
+    {
+      "id": "SEM.SV_NERC_COMPLIANCE",
+      "file": "ddl/sem/5100_SEM__SV_NERC_COMPLIANCE.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_COMPLIANCE_EVENT",
+        "CORE.FCT_VIOLATION",
+        "CORE.FCT_AUDIT_RECORD",
+        "CORE.FCT_DATA_SUBMISSION",
+        "CORE.FCT_MISOPERATION",
+        "CORE.FCT_PRC004_TEST",
+        "CORE.DIM_DATE",
+        "CORE.DIM_NERC_STANDARD",
+        "CORE.DIM_REPORTING_ENTITY",
+        "CORE.DIM_ASSET"
+      ],
+      "hash": "eab7cf4e195c"
+    },
+    {
+      "id": "SEM.SV_RENEWABLES_STORAGE",
+      "file": "ddl/sem/5110_SEM__SV_RENEWABLES_STORAGE.sql",
+      "layer": "sem",
+      "type": "semantic view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_REC_CERTIFICATE",
+        "CORE.DIM_STORAGE_ASSET",
+        "CORE.FCT_STORAGE_STATUS",
+        "CORE.DIM_DATE",
+        "CORE.DIM_ENERGY_SOURCE",
+        "CORE.DIM_POWER_PLANT"
+      ],
+      "hash": "6aa861d4f6aa"
+    },
+    {
+      "id": "DP_BILLING.OUT_BILLING_MONTHLY",
+      "file": "ddl/dp/6010_DP_BILLING__OUT_BILLING_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "AGG.AGG_BILLING_MONTH_SEGMENT_REGION"
+      ],
+      "hash": "cda6b58800b4"
+    },
+    {
+      "id": "DP_BILLING.OUT_METER_READING_MONTHLY",
+      "file": "ddl/dp/6020_DP_BILLING__OUT_METER_READING_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "AGG.AGG_METER_READING_MONTH_REGION_SEGMENT"
+      ],
+      "hash": "dc8c3fe0e8ab"
+    },
+    {
+      "id": "DP_CX.OUT_COMPLAINT_MONTHLY",
+      "file": "ddl/dp/6030_DP_CX__OUT_COMPLAINT_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_COMPLAINT_MONTH_SEGMENT_SEVERITY"
+      ],
+      "hash": "8322efb766b0"
+    },
+    {
+      "id": "DP_CX.OUT_EV_CHARGING_DAILY",
+      "file": "ddl/dp/6040_DP_CX__OUT_EV_CHARGING_DAILY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_EV_CHARGING_DAY"
+      ],
+      "hash": "5d1ad187f2f9"
+    },
+    {
+      "id": "DP_CX.OUT_FIELD_SERVICE_DAILY",
+      "file": "ddl/dp/6050_DP_CX__OUT_FIELD_SERVICE_DAILY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_FIELD_SERVICE_DAY_SEGMENT_VISIT_TYPE"
+      ],
+      "hash": "95e9e79694eb"
+    },
+    {
+      "id": "DP_CX.OUT_FIELD_SERVICE_MONTHLY",
+      "file": "ddl/dp/6060_DP_CX__OUT_FIELD_SERVICE_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_FIELD_SERVICE_MONTH_VISIT_TYPE_OUTCOME"
+      ],
+      "hash": "cf5fa8cd52c3"
+    },
+    {
+      "id": "DP_CX.OUT_SERVICE_REQUEST_DAILY",
+      "file": "ddl/dp/6070_DP_CX__OUT_SERVICE_REQUEST_DAILY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_SERVICE_REQUEST_DAY_STATUS_SEGMENT"
+      ],
+      "hash": "1f0b73c00867"
+    },
+    {
+      "id": "DP_CX.OUT_SERVICE_REQUEST_MONTHLY",
+      "file": "ddl/dp/6080_DP_CX__OUT_SERVICE_REQUEST_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_SERVICE_REQUEST_MONTH_STATUS_SEGMENT"
+      ],
+      "hash": "bd7fae0ec9b0"
+    },
+    {
+      "id": "DP_FINANCE.OUT_BUDGET_ACTUAL_MONTHLY",
+      "file": "ddl/dp/6090_DP_FINANCE__OUT_BUDGET_ACTUAL_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_BUDGET_ACTUAL_MONTH_ACCOUNT"
+      ],
+      "hash": "0f5f6fd170f7"
+    },
+    {
+      "id": "DP_FINANCE.OUT_BUDGET_ACTUAL_MONTHLY_2",
+      "file": "ddl/dp/6100_DP_FINANCE__OUT_BUDGET_ACTUAL_MONTHLY_2.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_BUDGET_ACTUAL_MONTH_ACCOUNT_NAME_COST_CENTER"
+      ],
+      "hash": "fdf79ff896b2"
+    },
+    {
+      "id": "DP_FINANCE.OUT_CAPEX_SPEND_MONTHLY",
+      "file": "ddl/dp/6110_DP_FINANCE__OUT_CAPEX_SPEND_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_CAPEX_SPEND_MONTH_ACCOUNT"
+      ],
+      "hash": "9d4a64cd97ec"
+    },
+    {
+      "id": "DP_FINANCE.OUT_CAPEX_SPEND_MONTHLY_2",
+      "file": "ddl/dp/6120_DP_FINANCE__OUT_CAPEX_SPEND_MONTHLY_2.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_CAPEX_SPEND_MONTH_ACCOUNT_NAME_COST_CENTER"
+      ],
+      "hash": "5891a34a3066"
+    },
+    {
+      "id": "DP_FINANCE.OUT_FUEL_COST_MONTHLY",
+      "file": "ddl/dp/6130_DP_FINANCE__OUT_FUEL_COST_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_FUEL_COST_MONTH_TYPE_ACCOUNT_CODE"
+      ],
+      "hash": "9ab08c1552b3"
+    },
+    {
+      "id": "DP_FINANCE.OUT_MARKET_SETTLEMENT_MONTHLY",
+      "file": "ddl/dp/6140_DP_FINANCE__OUT_MARKET_SETTLEMENT_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_MARKET_SETTLEMENT_MONTH_TYPE_ACCOUNT_CODE"
+      ],
+      "hash": "175a586c8287"
+    },
+    {
+      "id": "DP_FINANCE.OUT_MARKET_SETTLEMENT_QUARTERLY",
+      "file": "ddl/dp/6150_DP_FINANCE__OUT_MARKET_SETTLEMENT_QUARTERLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_MARKET_SETTLEMENT_QUARTER_TYPE_ACCOUNT_NAME"
+      ],
+      "hash": "0e8398848ecc"
+    },
+    {
+      "id": "DP_FINANCE.OUT_REVENUE_MONTHLY",
+      "file": "ddl/dp/6160_DP_FINANCE__OUT_REVENUE_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_REVENUE_MONTH_TYPE_CUSTOMER_SEGMENT"
+      ],
+      "hash": "830efdfc193f"
+    },
+    {
+      "id": "DP_FINANCE.OUT_REVENUE_QUARTERLY",
+      "file": "ddl/dp/6170_DP_FINANCE__OUT_REVENUE_QUARTERLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_REVENUE_QUARTER_ACCOUNT_NAME"
+      ],
+      "hash": "a43bfe890d38"
+    },
+    {
+      "id": "DP_GENERATION.OUT_GENERATION_MONTHLY",
+      "file": "ddl/dp/6180_DP_GENERATION__OUT_GENERATION_MONTHLY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "AGG.AGG_GENERATION_MONTH_SOURCE_CATEGORY"
+      ],
+      "hash": "584caf93390b"
+    },
+    {
+      "id": "DP_GENERATION.OUT_GENERATION_MONTHLY_2",
+      "file": "ddl/dp/6190_DP_GENERATION__OUT_GENERATION_MONTHLY_2.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_GENERATION_MONTH_SOURCE_CATEGORY_REGION"
+      ],
+      "hash": "afb0639bb486"
+    },
+    {
+      "id": "DP_GENERATION.OUT_GENERATION_MONTHLY_3",
+      "file": "ddl/dp/6200_DP_GENERATION__OUT_GENERATION_MONTHLY_3.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_GENERATION_MONTH_SOURCE_REGION"
+      ],
+      "hash": "3a2309ce5be2"
+    },
+    {
+      "id": "DP_GENERATION.OUT_REC_CERTIFICATE",
+      "file": "ddl/dp/6210_DP_GENERATION__OUT_REC_CERTIFICATE.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_REC_CERTIFICATE",
+        "CORE.DIM_DATE",
+        "CORE.DIM_ENERGY_SOURCE",
+        "CORE.DIM_POWER_PLANT"
+      ],
+      "hash": "bd09af90d120"
+    },
+    {
+      "id": "DP_GENERATION.OUT_STORAGE_STATUS",
+      "file": "ddl/dp/6220_DP_GENERATION__OUT_STORAGE_STATUS.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_STORAGE_STATUS",
+        "CORE.DIM_STORAGE_ASSET",
+        "CORE.DIM_DATE",
+        "CORE.DIM_ENERGY_SOURCE",
+        "CORE.DIM_POWER_PLANT"
+      ],
+      "hash": "59952bf6c8f1"
+    },
+    {
+      "id": "DP_GRID.OUT_LINE_LOADING",
+      "file": "ddl/dp/6230_DP_GRID__OUT_LINE_LOADING.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_LINE_LOADING",
+        "CORE.DIM_TRANSMISSION_LINE",
+        "CORE.DIM_DATE",
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "2a2827ef5993"
+    },
+    {
+      "id": "DP_GRID.OUT_LOAD_FORECAST_DAILY",
+      "file": "ddl/dp/6240_DP_GRID__OUT_LOAD_FORECAST_DAILY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_LOAD_FORECAST_DAY_REGION"
+      ],
+      "hash": "0a28e67f35bc"
+    },
+    {
+      "id": "DP_GRID.OUT_OUTAGE_EVENT_DAILY",
+      "file": "ddl/dp/6250_DP_GRID__OUT_OUTAGE_EVENT_DAILY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "AGG.AGG_OUTAGE_EVENT_DAY_REGION_CAUSE_CODE"
+      ],
+      "hash": "c3f8bbb68d7d"
+    },
+    {
+      "id": "DP_GRID.OUT_SUBSTATION_LOAD_DAILY",
+      "file": "ddl/dp/6260_DP_GRID__OUT_SUBSTATION_LOAD_DAILY.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "AGG.AGG_SUBSTATION_LOAD_DAY_REGION"
+      ],
+      "hash": "e54cd6ab6c52"
+    },
+    {
+      "id": "DP_NERC.OUT_AUDIT_RECORD",
+      "file": "ddl/dp/6270_DP_NERC__OUT_AUDIT_RECORD.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_AUDIT_RECORD",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "5ab628238784"
+    },
+    {
+      "id": "DP_NERC.OUT_COMPLIANCE_EVENT",
+      "file": "ddl/dp/6280_DP_NERC__OUT_COMPLIANCE_EVENT.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_COMPLIANCE_EVENT",
+        "CORE.DIM_NERC_STANDARD",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "de80cfffe846"
+    },
+    {
+      "id": "DP_NERC.OUT_DATA_SUBMISSION",
+      "file": "ddl/dp/6290_DP_NERC__OUT_DATA_SUBMISSION.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_DATA_SUBMISSION",
+        "CORE.DIM_REPORTING_ENTITY",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "4939c0877900"
+    },
+    {
+      "id": "DP_NERC.OUT_MISOPERATION",
+      "file": "ddl/dp/6300_DP_NERC__OUT_MISOPERATION.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_MISOPERATION",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "ce41daec6296"
+    },
+    {
+      "id": "DP_NERC.OUT_PRC004_TEST",
+      "file": "ddl/dp/6310_DP_NERC__OUT_PRC004_TEST.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_PRC004_TEST",
+        "CORE.DIM_ASSET",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "948bd6067d14"
+    },
+    {
+      "id": "DP_NERC.OUT_VIOLATION",
+      "file": "ddl/dp/6320_DP_NERC__OUT_VIOLATION.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [
+        "CORE.FCT_VIOLATION",
+        "CORE.DIM_NERC_STANDARD",
+        "CORE.DIM_DATE"
+      ],
+      "hash": "4a2a6a474318"
+    },
+    {
+      "id": "DP_REFERENCE.OUT_CUSTOMER",
+      "file": "ddl/dp/6330_DP_REFERENCE__OUT_CUSTOMER.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "CORE.DIM_CUSTOMER"
+      ],
+      "hash": "afafc8144325"
+    },
+    {
+      "id": "DP_REFERENCE.OUT_DATE",
+      "file": "ddl/dp/6340_DP_REFERENCE__OUT_DATE.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "CORE.DIM_DATE"
+      ],
+      "hash": "63347f460151"
+    },
+    {
+      "id": "DP_REFERENCE.OUT_LOCATION",
+      "file": "ddl/dp/6350_DP_REFERENCE__OUT_LOCATION.sql",
+      "layer": "dp",
+      "type": "secure view",
+      "status": "proposed",
+      "confidence": 0.8,
+      "depends_on": [
+        "CORE.DIM_LOCATION"
+      ],
+      "hash": "fc286fdbeb67"
+    },
+    {
+      "id": "DP_REFERENCE.LISTING",
+      "file": "ddl/dp/6360_DP_REFERENCE__LISTING.sql",
+      "layer": "dp",
+      "type": "share + internal listing",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "DP_REFERENCE.OUT_CUSTOMER",
+        "DP_REFERENCE.OUT_DATE",
+        "DP_REFERENCE.OUT_LOCATION"
+      ],
+      "hash": "ca7a08b7e671"
+    },
+    {
+      "id": "DP_BILLING.LISTING",
+      "file": "ddl/dp/6370_DP_BILLING__LISTING.sql",
+      "layer": "dp",
+      "type": "share + internal listing",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "DP_BILLING.OUT_BILLING_MONTHLY",
+        "DP_BILLING.OUT_METER_READING_MONTHLY"
+      ],
+      "hash": "8804404c1727"
+    },
+    {
+      "id": "DP_NERC.LISTING",
+      "file": "ddl/dp/6380_DP_NERC__LISTING.sql",
+      "layer": "dp",
+      "type": "share + internal listing",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [],
+      "hash": "0455005426c0"
+    },
+    {
+      "id": "DP_CX.LISTING",
+      "file": "ddl/dp/6390_DP_CX__LISTING.sql",
+      "layer": "dp",
+      "type": "share + internal listing",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [],
+      "hash": "104ee7236532"
+    },
+    {
+      "id": "DP_FINANCE.LISTING",
+      "file": "ddl/dp/6400_DP_FINANCE__LISTING.sql",
+      "layer": "dp",
+      "type": "share + internal listing",
+      "status": "stub",
+      "confidence": 0.3,
+      "depends_on": [],
+      "hash": "878f2d204cdb"
+    },
+    {
+      "id": "DP_GENERATION.LISTING",
+      "file": "ddl/dp/6410_DP_GENERATION__LISTING.sql",
+      "layer": "dp",
+      "type": "share + internal listing",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "DP_GENERATION.OUT_GENERATION_MONTHLY"
+      ],
+      "hash": "15c07ab1ffe0"
+    },
+    {
+      "id": "DP_GRID.LISTING",
+      "file": "ddl/dp/6420_DP_GRID__LISTING.sql",
+      "layer": "dp",
+      "type": "share + internal listing",
+      "status": "proposed",
+      "confidence": 0.6,
+      "depends_on": [
+        "DP_GRID.OUT_OUTAGE_EVENT_DAILY"
+      ],
+      "hash": "cfc2ff950f80"
+    },
+    {
+      "id": "SEC.GRANTS",
+      "file": "ddl/sec/7010_SEC__GRANTS.sql",
+      "layer": "sec",
+      "type": "grants",
+      "status": "proposed",
+      "confidence": 1.0,
+      "depends_on": [
+        "SETUP.SCHEMAS",
+        "SETUP.ROLES"
+      ],
+      "hash": "33fdf8f35ed9"
+    }
+  ]
+}

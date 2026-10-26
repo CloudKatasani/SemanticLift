@@ -503,7 +503,9 @@ class Workspace:
             p = g.packages.get(name)
             s["source_system"] = p.source_system if p else ""
             s["data_modules"] = p.data_modules if p else []
-            s["fm_model"] = any(e.origin == "FM" and name in e.packages for e in g.entities.values())
+            refs = [ri for ri in g.report_items if g.reports[ri.report].package == name and ri.resolution]
+            s["fm_coverage_pct"] = round(100.0 * sum(ri.resolution == "fm" for ri in refs) / len(refs), 1) if refs else 0.0
+            s["fm_model"] = bool(p and p.fm_project)
         # model canvas
         G = nx.Graph()
         for e in g.entities:

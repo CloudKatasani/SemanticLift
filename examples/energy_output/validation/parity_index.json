@@ -1,0 +1,170 @@
+[
+  {
+    "report": "Customer_Billing_Summary",
+    "cluster": "BIL_001",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_customer_billing_summary.sql",
+    "runs_per_day": 24.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Interval_Data_Usage",
+    "cluster": "BIL_016",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_interval_data_usage.sql",
+    "runs_per_day": 24.0,
+    "expected_changes": [
+      "max_peak_demand_kw"
+    ]
+  },
+  {
+    "report": "Outage_Duration_Analysis",
+    "cluster": "OPS_017",
+    "semantic_view": "SEM.SV_GRID_RELIABILITY",
+    "file": "validation/parity_outage_duration_analysis.sql",
+    "runs_per_day": 8.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Bill_Dispute_Log",
+    "cluster": "BIL_008",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_bill_dispute_log.sql",
+    "runs_per_day": 6.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Commercial_Rate_Analysis",
+    "cluster": "BIL_019",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_commercial_rate_analysis.sql",
+    "runs_per_day": 6.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Tariff_Impact_Assessment",
+    "cluster": "BIL_022",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_tariff_impact_assessment.sql",
+    "runs_per_day": 6.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Budget_Billing_Status",
+    "cluster": "BIL_026",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_budget_billing_status.sql",
+    "runs_per_day": 6.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Write_Off_Summary",
+    "cluster": "BIL_013",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_write_off_summary.sql",
+    "runs_per_day": 4.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Industrial_Load_Profile",
+    "cluster": "BIL_020",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_industrial_load_profile.sql",
+    "runs_per_day": 4.0,
+    "expected_changes": [
+      "max_peak_demand_kw"
+    ]
+  },
+  {
+    "report": "Revenue_by_Customer_Segment",
+    "cluster": "BIL_006",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_revenue_by_customer_segment.sql",
+    "runs_per_day": 3.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Seasonal_Consumption_Trends",
+    "cluster": "BIL_017",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_seasonal_consumption_trends.sql",
+    "runs_per_day": 3.0,
+    "expected_changes": [
+      "max_peak_demand_kw"
+    ]
+  },
+  {
+    "report": "Meter_Exchange_Program",
+    "cluster": "BIL_031",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_meter_exchange_program.sql",
+    "runs_per_day": 3.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Bill_Frequency_Report",
+    "cluster": "BIL_033",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_bill_frequency_report.sql",
+    "runs_per_day": 3.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Large_Customer_Account_Review",
+    "cluster": "BIL_018",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_large_customer_account_review.sql",
+    "runs_per_day": 2.0,
+    "expected_changes": [
+      "max_peak_demand_kw"
+    ]
+  },
+  {
+    "report": "Outage_Event_Log",
+    "cluster": "OPS_002",
+    "semantic_view": "SEM.SV_GRID_RELIABILITY",
+    "file": "validation/parity_outage_event_log.sql",
+    "runs_per_day": 2.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Monthly_Invoice_Detail",
+    "cluster": "BIL_002",
+    "semantic_view": "SEM.SV_METER_CONSUMPTION",
+    "file": "validation/parity_monthly_invoice_detail.sql",
+    "runs_per_day": 1.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Revenue_Reconciliation",
+    "cluster": "BIL_024",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_revenue_reconciliation.sql",
+    "runs_per_day": 1.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Customer_Cost_of_Service",
+    "cluster": "BIL_032",
+    "semantic_view": "SEM.SV_BILLING_REVENUE",
+    "file": "validation/parity_customer_cost_of_service.sql",
+    "runs_per_day": 1.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Emergency_Operations_Dashboard",
+    "cluster": "OPS_006",
+    "semantic_view": "SEM.SV_GRID_RELIABILITY",
+    "file": "validation/parity_emergency_operations_dashboard.sql",
+    "runs_per_day": 1.0,
+    "expected_changes": []
+  },
+  {
+    "report": "Grid_Reliability_KPIs",
+    "cluster": "OPS_004",
+    "semantic_view": "SEM.SV_GRID_RELIABILITY",
+    "file": "validation/parity_grid_reliability_kp_is.sql",
+    "runs_per_day": 0.0,
+    "expected_changes": []
+  }
+]

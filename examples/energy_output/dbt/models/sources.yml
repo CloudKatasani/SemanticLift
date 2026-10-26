@@ -1,0 +1,87 @@
+version: 2
+sources:
+- name: raw_ccb
+  schema: RAW_CCB
+  tables:
+  - name: billing
+    identifier: BILLING
+  - name: meter
+    identifier: METER
+  - name: meter_reading
+    identifier: METER_READING
+  - name: tariff
+    identifier: TARIFF
+- name: raw_energy_dw
+  schema: RAW_ENERGY_DW
+  tables:
+  - name: customer
+    identifier: CUSTOMER
+  - name: date_dim
+    identifier: DATE_DIM
+  - name: location
+    identifier: LOCATION
+- name: raw_energy_ops
+  schema: RAW_ENERGY_OPS
+  tables:
+  - name: load_forecast
+    identifier: LOAD_FORECAST
+  - name: outage_event
+    identifier: OUTAGE_EVENT
+  - name: substation
+    identifier: SUBSTATION
+  - name: transmission_line
+    identifier: TRANSMISSION_LINE
+- name: raw_nerc
+  schema: RAW_NERC
+  tables:
+  - name: audit_record
+    identifier: AUDIT_RECORD
+  - name: compliance_event
+    identifier: COMPLIANCE_EVENT
+  - name: data_submission
+    identifier: DATA_SUBMISSION
+  - name: misoperation_event
+    identifier: MISOPERATION_EVENT
+  - name: prc004_requirement
+    identifier: PRC004_REQUIREMENT
+  - name: violation
+    identifier: VIOLATION
+- name: raw_pi
+  schema: RAW_PI
+  tables:
+  - name: energy_source
+    identifier: ENERGY_SOURCE
+  - name: generation
+    identifier: GENERATION
+  - name: power_plant
+    identifier: POWER_PLANT
+  - name: rec_certificate
+    identifier: REC_CERTIFICATE
+  - name: storage_asset
+    identifier: STORAGE_ASSET
+- name: raw_sap_fica
+  schema: RAW_SAP_FICA
+  tables:
+  - name: budget_actual
+    identifier: BUDGET_ACTUAL
+  - name: capex_project
+    identifier: CAPEX_PROJECT
+  - name: fuel_cost
+    identifier: FUEL_COST
+  - name: gl_account
+    identifier: GL_ACCOUNT
+  - name: market_settlement
+    identifier: MARKET_SETTLEMENT
+  - name: revenue_record
+    identifier: REVENUE_RECORD
+- name: raw_sfsc
+  schema: RAW_SFSC
+  tables:
+  - name: complaint
+    identifier: COMPLAINT
+  - name: ev_charging
+    identifier: EV_CHARGING
+  - name: field_service
+    identifier: FIELD_SERVICE
+  - name: service_request
+    identifier: SERVICE_REQUEST
