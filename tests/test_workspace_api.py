@@ -113,6 +113,13 @@ def test_api_smoke(tmp_path, monkeypatch):
     r = c.post("/api/run", json={"config": "energy_estate"})
     assert r.status_code == 200 and r.json()["entities"] == 32
     assert c.get("/api/model").json()["entities"]
+    ldm = c.get("/api/logical-model").json()
+    billing = next(t for t in ldm["tables"] if t["id"] == "CORE.FCT_BILLING")
+    assert billing["kind"] == "fact" and billing["primary_key"] == ["BILL_ID"]
+    assert {f["ref_table"] for f in billing["foreign_keys"]} == {"CORE.DIM_DATE", "CORE.DIM_METER"}
+    assert any(c["role"] == "measure" and c["sensitive"] for c in billing["columns"])
+    sv = next(a for a in ldm["subject_areas"] if a["name"] == "SV_BILLING_REVENUE")
+    assert "CORE.DIM_CUSTOMER" in sv["tables"] and len(ldm["products"]) == 7
     o = c.get("/api/objects/SEM.SV_BILLING_REVENUE").json()
     assert "CREATE OR REPLACE SEMANTIC VIEW" in o["ddl"]
     bad = c.post("/api/objects/CORE.FCT_LOAD_FORECAST/review", json={"action": "approve"})

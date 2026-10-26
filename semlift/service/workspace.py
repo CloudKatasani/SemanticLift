@@ -473,6 +473,45 @@ class Workspace:
         _write_json(self.state_path, state)
         return state["parity"]
 
+    # ------------------------------------------------------------ logical data model
+    @staticmethod
+    def _logical_model(res: RunResult) -> dict:
+        """Target logical data model: every CORE table with business names, keys and relationships,
+        grouped by subject area (semantic view) and by data product."""
+        g, d = res.graph, res.design
+        tables = []
+        for tid, t in sorted(d.tables.items()):
+            fk_cols = {c for fk in t.foreign_keys for c in fk.columns}
+            cols = []
+            for c in t.columns:
+                obj = g.item(*c.ref.split(".", 1)) if c.ref else None
+                role = ("pk" if c.name in t.primary_key else "fk" if c.name in fk_cols else
+                        "sk" if c.kind == "sk" else "measure" if c.kind == "measure" else
+                        "derived" if c.kind == "derived" else "attribute")
+                cols.append({
+                    "name": c.name, "business_name": obj.name if obj is not None else c.name,
+                    "role": role, "data_type": c.data_type, "ref": c.ref, "todo": c.todo,
+                    "sensitive": bool(c.masking_policy) or c.sensitive, "masking_policy": c.masking_policy,
+                    "aggregation": c.default_aggregation, "additivity": c.additivity, "comment": c.comment,
+                    "source_column": c.source_column, "confidence": c.confidence,
+                    "semantic": d.ref_to_semantic.get(c.ref, []) if c.ref else [],
+                })
+            tables.append({
+                "id": tid, "name": t.name, "kind": t.kind, "entity": t.entity, "domain": t.domain,
+                "confidence": t.confidence, "stub": t.stub, "origin": t.origin, "source": t.source,
+                "comment": t.comment, "primary_key": t.primary_key, "grain": t.grain,
+                "row_access_policy": t.row_access_policy[0] if t.row_access_policy else None,
+                "columns": cols,
+                "foreign_keys": [{"columns": fk.columns, "ref_table": fk.ref_table, "ref_columns": fk.ref_columns,
+                                  "relationship": fk.relationship, "confidence": fk.confidence}
+                                 for fk in t.foreign_keys if fk.ref_table in d.tables],
+            })
+        areas = [{"id": sv.id, "name": sv.name, "domain": sv.domain, "description": sv.description,
+                  "tables": [x.table for x in sv.tables], "stub": sv.stub, "confidence": sv.confidence}
+                 for sv in sorted(d.semantic_views.values(), key=lambda s: s.name)]
+        products = [{"key": p.key, "name": p.name, "tables": p.core_tables} for p in d.products.values()]
+        return {"tables": tables, "subject_areas": areas, "products": products}
+
     # ------------------------------------------------------------ UI state
     def _build_state(self, res: RunResult, run_id: str, diff: dict, files: list[str]) -> dict:
         g, d = res.graph, res.design
@@ -570,6 +609,7 @@ class Workspace:
             "objects": objects, "review_summary": self._review_summary(objects),
             "aggregates": {"plans": aggs, "facts": g.analysis.get("aggregate_facts", {})},
             "products": prods,
+            "logical": self._logical_model(res),
             "validation": g.analysis.get("validation", []),
             "numbers_that_change": g.analysis.get("numbers_that_change", []),
             "diff": diff, "files": files,

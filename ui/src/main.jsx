@@ -5,6 +5,7 @@ import { api } from './api'
 import Ingest from './pages/Ingest'
 import Estate from './pages/Estate'
 import Model from './pages/Model'
+import LogicalModel from './pages/LogicalModel'
 import Findings from './pages/Findings'
 import Review from './pages/Review'
 import Aggregates from './pages/Aggregates'
@@ -14,6 +15,7 @@ const PAGES = [
   { key: 'ingest', label: 'Ingest', icon: '⇪', el: Ingest },
   { key: 'estate', label: 'Estate overview', icon: '▦', el: Estate },
   { key: 'model', label: 'Model canvas', icon: '◎', el: Model },
+  { key: 'ldm', label: 'Logical data model', icon: '⊞', el: LogicalModel },
   { key: 'findings', label: 'Findings', icon: '⚑', el: Findings },
   { key: 'review', label: 'Design review', icon: '✓', el: Review },
   { key: 'aggregates', label: 'Aggregate planner', icon: '▤', el: Aggregates },

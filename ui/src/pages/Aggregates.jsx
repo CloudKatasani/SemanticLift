@@ -26,7 +26,7 @@ export default function Aggregates() {
     <Loading error={error} loading={loading}>
       {data && (
         <div>
-          <h1>6. Aggregate planner</h1>
+          <h1>7. Aggregate planner</h1>
           <p className="lede">Aggregates are designed from demand: each surviving cluster contributes a grain signature weighted by runs/day × average duration. The planner greedily picks the smallest set (max 3 per fact) covering ≥ 80% of weighted demand. Only additive measures are pre-summed; others are stored as re-aggregable components.</p>
           <div className="kpis">
             <Kpi label="Aggregates proposed" value={totals.aggs} />
