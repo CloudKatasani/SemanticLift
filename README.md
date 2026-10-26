@@ -55,7 +55,7 @@ docker build -t semlift . && docker run -p 8000:8000 -v $PWD/data:/data semlift
 | `semlift/generate` | Snowflake DDL, Cortex semantic YAML, Databricks metric views, dbt, contracts, OpenLineage, traceability, parity SQL, workbook |
 | `semlift/service` | Workspace (runs, review, diff, deploy, parity), compile checks, LLM assist, metadata repository, CI templates |
 | `semlift/api` | FastAPI service used by the UI |
-| `ui/` | React UI with seven screens: Ingest, Estate overview, Model canvas, Findings, Design review, Aggregate planner, Deploy & validate |
+| `ui/` | React UI with eight screens: Ingest, Estate overview, Model canvas, Logical data model (ER diagram per subject area or data product), Findings, Design review, Aggregate planner, Deploy & validate |
 
 ## Results on the supplied export
 

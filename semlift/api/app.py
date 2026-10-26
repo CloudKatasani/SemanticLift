@@ -183,6 +183,14 @@ def model():
     return state()["model"]
 
 
+@app.get("/api/logical-model", dependencies=[Depends(auth)])
+def logical_model():
+    st = state()
+    if "logical" not in st:
+        raise HTTPException(404, "logical model not in this run - re-run the pipeline")
+    return st["logical"]
+
+
 @app.get("/api/findings", dependencies=[Depends(auth)])
 def findings():
     st = state()

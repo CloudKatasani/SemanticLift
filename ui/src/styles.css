@@ -101,3 +101,16 @@ textarea.code.edit { width: 100%; min-height: 520px; border: 2px solid var(--war
 .review > *, .agg > *, .model > *, .sbs > *, .grid2 > * { min-width: 0; }
 .detail-pane .card { overflow: hidden; }
 .card { overflow-x: auto; }
+
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: none; background: #fff; padding: 6px 12px; font: inherit; cursor: pointer; color: var(--muted); }
+.seg button.on { background: var(--accent); color: #fff; }
+.legend-row { margin-top: 10px; color: var(--muted); gap: 6px 10px; }
+.lg-box { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+.lg-box.fact { background: #1f3a5f; } .lg-box.dim { background: #2e7d5b; } .lg-box.stub { background: #9a5a4f; }
+.pii { color: var(--bad); }
+.ldm { display: grid; grid-template-columns: 1fr 400px; gap: 16px; align-items: start; }
+.ldm > * { min-width: 0; }
+.ldm-canvas { overflow: auto; max-height: 78vh; padding: 8px; }
+.ldm-side { max-height: 78vh; overflow: auto; position: sticky; top: 12px; }
+@media (max-width: 1300px) { .ldm { grid-template-columns: 1fr; } }
