@@ -76,6 +76,25 @@ class SuggestionDecision(BaseModel):
     synonyms: Optional[list[str]] = None
 
 
+class ReportDecision(BaseModel):
+    disposition: Optional[str] = None
+    comment: str = ""
+    target: Optional[str] = None
+    reviewer: str = "steward"
+
+
+class KpiDecision(BaseModel):
+    variant: Optional[str] = None
+    comment: str = ""
+    reviewer: str = "steward"
+
+
+class SourceDecision(BaseModel):
+    scope: Optional[str] = None
+    comment: str = ""
+    reviewer: str = "steward"
+
+
 class DeployRequest(BaseModel):
     branch: Optional[str] = None
     push: bool = False
@@ -200,6 +219,55 @@ def lineage():
     if not p.exists():
         raise HTTPException(404, "lineage not in this run - re-run the pipeline")
     return FileResponse(p, media_type="application/json")
+
+
+# --------------------------------------------------------------------------- portfolio pages
+@app.get("/api/portfolio", dependencies=[Depends(auth)])
+def portfolio():
+    state()
+    return ws().portfolio_view()
+
+
+@app.post("/api/portfolio/{report}", dependencies=[Depends(auth)])
+def decide_report(report: str, d: ReportDecision):
+    return ws().decide_report(report, d.disposition, d.comment, d.target, d.reviewer)
+
+
+@app.get("/api/kpis", dependencies=[Depends(auth)])
+def kpis():
+    state()
+    return ws().kpi_view()
+
+
+@app.post("/api/kpis/{group_id}", dependencies=[Depends(auth)])
+def decide_kpi(group_id: str, d: KpiDecision):
+    return ws().decide_kpi(group_id, d.variant, d.comment, d.reviewer)
+
+
+@app.get("/api/sources", dependencies=[Depends(auth)])
+def sources():
+    state()
+    return ws().sources_view()
+
+
+@app.post("/api/sources/{table_id:path}", dependencies=[Depends(auth)])
+def decide_source(table_id: str, d: SourceDecision):
+    return ws().decide_source(table_id, d.scope, d.comment, d.reviewer)
+
+
+@app.get("/api/products-view", dependencies=[Depends(auth)])
+def products_view():
+    state()
+    return ws().view("products") | {"pending_rerun": ws().decisions_pending()}
+
+
+@app.post("/api/rerun", dependencies=[Depends(auth)])
+def rerun():
+    """Re-run the pipeline on the uploaded bundle so steward decisions reach the design."""
+    try:
+        return summary_of(ws().run(None))
+    except ValueError as e:
+        raise HTTPException(400, str(e))
 
 
 @app.get("/api/findings", dependencies=[Depends(auth)])

@@ -133,7 +133,7 @@ export default function Lineage({ arg }) {
     <Loading error={error} loading={loading}>
       {data && (
         <div>
-          <h1>5. Source-to-target lineage</h1>
+          <h1>Column-level lineage</h1>
           <p className="lede">Column-level lineage for every CORE column: the Cognos reports and data items that demand it, the FM query item and its Cognos physical column, the landed source column, and the semantic views, aggregates and data-product outputs that consume it. Click a node to trace it upstream and downstream.</p>
           <div className="kpis">
             <Kpi label="Active report items → CORE" value={`${fmt(data.summary.active_items_to_core)} / ${fmt(data.summary.active_report_items)}`} tone="good" />

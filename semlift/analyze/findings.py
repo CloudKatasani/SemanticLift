@@ -16,6 +16,7 @@ CODES = {
     "F13": "Malformed filter expression", "F14": "Join-path issue", "F15": "Duplicate data item name",
     "F16": "Security rule mapping", "F17": "Usage/report orphans", "F18": "Low-confidence inferred object",
     "F19": "Credential exposure masked", "F20": "Security semantics difference",
+    "F21": "Steward KPI decision",
 }
 
 PARAM_SEMANTICS = {"p_Region": ("Region",), "p_FiscalYear": ("FiscalYear",), "p_Month": ("MonthName", "Month"),

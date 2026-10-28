@@ -127,7 +127,9 @@ class Workspace:
         if src.is_dir() and not any(src.iterdir()):
             raise ValueError("No input files uploaded")
         cfg = self.config()
-        res = run(src, self.root / "work", cfg, extra_sources=extra_sources, suggestions=self.suggestions())
+        decisions = self.portfolio_decisions()
+        res = run(src, self.root / "work", cfg, extra_sources=extra_sources, suggestions=self.suggestions(),
+                  decisions=decisions)
         res.compile_results = compiler.check_all(res.objects, live=live_compile)
         prev = self._previous_objects()
         run_id = self._next_run_id(res)
@@ -151,6 +153,12 @@ class Workspace:
         self.last = res
         from ..generate.lineage import build_lineage_index
         _write_json(self.root / "lineage_index.json", build_lineage_index(res.graph, res.design))
+        from ..generate.products_view import build_products_view
+        _write_json(self.root / "views" / "portfolio.json", res.graph.analysis["portfolio"])
+        _write_json(self.root / "views" / "kpis.json", res.graph.analysis["kpi_catalog"])
+        _write_json(self.root / "views" / "sources.json", res.graph.analysis["source_inventory"])
+        _write_json(self.root / "views" / "products.json", build_products_view(res.graph, res.design, cfg))
+        _write_json(self.root / "views" / "applied_decisions.json", {"hash": stable_hash(decisions, 16)})
         state = self._build_state(res, run_id, diff, files)
         _write_json(self.state_path, state)
         return state
@@ -367,6 +375,118 @@ class Workspace:
                 "| lineage.json / traceability.csv | OpenLineage events and report-column traceability |\n"
                 "| findings.md | Findings register |\n| validation/*.sql | Parity queries (Cognos-equivalent vs semantic view) |\n"
                 "| meta/ | SEMLIFT_META mirror of the canonical model |\n| manifest.json | Deployment order and hashes |\n")
+
+    # ------------------------------------------------------------ portfolio decisions (pages 1, 3, 4)
+    @property
+    def portfolio_decisions_path(self) -> Path:
+        return self.root / "review" / "portfolio_decisions.json"
+
+    def portfolio_decisions(self) -> dict:
+        d = _read_json(self.portfolio_decisions_path, {})
+        return {"reports": d.get("reports", {}), "kpis": d.get("kpis", {}), "sources": d.get("sources", {})}
+
+    def _save_portfolio_decisions(self, d: dict) -> None:
+        _write_json(self.portfolio_decisions_path, d)
+
+    def view(self, name: str) -> dict:
+        v = _read_json(self.root / "views" / f"{name}.json", None)
+        if v is None:
+            raise ReviewError(f"no {name} view yet - run the pipeline")
+        return v
+
+    def decisions_pending(self) -> bool:
+        applied = _read_json(self.root / "views" / "applied_decisions.json", {}).get("hash")
+        return applied != stable_hash(self.portfolio_decisions(), 16)
+
+    def portfolio_view(self) -> dict:
+        v = self.view("portfolio")
+        dec = self.portfolio_decisions()["reports"]
+        summary: dict[str, int] = {}
+        for r in v["reports"]:
+            d = dec.get(r["report"])
+            r["decision"] = d
+            r["disposition"] = d["disposition"] if d else r["recommendation"]
+            if d and d.get("target"):
+                r["target"] = d["target"]
+            summary[r["disposition"]] = summary.get(r["disposition"], 0) + 1
+        from ..analyze.portfolio import resolve_targets
+        recs = {r["report"]: r for r in v["reports"]}
+        resolve_targets(recs)
+        v["summary"] = summary
+        v["pending_rerun"] = self.decisions_pending()
+        return v
+
+    def decide_report(self, report: str, disposition: str | None, comment: str = "", target: str | None = None,
+                      reviewer: str = "steward") -> dict:
+        from ..analyze.portfolio import DISPOSITIONS
+        v = self.view("portfolio")
+        if not any(r["report"] == report for r in v["reports"]):
+            raise ReviewError(f"unknown report {report}")
+        d = self.portfolio_decisions()
+        if not disposition:
+            d["reports"].pop(report, None)
+        else:
+            if disposition not in DISPOSITIONS:
+                raise ReviewError(f"disposition must be one of {', '.join(DISPOSITIONS)}")
+            if disposition == "Consolidate" and target and not any(r["report"] == target for r in v["reports"]):
+                raise ReviewError(f"unknown consolidation target {target}")
+            d["reports"][report] = {"disposition": disposition, "comment": comment, "target": target,
+                                    "reviewer": reviewer, "time": _now()}
+        self._save_portfolio_decisions(d)
+        return next(r for r in self.portfolio_view()["reports"] if r["report"] == report)
+
+    def kpi_view(self) -> dict:
+        v = self.view("kpis")
+        dec = self.portfolio_decisions()["kpis"]
+        for grp in v["groups"]:
+            dd = dec.get(grp["id"])
+            grp["decision"] = dd
+            grp["approved_variant"] = dd["variant"] if dd else None
+            grp["status"] = "approved" if dd else "open"
+        v["pending_rerun"] = self.decisions_pending()
+        return v
+
+    def decide_kpi(self, group_id: str, variant_id: str | None, comment: str = "", reviewer: str = "steward") -> dict:
+        v = self.view("kpis")
+        grp = next((x for x in v["groups"] if x["id"] == group_id), None)
+        if grp is None:
+            raise ReviewError(f"unknown KPI group {group_id}")
+        d = self.portfolio_decisions()
+        if not variant_id:
+            d["kpis"].pop(group_id, None)
+        else:
+            var = next((x for x in grp["variants"] if x["id"] == variant_id), None)
+            if var is None:
+                raise ReviewError("unknown variant")
+            d["kpis"][group_id] = {"variant": variant_id, "kind": grp["kind"], "kpi": var["kpi"],
+                                   "aggregation": var["aggregation"], "filter": var["filter"], "title": grp["title"],
+                                   "comment": comment, "reviewer": reviewer, "time": _now()}
+        self._save_portfolio_decisions(d)
+        return next(x for x in self.kpi_view()["groups"] if x["id"] == group_id)
+
+    def sources_view(self) -> dict:
+        v = self.view("sources")
+        dec = self.portfolio_decisions()["sources"]
+        for t in v["tables"]:
+            dd = dec.get(t["id"])
+            t["decision"] = dd
+            t["scope"] = dd["scope"] if dd else t["recommendation"]
+        v["pending_rerun"] = self.decisions_pending()
+        return v
+
+    def decide_source(self, table_id: str, scope: str | None, comment: str = "", reviewer: str = "steward") -> dict:
+        v = self.view("sources")
+        if not any(t["id"] == table_id for t in v["tables"]):
+            raise ReviewError(f"unknown table {table_id}")
+        if scope and scope not in ("Include", "Exclude", "Review"):
+            raise ReviewError("scope must be Include, Exclude or Review")
+        d = self.portfolio_decisions()
+        if not scope:
+            d["sources"].pop(table_id, None)
+        else:
+            d["sources"][table_id] = {"scope": scope, "comment": comment, "reviewer": reviewer, "time": _now()}
+        self._save_portfolio_decisions(d)
+        return next(t for t in self.sources_view()["tables"] if t["id"] == table_id)
 
     # ------------------------------------------------------------ deploy (FR-13)
     def deploy(self, *, branch: str | None = None, remote: str | None = None, push: bool = False,
@@ -611,6 +731,7 @@ class Workspace:
             "objects": objects, "review_summary": self._review_summary(objects),
             "aggregates": {"plans": aggs, "facts": g.analysis.get("aggregate_facts", {})},
             "products": prods,
+            "portfolio_summary": g.analysis.get("portfolio", {}).get("summary", {}),
             "logical": self._logical_model(res),
             "validation": g.analysis.get("validation", []),
             "numbers_that_change": g.analysis.get("numbers_that_change", []),

@@ -24,7 +24,7 @@ export default function Ingest({ onRun }) {
     setBusy(true); setMsg(null)
     try {
       const s = await api.post('/api/run', { config: config || null })
-      setMsg({ ok: `Run ${s.run_id} complete: ${s.objects} objects, ${s.findings} findings in ${Object.values(s.timings).reduce((a, b) => a + b, 0).toFixed(1)}s` })
+      setMsg({ ok: `Run ${s.run_id} complete: ${s.objects} objects, ${s.findings} findings in ${Object.values(s.timings).reduce((a, b) => a + b, 0).toFixed(1)}s. Continue with 1. Report rationalization.` })
       ingest.reload(); onRun()
     } catch (e) { setMsg({ error: e.message }) }
     setBusy(false)
@@ -34,7 +34,7 @@ export default function Ingest({ onRun }) {
   const ing = ingest.data
   return (
     <div>
-      <h1>1. Ingest</h1>
+      <h1>Upload &amp; run</h1>
       <p className="lede">Upload a zip or the loose files of a Cognos estate export (FM projects, report specs, usage, package mapping, optional source catalog). Each file is auto-detected and routed to its adapter.</p>
       <div className="grid2">
         <Section title="Upload">

@@ -40,7 +40,9 @@ def _print_summary(st: dict) -> None:
     print(f"SemLift {st['tool_version']}  run {st['run_id']}")
     print(f"  ingest   : {len(st['ingest']['files'])} files, {c['reports']} reports, {c['report_items']} data items, "
           f"{c['filters']} filters, {c['security_rules']} security rules")
-    print(f"  estate   : {rat.get('clusters')} intent clusters ({rat.get('retired_clusters')} retired); dispositions {rat.get('dispositions')}")
+    ps = st.get("portfolio_summary", {})
+    print(f"  reports  : " + ", ".join(f"{k} {ps.get(k, 0)}" for k in ("Keep", "Review", "Consolidate", "Retire"))
+          + f"  ({rat.get('clusters')} duplicate groups, {rat.get('retired_clusters')} retired)")
     print(f"  model    : {len(st['model']['entities'])} logical entities, {len(st['model']['relationships'])} relationships, "
           f"{len(st['model']['join_issues'])} join-path issues")
     print(f"  design   : {len(st['objects'])} objects {st['review_summary']}; {len(st['aggregates']['plans'])} aggregates; "

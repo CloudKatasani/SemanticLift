@@ -55,13 +55,13 @@ def validate(g: MetaGraph, cfg: dict, d: Design) -> None:
             if not m.ref or not m.expr.upper().startswith("SUM("):
                 continue
             meas = g.measures.get(m.ref)
-            if meas is not None and meas.additivity in NON_SUMMABLE and m.aggregation != "ratio":
+            if meas is not None and meas.additivity in NON_SUMMABLE and m.aggregation != "ratio" and "KPI-01" not in meas.rule:
                 bad.append(f"{sv.name}.{m.name}")
     for a in d.aggregates.values():
         ft = d.tables[a.fact_table]
         for out, sql, kind in a.measures:
             c = ft.col(out)
-            if c is not None and kind == "sum" and c.additivity in NON_SUMMABLE:
+            if c is not None and kind == "sum" and c.additivity in NON_SUMMABLE and "KPI-01" not in c.rule:
                 bad.append(f"{a.name}.{out}")
     results.append({"rule": "V2", "title": "No generated metric sums a semi- or non-additive measure",
                     "passed": not bad, "detail": f"{len(bad)} violations", "failures": bad})

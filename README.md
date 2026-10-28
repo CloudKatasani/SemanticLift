@@ -55,7 +55,7 @@ docker build -t semlift . && docker run -p 8000:8000 -v $PWD/data:/data semlift
 | `semlift/generate` | Snowflake DDL, Cortex semantic YAML, Databricks metric views, dbt, contracts, OpenLineage, traceability, parity SQL, workbook |
 | `semlift/service` | Workspace (runs, review, diff, deploy, parity), compile checks, LLM assist, metadata repository, CI templates |
 | `semlift/api` | FastAPI service used by the UI |
-| `ui/` | React UI with nine screens: Ingest, Estate overview, Model canvas, Logical data model (ER diagram per subject area or data product), Source-to-target lineage (report column → Cognos item → FM physical → landed source → CORE → semantic view / aggregate / output), Findings, Design review, Aggregate planner, Deploy & validate |
+| `ui/` | React UI. Migration workflow: 1. Report rationalization (Keep / Review / Consolidate / Retire with evidence and overrides), 2. KPI lineage (KPI → FM → report → database → schema → table), 3. Common KPIs (competing definitions; approve the correct one), 4. Databases & tables in scope (Keep + Review reports, review-only objects flagged), 5. Logical data model, 6. Data products & semantic layer (business logic moved, semantic and aggregated views, outputs, lineage). Plus Upload & run, Findings, Design review, Deploy & validate and Model canvas |
 
 ## Results on the supplied export
 
@@ -77,6 +77,14 @@ One run takes about 0.6 s of pipeline time (about 2.5 s including the package an
 | F12 | `CO2EstimateKg` literal 0.233 moved to `REF.REF_EMISSION_FACTOR` (effective-dated) |
 
 Design output: 32 logical entities, 148 target objects (52 proposed, 96 stubs that depend on inferred entities), 23 demand-driven aggregates, 11 semantic views, 7 data products, 4 row access policies, 5 masking policies. The fan trap Billing → Meter ← MeterReading → Tariff is detected, and TariffType is left out of the billing aggregates.
+
+## Steward decisions
+
+Pages 1, 3 and 4 record decisions in `workspace/review/portfolio_decisions.json`: report dispositions, approved KPI definitions and source scope. A banner offers **Apply decisions (re-run)**. On re-run:
+
+- A report forced to Keep or Review brings its duplicate group back into the design. One set to Retire drops it.
+- An approved aggregation rule becomes the semantic-layer aggregation. Choosing SUM for a non-additive KPI is allowed but recorded as finding F21.
+- Reports that use a definition other than the approved one move to Review.
 
 ## Configuration
 
