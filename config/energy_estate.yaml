@@ -84,3 +84,14 @@ security:
 
 owners:
   report_owner: Package report owners
+
+# Business KPIs defined differently across packages (page "Common KPIs")
+kpi_concepts:
+  Energy volume (MWh): [Generation.GeneratedMWh, MarketSettlement.EnergyMWh, RECCertificate.MWh]
+  Energy volume (kWh): [MeterReading.ConsumptionKWh, RevenueRecord.KWhSold, EVCharging.EnergyDeliveredKWh]
+  Peak demand: [MeterReading.PeakDemandKW, EVCharging.PeakKW, Substation.PeakLoadMW, LoadForecast.PeakForecastMW]
+  Generating capacity: [Generation.CapacityMW, PowerPlant.InstalledCapacityMW]
+  Revenue: [RevenueRecord.Amount, Billing.BillAmount, Billing.TotalBillWithTax]
+  Unit price: [Tariff.RatePerKWh, RevenueRecord.RevenuePerKWh, MarketSettlement.PriceMWh, FuelCost.CostPerMMBTU, Generation.FuelCostPerMWh]
+  Cost: [FuelCost.TotalCost, EVCharging.Cost]
+  Duration: [OutageEvent.DurationMinutes, FieldService.Duration]

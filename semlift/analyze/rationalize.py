@@ -96,6 +96,12 @@ def rationalize(g: MetaGraph, cfg: dict) -> None:
             if (r.runs_per_day or 0) > (active.runs_per_day or 0) and set(refs.get(r.name, [])) > set(refs.get(active.name, [])):
                 canonical = r
         retire = not any(has_demand(r) for r in reps)
+        # Steward decisions on the rationalization page override the demand rule
+        overrides = {n: d.get("disposition") for n, d in cfg.get("_decisions", {}).get("reports", {}).items()}
+        if any(overrides.get(r.name) in ("Keep", "Review") for r in reps):
+            retire = False
+        elif overrides.get(canonical.name) == "Retire":
+            retire = True
         items: list[str] = []
         for r in [canonical] + [x for x in reps if x is not canonical]:
             if r is not canonical and r.folder == "Community" and not ran_in_window(r):

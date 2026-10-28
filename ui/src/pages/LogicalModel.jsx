@@ -144,7 +144,7 @@ export default function LogicalModel() {
     <Loading error={error} loading={loading}>
       {data && cur && (
         <div>
-          <h1>4. Logical data model</h1>
+          <h1>5. Logical data model</h1>
           <p className="lede">The target logical model the design engine proposes: conformed dimensions, facts at their grain, outriggers and the relationships the semantic views use. Facts sit in the centre with dimensions fanning out by many-to-one distance. Crow's feet mark the many side. Inferred (stub) entities have dashed borders.</p>
           <div className="card">
             <div className="row gap wrap">

@@ -3,31 +3,39 @@ import { createRoot } from 'react-dom/client'
 import './styles.css'
 import { api } from './api'
 import Ingest from './pages/Ingest'
-import Estate from './pages/Estate'
-import Model from './pages/Model'
+import Rationalization from './pages/Rationalization'
+import KpiLineage from './pages/KpiLineage'
+import CommonKpis from './pages/CommonKpis'
+import DataSources from './pages/DataSources'
 import LogicalModel from './pages/LogicalModel'
-import Lineage from './pages/Lineage'
+import DataProducts from './pages/DataProducts'
+import Model from './pages/Model'
 import Findings from './pages/Findings'
 import Review from './pages/Review'
-import Aggregates from './pages/Aggregates'
 import Deploy from './pages/Deploy'
 
 const PAGES = [
-  { key: 'ingest', label: 'Ingest', icon: '⇪', el: Ingest },
-  { key: 'estate', label: 'Estate overview', icon: '▦', el: Estate },
-  { key: 'model', label: 'Model canvas', icon: '◎', el: Model },
-  { key: 'ldm', label: 'Logical data model', icon: '⊞', el: LogicalModel },
-  { key: 'lineage', label: 'Source-to-target lineage', icon: '⇢', el: Lineage },
-  { key: 'findings', label: 'Findings', icon: '⚑', el: Findings },
-  { key: 'review', label: 'Design review', icon: '✓', el: Review },
-  { key: 'aggregates', label: 'Aggregate planner', icon: '▤', el: Aggregates },
-  { key: 'deploy', label: 'Deploy & validate', icon: '⇧', el: Deploy },
+  { key: 'ingest', label: 'Upload & run', icon: '⇪', el: Ingest, section: 'Setup' },
+  { key: 'rationalization', label: '1. Report rationalization', icon: '◧', el: Rationalization, section: 'Migration workflow' },
+  { key: 'kpi-lineage', label: '2. KPI lineage', icon: '⇢', el: KpiLineage, section: 'Migration workflow' },
+  { key: 'common-kpis', label: '3. Common KPIs', icon: '≡', el: CommonKpis, section: 'Migration workflow' },
+  { key: 'sources', label: '4. Databases & tables', icon: '▤', el: DataSources, section: 'Migration workflow' },
+  { key: 'ldm', label: '5. Logical data model', icon: '⊞', el: LogicalModel, section: 'Migration workflow' },
+  { key: 'products', label: '6. Data products & semantic layer', icon: '◈', el: DataProducts, section: 'Migration workflow' },
+  { key: 'findings', label: 'Findings', icon: '⚑', el: Findings, section: 'Delivery' },
+  { key: 'review', label: 'Design review', icon: '✓', el: Review, section: 'Delivery' },
+  { key: 'deploy', label: 'Deploy & validate', icon: '⇧', el: Deploy, section: 'Delivery' },
+  { key: 'model', label: 'Model canvas', icon: '◎', el: Model, section: 'Explore' },
 ]
+// older deep links keep working
+const ALIASES = { estate: ['rationalization', ''], lineage: ['products', 'lineage'], aggregates: ['products', 'aggregates'] }
 
 function route() {
   const h = window.location.hash.replace(/^#\/?/, '')
-  const [page, ...rest] = h.split('/')
-  return { page: PAGES.find((p) => p.key === page) ? page : 'ingest', arg: decodeURIComponent(rest.join('/')) }
+  let [page, ...rest] = h.split('/')
+  let arg = decodeURIComponent(rest.join('/'))
+  if (ALIASES[page]) [page, arg] = ALIASES[page]
+  return { page: PAGES.find((p) => p.key === page) ? page : 'rationalization', arg }
 }
 
 function App() {
@@ -47,9 +55,12 @@ function App() {
         <div className="brand">Sem<span>Lift</span></div>
         <div className="brand-sub">Cognos → Data Platform semantic layer</div>
         {PAGES.map((p, i) => (
-          <a key={p.key} href={`#/${p.key}`} className={r.page === p.key ? 'nav-item active' : 'nav-item'}>
-            <span className="nav-icon">{p.icon}</span><span>{i + 1}. {p.label}</span>
-          </a>
+          <React.Fragment key={p.key}>
+            {(i === 0 || PAGES[i - 1].section !== p.section) && <div className="nav-sec">{p.section}</div>}
+            <a href={`#/${p.key}`} className={r.page === p.key ? 'nav-item active' : 'nav-item'}>
+              <span className="nav-icon">{p.icon}</span><span>{p.label}</span>
+            </a>
+          </React.Fragment>
         ))}
         <div className="nav-foot">
           {summary ? (
@@ -62,7 +73,7 @@ function App() {
         </div>
       </aside>
       <main className="main">
-        <Page arg={r.arg} summary={summary} onRun={() => setTick((t) => t + 1)} key={r.page} />
+        <Page arg={r.arg} summary={summary} onRun={() => setTick((t) => t + 1)} key={`${r.page}/${r.arg}`} />
       </main>
     </div>
   )

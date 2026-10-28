@@ -18,6 +18,9 @@ DEFAULTS: dict[str, Any] = {
         "min_runs_per_day": 0,         # runs/day <= this counts as "no demand"
         "similarity_threshold": 0.85,  # Jaccard threshold when duplicateGroupID is absent
         "dormant_before": None,        # optional absolute date used for estate stats
+        "review_min_runs_per_day": 1,  # live canonical reports below this are flagged Review (low usage)
+        "review_stale_days": 90,       # ... or when their last run is older than this
+        "consolidate_dim_jaccard": 0.6,  # KPI-subset reports consolidate when dimension overlap >= this
     },
     "confidence": {
         "fm_catalog_matched": 1.0,
@@ -79,6 +82,8 @@ DEFAULTS: dict[str, Any] = {
                               "Revenue", "Budget", "Spent", "Value", "Quantity", "Energy", "Emissions",
                               "Affected", "Duration", "MMBTU"],
     },
+    "kpi_concepts": {},                # business concept -> [Entity.Measure, ...] defined differently across packages
+    "kpi_stopwords": ["Total", "Actual", "Sum"],
     "hierarchies": {
         "Date": ["FiscalYear", "Quarter", "MonthName", "FullDate"],
         "Location": ["Region", "StateProvince", "City", "PostalCode"],

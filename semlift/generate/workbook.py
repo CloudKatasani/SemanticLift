@@ -103,6 +103,31 @@ def write_workbook(path: Path, g: MetaGraph, d: Design, objects: list[TargetObje
             "Similarity", "Defects"],
            [[r.name, r.package, r.type, r.folder, r.cluster, r.canonical, r.disposition, r.runs_per_day, r.last_run,
              r.avg_duration, r.similarity, r.defects] for r in sorted(g.reports.values(), key=lambda r: (r.package, r.cluster, r.name))])
+    port = g.analysis.get("portfolio")
+    if port:
+        _sheet(wb, "Rationalization",
+               ["Report", "Package", "Folder", "Cluster", "Runs/day", "Group runs/day", "Last run", "Recommendation", "Rule",
+                "Decision", "Disposition", "Consolidate into", "KPIs", "Reasons", "Also note"],
+               [[r["report"], r["package"], r["folder"], r["cluster"], r["runs_per_day"], r.get("group_runs_per_day"), r["last_run"],
+                 r["recommendation"], r["rule"], (r.get("decision") or {}).get("disposition", ""), r["disposition"],
+                 r.get("target") or "", r["kpis"], " | ".join(r["reasons"]), " | ".join(r["flags"])] for r in port["reports"]])
+    cat = g.analysis.get("kpi_catalog")
+    if cat:
+        rows = []
+        for gr in cat["groups"]:
+            for v in gr["variants"]:
+                rows.append([gr["title"], gr["kind"], gr["status"], v["kpi"], v["formula"], v["aggregation"], v["filter"],
+                             len(v["reports"]), v["live_reports"], "yes" if v["recommended"] else "",
+                             "yes" if v["id"] == gr.get("approved_variant") else ""])
+        _sheet(wb, "Common KPIs", ["KPI group", "Kind", "Status", "KPI item", "Definition", "Aggregation", "Filter rule",
+                                   "Reports", "Live reports", "Recommended", "Approved"], rows)
+    src = g.analysis.get("source_inventory")
+    if src:
+        _sheet(wb, "Data Sources", ["Database", "Vendor", "Schema", "Table / view", "Type", "Basis", "Columns", "Keep reports",
+                                    "Review reports", "Review only", "Scope", "Landed as", "CORE objects"],
+               [[t["database"], t["vendor"], t["schema"], t["table"], t["object_type"], t["basis"], [c["column"] for c in t["columns"]],
+                 len(t["keep_reports"]), len(t["review_reports"]), t["review_only"], t["scope"], t["landed"], t["core"]]
+                for t in src["tables"]])
     _sheet(wb, "Intent Clusters",
            ["Cluster", "Package", "Canonical", "Members", "Disposition", "Runs/day", "Weighted demand", "Facts", "Items", "Reason"],
            [[c.id, c.package, c.canonical, c.members, c.disposition, c.runs_per_day, c.weighted_demand, c.facts, len(c.items), c.reason]

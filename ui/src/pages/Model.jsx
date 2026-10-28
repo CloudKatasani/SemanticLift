@@ -37,7 +37,7 @@ export default function Model({ arg }) {
     <Loading error={error} loading={loading}>
       {data && (
         <div>
-          <h1>3. Model canvas</h1>
+          <h1>Model canvas</h1>
           <p className="lede">Logical entities coloured by confidence (green ≥ 0.8 FM-defined, amber 0.6 matched, red 0.3 inferred from reports only). Squares are facts, circles dimensions; dashed edges are relationships inferred from co-usage. Click an entity for attributes, measures, lineage and the reports that use it.</p>
           <div className="model">
             <div className="canvas card">

@@ -25,7 +25,7 @@ export default function Review({ arg }) {
     <Loading error={error} loading={loading}>
       {data && (
         <div>
-          <h1>7. Design review</h1>
+          <h1>Design review</h1>
           <p className="lede">The human checkpoint nothing skips. Each proposed object shows the generated SQL beside the Cognos source it came from. Approve, edit or reject; decisions and edits persist across re-runs. Objects below 0.6 confidence cannot be auto-approved.</p>
           <div className="row gap wrap">
             {Object.entries(data.summary).map(([k, v]) => <span key={k} className="chip"><Status value={k} /> {v}</span>)}

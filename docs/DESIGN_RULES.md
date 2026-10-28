@@ -53,6 +53,32 @@ Every generated object records the rule IDs that produced it, in its DDL header 
 | DP-01 | Design | One product per package plus Enterprise Reference. Secure `DP_<DOMAIN>.OUT_*` views over aggregates or atomic facts |
 | DP-02 | Design | Share plus internal marketplace listing (unpublished), and an ODCS-style contract with quality rules |
 
+## Report rationalization (page 1)
+
+| Rule | Outcome | Condition |
+| --- | --- | --- |
+| R1 | Retire | Every copy in the duplicate group lacks demand (0 runs/day or no run in the look-back window, default 180 days) |
+| R2 | Consolidate | Archive / community copy of a live report; redirect to the canonical report, or to the report it in turn consolidates into |
+| R3 | Review | Live report needing a decision: filter defect, totals that change while the KPI rule is not yet approved, use of a non-approved KPI definition, group usage below `review_min_runs_per_day` or no run in `review_stale_days`, duplicate data items |
+| R4 | Consolidate | All of its KPIs exist in another live report of the same package and dimension overlap ≥ `consolidate_dim_jaccard` (default 0.6); with equal KPI sets the busier report survives |
+| R5 | Keep | Distinct report intent in demand |
+
+Usage is judged on the whole duplicate group, so a canonical report whose archive copy is busy stays in scope. Steward decisions override the recommendation.
+
+## Common KPIs (page 3)
+
+| Kind | Detected when | Recommended definition |
+| --- | --- | --- |
+| Aggregation rule | Reports aggregate a measure differently from its FM / semantic default (e.g. SUM of CapacityFactorPct, FM says AVG) | FM / semantic default |
+| Filter rule | The same measure is reported under different literal filters (e.g. BillAmount for all bills vs `PaymentStatus = 'Overdue'`) | Unfiltered base definition; filtered variants become slices |
+| Business definition | One business KPI is implemented by different items across packages (`kpi_concepts` in the estate YAML, or the same normalized name on different entities) | FM-defined item with the most live reports |
+
+**KPI-01:** an approved aggregation rule overrides the measure's default aggregation in the semantic views and aggregates, and is recorded as finding F21.
+
+## Databases & tables (page 4)
+
+Physical objects are resolved from the FM physical layer when the item is FM-defined (database = FM data source, e.g. ENERGY_DW). Otherwise they are inferred from the package-to-source mapping, with the schema marked "to confirm". Objects used only by Review reports are flagged and default to scope **Review**.
+
 ## Validation rules (spec 8.3)
 
 | Rule | Implementation |
