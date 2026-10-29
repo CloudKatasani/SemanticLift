@@ -4,7 +4,6 @@ import './styles.css'
 import { api, currentProject, setProject } from './api'
 import { setPackageAffixes } from './components'
 import Projects from './pages/Projects'
-import Why from './pages/Why'
 import Home from './pages/Home'
 import ExportGuide from './pages/ExportGuide'
 import Audit from './pages/Audit'
@@ -24,8 +23,7 @@ import Deploy from './pages/Deploy'
 
 const PAGES = [
   { key: 'home', label: 'Product overview', icon: '✦', el: Home, section: 'Overview', global: true },
-  { key: 'why', label: 'Why SemanticLift', icon: '◆', el: Why, section: 'Overview', global: true },
-  { key: 'strategy', label: 'Strategy & approach', icon: '★', el: Strategy, section: 'Overview' },
+  { key: 'strategy', label: 'Strategy & approach', icon: '★', el: Strategy, section: 'Overview', global: true },
   { key: 'ingest', label: 'Upload & run', icon: '⇪', el: Ingest, section: 'Setup' },
   { key: 'rationalization', label: '1. Report rationalization', icon: '◧', el: Rationalization, section: 'Migration workflow' },
   { key: 'kpi-lineage', label: '2. KPI lineage', icon: '⇢', el: KpiLineage, section: 'Migration workflow' },
@@ -43,7 +41,7 @@ const PAGES = [
   { key: 'export-guide', label: 'Cognos export guide', icon: '⇩', el: ExportGuide, section: 'Administration', global: true },
 ]
 // older deep links keep working
-const ALIASES = { estate: ['rationalization', ''], lineage: ['products', 'lineage'], aggregates: ['products', 'aggregates'] }
+const ALIASES = { why: ['home', ''], estate: ['rationalization', ''], lineage: ['products', 'lineage'], aggregates: ['products', 'aggregates'] }
 
 function route() {
   const h = window.location.hash.replace(/^#\/?/, '')
@@ -116,13 +114,6 @@ function App() {
       <aside className="nav">
         <div className="brand">Semantic<span>Lift</span></div>
         <div className="brand-sub">Cognos → Data Platform semantic layer</div>
-        <div className="proj-switch">
-          <div className="nav-sec" style={{ padding: '0 0 4px' }}>Client project</div>
-          <select value={project || ''} onChange={(e) => open(e.target.value, r.page === 'projects' ? 'strategy' : r.page)}>
-            {!project && <option value="">Select a project…</option>}
-            {projects.filter((p) => p.status !== 'archived').map((p) => <option key={p.id} value={p.id}>{p.client ? `${p.client} · ` : ''}{p.name}</option>)}
-          </select>
-        </div>
         {PAGES.map((p, i) => (
           <React.Fragment key={p.key}>
             {(i === 0 || PAGES[i - 1].section !== p.section) && <div className="nav-sec">{p.section}</div>}
@@ -132,6 +123,7 @@ function App() {
           </React.Fragment>
         ))}
         <div className="nav-foot">
+          {proj && <div className="nav-proj"><b>{proj.client ? `${proj.client} · ` : ''}{proj.name}</b> <a href="#/projects">Change</a></div>}
           {summary ? (
             <>
               <div>Run <b>{summary.run_id}</b></div>
