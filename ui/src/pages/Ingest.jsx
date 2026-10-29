@@ -23,8 +23,9 @@ export default function Ingest({ onRun }) {
   const run = async () => {
     setBusy(true); setMsg(null)
     try {
-      const s = await api.post('/api/run', { config: config || null })
-      setMsg({ ok: `Run ${s.run_id} complete: ${s.objects} objects, ${s.findings} findings in ${Object.values(s.timings).reduce((a, b) => a + b, 0).toFixed(1)}s. Continue with 1. Report rationalization.` })
+      const s = await api.runJob('run', { config: config || null }, (j) => setMsg({ info: `Run ${j.status}… started by ${j.user}. You can keep working; this page updates when it finishes.` }))
+      const warn = (s.config_warnings || []).length ? ` Configuration warnings: ${s.config_warnings.join('; ')}.` : ''
+      setMsg({ ok: `Run ${s.run_id} complete: ${s.objects} objects, ${s.findings} findings in ${Object.values(s.timings).reduce((a, b) => a + b, 0).toFixed(1)}s. Continue with 1. Report rationalization.${warn}` })
       ingest.reload(); onRun()
     } catch (e) { setMsg({ error: e.message }) }
     setBusy(false)
@@ -64,7 +65,7 @@ export default function Ingest({ onRun }) {
             <button className="btn primary" disabled={busy || !(uploads.data || []).length} onClick={run}>{busy ? 'Working…' : 'Run pipeline'}</button>
             <button className="btn" disabled={busy} onClick={clear}>Clear uploads</button>
           </div>
-          {msg && <div className={msg.error ? 'error' : 'ok'}>{msg.error || msg.ok}</div>}
+          {msg && <div className={msg.error ? 'error' : msg.info ? 'banner' : 'ok'}>{msg.error || msg.info || msg.ok}</div>}
         </Section>
         {ing && (
           <Section title="Ingest summary">

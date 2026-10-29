@@ -10,18 +10,28 @@ TIME_TOKENS = {"FullDate": "DAY", "ISOWeek": "WEEK", "MonthName": "MONTH", "Mont
                "Quarter": "QUARTER", "FiscalYear": "YEAR"}
 
 
-def pkg_stem(pkg: str) -> str:
-    s = re.sub(r"^Energy_", "", pkg)
-    s = re.sub(r"_Package$", "", s)
-    return snake_upper(s)
+DEFAULT_PACKAGE_AFFIXES = [r"_Package$", r"^Package_"]
+
+
+def package_label(pkg: str, cfg: dict | None = None) -> str:
+    """Package name without the estate's boilerplate affixes (naming.package_affixes regexes)."""
+    affixes = (cfg or {}).get("naming", {}).get("package_affixes", DEFAULT_PACKAGE_AFFIXES)
+    s = pkg or ""
+    for a in affixes:
+        s = re.sub(a, "", s)
+    return s or pkg
+
+
+def pkg_stem(pkg: str, cfg: dict | None = None) -> str:
+    return snake_upper(package_label(pkg, cfg))
 
 
 def domain_code(cfg: dict, pkg: str) -> str:
-    return cfg["naming"]["domain_codes"].get(pkg) or pkg_stem(pkg)
+    return cfg["naming"]["domain_codes"].get(pkg) or pkg_stem(pkg, cfg)
 
 
 def product_name(cfg: dict, pkg: str) -> str:
-    return cfg["naming"]["product_names"].get(pkg) or pkg_stem(pkg).replace("_", " ").title()
+    return cfg["naming"]["product_names"].get(pkg) or pkg_stem(pkg, cfg).replace("_", " ").title()
 
 
 def product_slug(cfg: dict, pkg: str) -> str:

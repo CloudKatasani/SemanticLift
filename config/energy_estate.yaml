@@ -24,6 +24,7 @@ aggregates:
   low_volume_domains: [Energy_Compliance_Package]
 
 naming:
+  package_affixes: ['^Energy_', '_Package$']
   product_names:
     Energy_Operations_Package: Grid Operations
     Energy_Billing_Package: Customer Billing and Metering
@@ -95,3 +96,21 @@ kpi_concepts:
   Unit price: [Tariff.RatePerKWh, RevenueRecord.RevenuePerKWh, MarketSettlement.PriceMWh, FuelCost.CostPerMMBTU, Generation.FuelCostPerMWh]
   Cost: [FuelCost.TotalCost, EVCharging.Cost]
   Duration: [OutageEvent.DurationMinutes, FieldService.Duration]
+
+# Industry vocabulary for generated descriptions and synonyms
+llm:
+  domain: energy utility
+glossary:
+  kwh: kilowatt hours
+  mwh: megawatt hours
+  kw: kilowatts
+  mw: megawatts
+  kv: kilovolts
+  mva: megavolt amperes
+  co2: carbon dioxide
+  mmbtu: million BTU
+  saidi: system average interruption duration index
+  saifi: system average interruption frequency index
+  maifi: momentary average interruption frequency index
+  rec: renewable energy certificate
+  ev: electric vehicle

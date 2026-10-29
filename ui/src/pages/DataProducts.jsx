@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import { api } from '../api'
 import { Conf, Kpi, LaneDiagram, Loading, RerunBanner, Section, Tabs, useApi } from '../components'
 import Lineage from './Lineage'
 import Aggregates from './Aggregates'
@@ -63,7 +64,7 @@ function Products() {
             <div className="card-head">
               <div><h2 style={{ margin: 0 }}>{p.name}</h2><div className="small muted">Owner {p.owner} · steward {p.steward} · {p.classification} · retention {p.retention} · freshness SLA {p.freshness_sla}</div></div>
               <div className="row gap wrap">
-                <a className="btn" href={`/api/files/${p.contract}`} target="_blank" rel="noreferrer">Data contract (YAML)</a>
+                <button className="btn" onClick={() => api.download(`/api/files/${p.contract}`)}>Data contract (YAML)</button>
                 <a className="btn" href={`#/review/${p.listing}`}>Marketplace listing</a>
               </div>
             </div>

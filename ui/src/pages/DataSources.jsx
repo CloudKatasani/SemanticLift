@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { api } from '../api'
-import { Kpi, Loading, RerunBanner, SearchBox, Section, downloadCsv, useApi } from '../components'
+import { Kpi, Loading, RerunBanner, SearchBox, Section, downloadCsv, pkgLabel, useApi } from '../components'
 
 const SCOPES = ['Include', 'Review', 'Exclude']
-const short = (p) => (p || '').replace(/^Energy_|_Package$/g, '')
+const short = (p) => pkgLabel(p)
 
 export default function DataSources() {
   const { data, error, loading, reload, setData } = useApi('/api/sources')
@@ -51,7 +51,7 @@ export default function DataSources() {
                   <td><b>{d.database}</b></td><td className="small">{d.vendor}</td><td className="small">{d.schemas.join(', ')}</td>
                   <td className="r">{d.tables}</td><td className="r">{d.review_only ? <span className="pill warn">{d.review_only}</span> : 0}</td></tr>))}</tbody>
             </table>
-            <div className="small muted">ENERGY_DW is the Oracle warehouse the Framework Manager model queries (schema and tables confirmed from the FM physical layer). Other databases come from the package-to-source mapping; their schemas and tables are inferred from report usage and must be confirmed with a source catalog.</div>
+            <div className="small muted">For the database the Framework Manager model queries, schemas and tables are confirmed from the FM physical layer. Other databases come from the package-to-source mapping; their schemas and tables are inferred from report usage and must be confirmed with a source catalog.</div>
           </Section>
           <Section title={`${tables.length} tables / views`} actions={<div className="row gap wrap">
             <SearchBox value={q} onChange={setQ} placeholder="Table, column, KPI…" />

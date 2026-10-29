@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { api } from '../api'
-import { Disp, Kpi, Loading, RerunBanner, SearchBox, Section, downloadCsv, fmt, useApi } from '../components'
+import { Disp, Kpi, Loading, RerunBanner, SearchBox, Section, downloadCsv, fmt, pkgLabel, useApi } from '../components'
 
 const DISPS = ['Keep', 'Review', 'Consolidate', 'Retire']
-const short = (p) => (p || '').replace(/^Energy_|_Package$/g, '')
+const short = (p) => pkgLabel(p)
 
 export default function Rationalization({ arg }) {
   const { data, error, loading, reload, setData } = useApi('/api/portfolio')

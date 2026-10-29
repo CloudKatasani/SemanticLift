@@ -1,0 +1,45 @@
+# SemanticLift estate configuration: starting point for a new client.
+#
+# Copy this file to config/<client>_estate.yaml, fill in what you know, and check it with
+#     semlift config check config/<client>_estate.yaml
+# Everything here is optional: the generic defaults in semlift/config.py apply to anything left out,
+# and every design rule stays deterministic. Only names, boundaries and vocabulary are client-specific.
+
+# Reference date for usage look-back windows. Defaults to the export date found in the report specs.
+# as_of_date: 2026-01-31
+
+rationalization:
+  lookback_days: 180              # a report with no run in this window (in any copy) is retired
+  review_min_runs_per_day: 1      # live reports used less than this go to Review
+  review_stale_days: 90           # ... or whose last run is older than this
+  consolidate_dim_jaccard: 0.6    # dimension overlap needed to merge a report whose KPIs are a subset of another
+
+target:
+  database: CLIENT_SEMANTIC       # target database for generated objects
+  raw_schema_overrides: {}        # source database -> landed RAW schema, e.g. {SAP_PROD: RAW_SAP}
+
+governance:
+  four_eyes: true                 # an approver may not approve DDL they edited themselves
+
+naming:
+  package_affixes: ['_Package$']  # regexes stripped from Cognos package names, e.g. '^Acme_'
+  product_names: {}               # package -> data product display name
+  domain_codes: {}                # package -> short code used in SV_ / DP_ names
+  fact_names: {}                  # entity -> fact process name (FCT_<name>)
+  dimension_names: {}             # entity -> dimension name (DIM_<name>)
+  subject_areas: {}               # semantic view -> {domain, facts: [...], description}
+
+# Business KPIs implemented by different items in different packages (Common KPIs page)
+kpi_concepts: {}
+#   Net revenue: [Sales.NetAmount, Billing.InvoiceTotal]
+
+# Industry vocabulary for generated descriptions and synonyms
+llm:
+  provider: template              # template (offline) | cortex | anthropic
+  domain: enterprise              # wording used in prompts, e.g. "retail banking"
+glossary: {}
+#   arpu: average revenue per user
+
+owners:
+  default_owner: null
+  default_steward: null

@@ -15,7 +15,9 @@ COPY semlift ./semlift
 RUN pip install --no-cache-dir ".[snowflake]"
 COPY config ./config
 COPY --from=ui /ui/dist ./ui/dist
-ENV SEMLIFT_WORKSPACE=/data/workspace \
+# One project per client engagement under SEMLIFT_HOME. Mount client estate configs over /app/config if needed.
+# To keep an existing single workspace, also set SEMLIFT_WORKSPACE=/data/workspace (it appears as project "default").
+ENV SEMLIFT_HOME=/data/home \
     SEMLIFT_CONFIG_DIR=/app/config \
     SEMLIFT_UI_DIST=/app/ui/dist \
     SEMLIFT_ENV=production
@@ -23,4 +25,5 @@ VOLUME ["/data"]
 EXPOSE 8000
 RUN useradd -m semlift && mkdir -p /data && chown semlift /data
 USER semlift
-CMD ["semlift", "-w", "/data/workspace", "serve", "--host", "0.0.0.0", "--port", "8000"]
+HEALTHCHECK --interval=30s --timeout=5s CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health').status == 200 else 1)"
+CMD ["semlift", "serve", "--host", "0.0.0.0", "--port", "8000"]

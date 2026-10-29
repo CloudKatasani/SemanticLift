@@ -66,7 +66,12 @@ DEFAULTS: dict[str, Any] = {
         "mapping_table_names": {},       # Cognos security rule -> SEC.MAP_USER_<x>
         "subject_areas": {},             # semantic view name -> {domain, facts:[...], description}
         "aggregate_names": {},
+        "package_affixes": [r"_Package$", r"^Package_"],   # regexes stripped from package names for display / codes
     },
+    "governance": {
+        "four_eyes": False,              # an approver may not approve DDL they edited themselves
+    },
+    "glossary": {},                      # abbreviation -> expansion used for descriptions and synonyms
     "classification": {
         "static_measure_patterns": ["Capacity", "Installed", "Limit", "Rating", "Approved"],
         "master_entity_patterns": ["Substation", "Plant", "Asset", "Line", "Project", "Charger"],
@@ -98,6 +103,7 @@ DEFAULTS: dict[str, Any] = {
         "provider": "template",          # template | cortex | anthropic
         "model": None,
         "endpoint": None,
+        "domain": "enterprise",          # industry wording used in LLM prompts, e.g. "energy utility"
     },
     "owners": {
         "default_owner": None,           # falls back to FM governance dataOwner
@@ -126,3 +132,29 @@ def load_config(path: str | Path | None = None, overrides: dict | None = None) -
     if overrides:
         cfg = deep_merge(cfg, overrides)
     return cfg
+
+
+# sections whose keys are fixed (anything else is a typo); free-form maps are not checked
+_STRICT = ("rationalization", "confidence", "aggregates", "target", "security", "governance", "llm", "owners", "parity")
+
+
+def validate_config(cfg: dict) -> list[str]:
+    """Warnings for unknown keys and wrong value types, so a client config typo never silently does nothing."""
+    out = []
+    for k in cfg:
+        if k not in DEFAULTS and not k.startswith("_"):
+            out.append(f"unknown setting '{k}' (ignored)")
+    for sec in _STRICT:
+        for k, v in (cfg.get(sec) or {}).items():
+            if k not in DEFAULTS[sec]:
+                out.append(f"unknown setting '{sec}.{k}' (ignored)")
+                continue
+            d = DEFAULTS[sec][k]
+            if isinstance(d, bool) and not isinstance(v, bool):
+                out.append(f"'{sec}.{k}' should be true or false")
+            elif isinstance(d, (int, float)) and not isinstance(d, bool) and not isinstance(v, (int, float)):
+                out.append(f"'{sec}.{k}' should be a number")
+    for k in (cfg.get("naming") or {}):
+        if k not in DEFAULTS["naming"]:
+            out.append(f"unknown setting 'naming.{k}' (ignored)")
+    return out

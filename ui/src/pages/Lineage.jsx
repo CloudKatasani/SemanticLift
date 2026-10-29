@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import { api } from '../api'
 import { Conf, Kpi, Loading, SearchBox, Section, Tabs, fmt, useApi } from '../components'
 
 const LANES = [
@@ -188,7 +189,7 @@ export default function Lineage({ arg }) {
                     })}
                   </svg>)}
               </div>
-              <Section title="Column lineage detail" actions={<div className="row gap"><a className="btn" href="/api/files/traceability.csv" download>traceability.csv</a><a className="btn" href="/api/files/lineage.json" download>lineage.json (OpenLineage)</a></div>}>
+              <Section title="Column lineage detail" actions={<div className="row gap"><button className="btn" onClick={() => api.download('/api/files/traceability.csv')}>traceability.csv</button><button className="btn" onClick={() => api.download('/api/files/lineage.json')}>lineage.json (OpenLineage)</button></div>}>
                 <table className="tbl compact">
                   <thead><tr><th>CORE column</th><th>Transform</th><th>Landed source</th><th>Cognos item</th><th>Cognos expression / physical</th><th className="r">Reports</th><th>Consumers</th></tr></thead>
                   <tbody>{cols.map((c) => (

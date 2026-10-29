@@ -15,23 +15,26 @@ from ..design.model import Design
 from ..model import MetaGraph
 from ..util import stable_hash, title_words
 
-ABBREV = {"kwh": "kilowatt hours", "mwh": "megawatt hours", "kw": "kilowatts", "mw": "megawatts", "pct": "percent",
-          "co2": "carbon dioxide", "usd": "US dollars", "mmbtu": "million BTU", "nps": "net promoter score",
-          "saidi": "system average interruption duration index", "saifi": "system average interruption frequency index",
-          "maifi": "momentary average interruption frequency index", "rec": "renewable energy certificate",
-          "ev": "electric vehicle", "gl": "general ledger", "kv": "kilovolts", "mva": "megavolt amperes", "fy": "fiscal year"}
+# Cross-industry abbreviations; industry terms come from the estate config ``glossary``.
+ABBREV = {"pct": "percent", "usd": "US dollars", "nps": "net promoter score", "gl": "general ledger",
+          "fy": "fiscal year", "ytd": "year to date", "mtd": "month to date", "qty": "quantity", "amt": "amount",
+          "avg": "average", "num": "number", "id": "identifier", "kpi": "key performance indicator"}
 
 
-def expand(words: str) -> str:
-    return " ".join(ABBREV.get(w, w) for w in words.split())
+def expand(words: str, glossary: dict | None = None) -> str:
+    terms = ABBREV | {k.lower(): v for k, v in (glossary or {}).items()}
+    return " ".join(terms.get(w, w) for w in words.split())
 
 
 class TemplateProvider:
     name = "template"
 
+    def __init__(self, glossary: dict | None = None):
+        self.glossary = glossary or {}
+
     def describe(self, kind: str, name: str, context: str) -> dict:
         words = title_words(name)
-        exp = expand(words)
+        exp = expand(words, self.glossary)
         syn = sorted({exp} - {words}) if exp != words else []
         desc = f"{exp[:1].upper()}{exp[1:]}" + (f" ({context})" if context else "")
         return {"description": desc, "synonyms": syn}
@@ -40,7 +43,8 @@ class TemplateProvider:
 class CortexProvider:  # pragma: no cover - requires a live account
     name = "cortex"
 
-    def __init__(self, model: str | None):
+    def __init__(self, model: str | None, domain: str = "enterprise"):
+        self.domain = domain
         from .compile import live_connection
         self.conn = live_connection()
         self.model = model or "claude-sonnet-4-5"
@@ -49,7 +53,7 @@ class CortexProvider:  # pragma: no cover - requires a live account
         if self.conn is None:
             return TemplateProvider().describe(kind, name, context)
         prompt = (f"Write a one-sentence business description and up to 3 synonyms for the {kind} '{name}' "
-                  f"({context}) in a utility semantic layer. Reply as JSON with keys description, synonyms.")
+                  f"({context}) in a {self.domain} semantic layer. Reply as JSON with keys description, synonyms.")
         cur = self.conn.cursor()
         cur.execute("SELECT SNOWFLAKE.CORTEX.COMPLETE(%s, %s)", (self.model, prompt))
         return _parse(cur.fetchone()[0])
@@ -58,7 +62,8 @@ class CortexProvider:  # pragma: no cover - requires a live account
 class AnthropicProvider:  # pragma: no cover - requires network + key
     name = "anthropic"
 
-    def __init__(self, model: str | None, endpoint: str | None):
+    def __init__(self, model: str | None, endpoint: str | None, domain: str = "enterprise"):
+        self.domain = domain
         self.model = model or "claude-sonnet-5-5"
         self.endpoint = endpoint or "https://api.anthropic.com/v1/messages"
         self.key = os.environ.get("ANTHROPIC_API_KEY", "")
@@ -68,7 +73,7 @@ class AnthropicProvider:  # pragma: no cover - requires network + key
             return TemplateProvider().describe(kind, name, context)
         body = json.dumps({"model": self.model, "max_tokens": 300, "messages": [{"role": "user", "content":
                            f"Write a one-sentence business description and up to 3 synonyms for the {kind} '{name}' "
-                           f"({context}) in a utility semantic layer. Reply only with JSON: "
+                           f"({context}) in a {self.domain} semantic layer. Reply only with JSON: "
                            '{"description": "...", "synonyms": ["..."]}'}]}).encode()
         req = urllib.request.Request(self.endpoint, data=body, headers={
             "x-api-key": self.key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
@@ -88,11 +93,12 @@ def _parse(text: str) -> dict:
 
 def provider(cfg: dict):
     p = cfg["llm"]["provider"]
+    domain = cfg["llm"].get("domain") or "enterprise"
     if p == "cortex":
-        return CortexProvider(cfg["llm"].get("model"))
+        return CortexProvider(cfg["llm"].get("model"), domain)
     if p == "anthropic":
-        return AnthropicProvider(cfg["llm"].get("model"), cfg["llm"].get("endpoint"))
-    return TemplateProvider()
+        return AnthropicProvider(cfg["llm"].get("model"), cfg["llm"].get("endpoint"), domain)
+    return TemplateProvider(cfg.get("glossary"))
 
 
 def draft_suggestions(g: MetaGraph, d: Design, cfg: dict, existing: dict | None = None) -> dict:
