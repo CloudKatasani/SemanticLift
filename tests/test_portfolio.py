@@ -127,8 +127,28 @@ def test_portfolio_api(tmp_path, monkeypatch):
     billing = next(x for x in pv["products"] if x["key"] == "Energy_Billing_Package")
     assert billing["semantic_views"] and billing["business_logic"] and billing["lineage"]["edges"]
     assert any(b["kind"] == "Calculation" and "TotalBillWithTax" in b["cognos"] for b in billing["business_logic"])
+    st = c.get("/api/story").json()
+    assert st["pending_rerun"] is True and st["rationalize"]["Keep"] >= 26 and st["kpis"]["approved"] == 1
+    assert st["estate"]["reports"] == 588 and st["sources"]["excluded"] == 1 and st["products"]["semantic_views"] == 11
     assert c.post("/api/rerun").status_code == 200
     p2 = c.get("/api/portfolio").json()
     assert p2["pending_rerun"] is False
     assert next(r for r in p2["reports"] if r["report"] == "Outage_Event_Log")["disposition"] == "Keep"
     assert next(t for t in c.get("/api/sources").json()["tables"] if t["id"] == tid)["scope"] == "Exclude"
+
+
+def test_object_lineage(base):
+    from semlift.generate.object_lineage import build_object_lineage
+    v = build_object_lineage(base.graph, base.design, base.objects)
+    O = {o["id"]: o for o in v["objects"]}
+    assert not any(i.startswith("SETUP.") for i in O)
+    fct = O["CORE.FCT_BILLING"]
+    assert fct["sources"][0]["table"] == "RAW_CCB.BILLING"
+    assert "SEM.SV_BILLING_REVENUE" in fct["feeds"] and "DP_BILLING.LISTING" in fct["feeds"]
+    assert any(c["item"] == "Billing.BillAmount" for c in fct["cognos"])
+    sv = O["SEM.SV_BILLING_REVENUE"]
+    assert "CORE.FCT_BILLING" in sv["upstream"] and sv["live_reports"] > 0
+    assert set(sv["reports"]) <= set(fct["reports"]) | {r for o in sv["upstream_all"] for r in O[o]["reports"]}
+    assert all(v["reports"][r]["disposition"] for o in O.values() for r in o["reports"])
+    assert O["DP_BILLING.LISTING"]["live_reports"] >= sv["live_reports"]
+    assert v["summary"]["with_live_reports"] > 100

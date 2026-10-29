@@ -261,6 +261,17 @@ def products_view():
     return ws().view("products") | {"pending_rerun": ws().decisions_pending()}
 
 
+@app.get("/api/objects-lineage", dependencies=[Depends(auth)])
+def objects_lineage():
+    state()
+    return ws().view("objects")
+
+
+@app.get("/api/story", dependencies=[Depends(auth)])
+def story():
+    return ws().story_view()
+
+
 @app.post("/api/rerun", dependencies=[Depends(auth)])
 def rerun():
     """Re-run the pipeline on the uploaded bundle so steward decisions reach the design."""

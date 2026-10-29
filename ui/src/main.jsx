@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './styles.css'
 import { api } from './api'
 import Ingest from './pages/Ingest'
+import Strategy from './pages/Strategy'
+import ObjectLineage from './pages/ObjectLineage'
 import Rationalization from './pages/Rationalization'
 import KpiLineage from './pages/KpiLineage'
 import CommonKpis from './pages/CommonKpis'
@@ -15,6 +17,7 @@ import Review from './pages/Review'
 import Deploy from './pages/Deploy'
 
 const PAGES = [
+  { key: 'strategy', label: 'Strategy & approach', icon: '★', el: Strategy, section: 'Overview' },
   { key: 'ingest', label: 'Upload & run', icon: '⇪', el: Ingest, section: 'Setup' },
   { key: 'rationalization', label: '1. Report rationalization', icon: '◧', el: Rationalization, section: 'Migration workflow' },
   { key: 'kpi-lineage', label: '2. KPI lineage', icon: '⇢', el: KpiLineage, section: 'Migration workflow' },
@@ -22,6 +25,7 @@ const PAGES = [
   { key: 'sources', label: '4. Databases & tables', icon: '▤', el: DataSources, section: 'Migration workflow' },
   { key: 'ldm', label: '5. Logical data model', icon: '⊞', el: LogicalModel, section: 'Migration workflow' },
   { key: 'products', label: '6. Data products & semantic layer', icon: '◈', el: DataProducts, section: 'Migration workflow' },
+  { key: 'objects', label: '7. Object lineage', icon: '⇄', el: ObjectLineage, section: 'Migration workflow' },
   { key: 'findings', label: 'Findings', icon: '⚑', el: Findings, section: 'Delivery' },
   { key: 'review', label: 'Design review', icon: '✓', el: Review, section: 'Delivery' },
   { key: 'deploy', label: 'Deploy & validate', icon: '⇧', el: Deploy, section: 'Delivery' },
@@ -35,7 +39,7 @@ function route() {
   let [page, ...rest] = h.split('/')
   let arg = decodeURIComponent(rest.join('/'))
   if (ALIASES[page]) [page, arg] = ALIASES[page]
-  return { page: PAGES.find((p) => p.key === page) ? page : 'rationalization', arg }
+  return { page: PAGES.find((p) => p.key === page) ? page : 'strategy', arg }
 }
 
 function App() {

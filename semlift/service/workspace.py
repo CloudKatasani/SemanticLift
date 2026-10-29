@@ -158,6 +158,8 @@ class Workspace:
         _write_json(self.root / "views" / "kpis.json", res.graph.analysis["kpi_catalog"])
         _write_json(self.root / "views" / "sources.json", res.graph.analysis["source_inventory"])
         _write_json(self.root / "views" / "products.json", build_products_view(res.graph, res.design, cfg))
+        from ..generate.object_lineage import build_object_lineage
+        _write_json(self.root / "views" / "objects.json", build_object_lineage(res.graph, res.design, res.objects))
         _write_json(self.root / "views" / "applied_decisions.json", {"hash": stable_hash(decisions, 16)})
         state = self._build_state(res, run_id, diff, files)
         _write_json(self.state_path, state)
@@ -393,6 +395,71 @@ class Workspace:
         if v is None:
             raise ReviewError(f"no {name} view yet - run the pipeline")
         return v
+
+    def story_view(self) -> dict:
+        """Numbers for the opening Strategy & approach page, one block per step of the migration story."""
+        st = self.state()
+        if not st:
+            raise ReviewError("no run yet - upload a Cognos export and run the pipeline")
+        c = st["ingest"]["counts"]
+        rat = st["estate"]["rationalization"]
+        reps = st["estate"]["reports"]
+        port = self.portfolio_view()["summary"]
+        live = port.get("Keep", 0) + port.get("Review", 0)
+        groups = self.kpi_view()["groups"]
+        kinds: dict[str, int] = {}
+        for gr in groups:
+            kinds[gr["kind"]] = kinds.get(gr["kind"], 0) + 1
+        src = self.sources_view()
+        tables = src["tables"]
+        prods = self.view("products")["products"]
+        logic: dict[str, int] = {}
+        for p in prods:
+            for x in p["business_logic"]:
+                logic[x["kind"]] = logic.get(x["kind"], 0) + 1
+        try:
+            objs = self.view("objects")["summary"]
+        except ReviewError:
+            objs = {}
+        layers: dict[str, int] = {}
+        for o in st["objects"]:
+            layers[o["layer"]] = layers.get(o["layer"], 0) + 1
+        sev: dict[str, int] = {}
+        for f in st["findings"]:
+            sev[f["severity"]] = sev.get(f["severity"], 0) + 1
+        runs = sum(r["runs_per_day"] or 0 for r in reps)
+        dup_runs = sum(r["runs_per_day"] or 0 for r in reps if r["folder"] != "Active")
+        lm = st["logical"]
+        return {
+            "run_id": st["run_id"], "time": st["time"], "pending_rerun": self.decisions_pending(),
+            "estate": {"files": len(st["ingest"]["files"]), "packages": c["packages"], "reports": c["reports"],
+                       "report_items": c["report_items"], "filters": c["filters"], "fm_entities": c["fm_entities"],
+                       "security_rules": c["security_rules"], "source_systems": c["source_systems"],
+                       "duplicate_groups": rat.get("clusters"), "runs_per_day": round(runs),
+                       "duplicate_run_share": round(100 * dup_runs / runs) if runs else 0,
+                       "dormant": sum(1 for r in reps if not r["runs_per_day"]),
+                       "findings": len(st["findings"]), "findings_by_severity": sev},
+            "rationalize": {**{k: port.get(k, 0) for k in ("Keep", "Review", "Consolidate", "Retire")},
+                            "live": live, "reduction_pct": round(100 * (1 - live / c["reports"])) if c["reports"] else 0},
+            "kpis": {"kpis": len(self.kpi_view()["kpis"]), "groups": len(groups), "by_kind": kinds,
+                     "approved": sum(1 for gr in groups if gr["status"] == "approved")},
+            "sources": {"databases": len(src["databases"]), "tables": len(tables),
+                        "columns": sum(len(t["columns"]) for t in tables),
+                        "review_only": sum(1 for t in tables if t["review_only"]),
+                        "excluded": sum(1 for t in tables if t["scope"] == "Exclude")},
+            "model": {"entities": len(st["model"]["entities"]), "relationships": len(st["model"]["relationships"]),
+                      "conformed": sorted(st["model"]["conformed"]), "join_issues": len(st["model"]["join_issues"]),
+                      "tables": len(lm.get("tables", [])), "subject_areas": len(lm.get("subject_areas", []))},
+            "products": {"products": len(prods), "semantic_views": sum(len(p["semantic_views"]) for p in prods),
+                         "aggregates": len(st["aggregates"]["plans"]), "outputs": sum(len(p["outputs"]) for p in prods),
+                         "metrics": sum(len(s["metrics"]) for p in prods for s in p["semantic_views"]),
+                         "business_logic": logic},
+            "lineage": {"objects": objs.get("objects", 0), "with_reports": objs.get("with_reports", 0),
+                        "with_live_reports": objs.get("with_live_reports", 0),
+                        "feeding_semantic": objs.get("feeding_semantic", 0), "by_layer": layers},
+            "deliver": {"objects": len(st["objects"]), **st["review_summary"],
+                        "validation_failed": sum(1 for v in st["validation"] if v["passed"] is False)},
+        }
 
     def decisions_pending(self) -> bool:
         applied = _read_json(self.root / "views" / "applied_decisions.json", {}).get("hash")
