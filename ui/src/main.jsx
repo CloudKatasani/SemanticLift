@@ -4,6 +4,7 @@ import './styles.css'
 import { api, currentProject, setProject } from './api'
 import { setPackageAffixes } from './components'
 import Projects from './pages/Projects'
+import Why from './pages/Why'
 import Audit from './pages/Audit'
 import Ingest from './pages/Ingest'
 import Strategy from './pages/Strategy'
@@ -20,7 +21,7 @@ import Review from './pages/Review'
 import Deploy from './pages/Deploy'
 
 const PAGES = [
-  { key: 'projects', label: 'Client projects', icon: '▦', el: Projects, section: 'Overview', global: true },
+  { key: 'why', label: 'Why SemanticLift', icon: '◆', el: Why, section: 'Overview', global: true },
   { key: 'strategy', label: 'Strategy & approach', icon: '★', el: Strategy, section: 'Overview' },
   { key: 'ingest', label: 'Upload & run', icon: '⇪', el: Ingest, section: 'Setup' },
   { key: 'rationalization', label: '1. Report rationalization', icon: '◧', el: Rationalization, section: 'Migration workflow' },
@@ -35,6 +36,7 @@ const PAGES = [
   { key: 'deploy', label: 'Deploy & validate', icon: '⇧', el: Deploy, section: 'Delivery' },
   { key: 'audit', label: 'Audit trail', icon: '☰', el: Audit, section: 'Delivery' },
   { key: 'model', label: 'Model canvas', icon: '◎', el: Model, section: 'Explore' },
+  { key: 'projects', label: 'Client projects', icon: '▦', el: Projects, section: 'Administration', global: true },
 ]
 // older deep links keep working
 const ALIASES = { estate: ['rationalization', ''], lineage: ['products', 'lineage'], aggregates: ['products', 'aggregates'] }
@@ -44,7 +46,7 @@ function route() {
   let [page, ...rest] = h.split('/')
   let arg = decodeURIComponent(rest.join('/'))
   if (ALIASES[page]) [page, arg] = ALIASES[page]
-  return { page: PAGES.find((p) => p.key === page) ? page : 'strategy', arg }
+  return { page: PAGES.find((p) => p.key === page) ? page : 'why', arg }
 }
 
 function SignIn({ message }) {
@@ -88,7 +90,6 @@ function App() {
     if (!list.find((p) => p.id === cur)) {
       const next = list.length === 1 ? list[0].id : list.find((p) => p.id === 'default')?.id || null
       setProject(next); setProj(next)
-      if (!next) window.location.hash = '#/projects'
     }
   }).catch((e) => { if (e.status === 401) setAuthErr(e.message) })
   useEffect(() => { loadProjects() }, [])
