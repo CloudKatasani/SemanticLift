@@ -144,6 +144,9 @@ def parse_fm_model(path: Path, rel: str) -> dict:
             if not fm["package_name"]:
                 fm["package_name"] = ns_name
 
+    if any(qs.get("name") is None and kid(qs, "name") is not None for qs in desc(root, "querySubject")):
+        raise ValueError("native Framework Manager model.xml layout (names as child elements) is not supported yet; "
+                         "reports are still analysed and their entities inferred - see the Cognos export guide")
     for ns_el in kids(root, "namespace"):
         walk_ns(ns_el)
     rels = kid(root, "relationships")

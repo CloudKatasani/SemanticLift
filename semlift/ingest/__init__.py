@@ -178,6 +178,14 @@ def finalize(g: MetaGraph, cfg: dict) -> None:
         r.last_run = row["last_run_date"]
         r.avg_duration = row["avg_duration_min"]
         r.column_count = int(row["column_count"]) if row["column_count"] is not None else None
+        # raw report specifications carry no folder, path or duplicate group: take them from the usage sheet
+        r.folder = r.folder or str(row.get("folder_category") or "").strip()
+        r.path = r.path or row["report_path"]
+        r.package = r.package or str(row.get("package") or "").strip()
+        if not r.dup_group and row.get("duplicate_group_id"):
+            r.dup_group = str(row["duplicate_group_id"]).strip()
+        if r.similarity is None and row.get("similarity_score") is not None:
+            r.similarity = row["similarity_score"]
         r.usage_matched = True
         matched_usage += 1
     g.analysis["usage_join"] = {
