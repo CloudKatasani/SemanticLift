@@ -5,6 +5,7 @@ import { api, currentProject, setProject } from './api'
 import { setPackageAffixes } from './components'
 import Projects from './pages/Projects'
 import Why from './pages/Why'
+import Home from './pages/Home'
 import ExportGuide from './pages/ExportGuide'
 import Audit from './pages/Audit'
 import Ingest from './pages/Ingest'
@@ -22,6 +23,7 @@ import Review from './pages/Review'
 import Deploy from './pages/Deploy'
 
 const PAGES = [
+  { key: 'home', label: 'Product overview', icon: '✦', el: Home, section: 'Overview', global: true },
   { key: 'why', label: 'Why SemanticLift', icon: '◆', el: Why, section: 'Overview', global: true },
   { key: 'strategy', label: 'Strategy & approach', icon: '★', el: Strategy, section: 'Overview' },
   { key: 'ingest', label: 'Upload & run', icon: '⇪', el: Ingest, section: 'Setup' },
@@ -48,7 +50,7 @@ function route() {
   let [page, ...rest] = h.split('/')
   let arg = decodeURIComponent(rest.join('/'))
   if (ALIASES[page]) [page, arg] = ALIASES[page]
-  return { page: PAGES.find((p) => p.key === page) ? page : 'why', arg }
+  return { page: PAGES.find((p) => p.key === page) ? page : 'home', arg }
 }
 
 function SignIn({ message }) {
