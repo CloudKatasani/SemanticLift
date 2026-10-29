@@ -39,7 +39,7 @@ def write_workbook(path: Path, g: MetaGraph, d: Design, objects: list[TargetObje
     ws.title = "Summary"
     rat = g.analysis.get("rationalization", {})
     summary = [
-        ("Tool", f"SemLift {__version__}"), ("Reports", len(g.reports)), ("Intent clusters", rat.get("clusters")),
+        ("Tool", f"SemanticLift {__version__}"), ("Reports", len(g.reports)), ("Intent clusters", rat.get("clusters")),
         ("Retired clusters", rat.get("retired_clusters")), ("Logical entities", len(g.entities)),
         ("FM-defined entities", sum(e.origin == "FM" for e in g.entities.values())),
         ("Inferred entities", sum(e.origin != "FM" for e in g.entities.values())),
@@ -145,5 +145,5 @@ def write_workbook(path: Path, g: MetaGraph, d: Design, objects: list[TargetObje
     fixed = dt.datetime(2000, 1, 1)
     wb.properties.created = fixed
     wb.properties.modified = fixed
-    wb.properties.creator = f"SemLift {__version__}"
+    wb.properties.creator = f"SemanticLift {__version__}"
     wb.save(path)

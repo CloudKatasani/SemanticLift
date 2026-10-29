@@ -1,4 +1,4 @@
-// Thin client for the SemLift FastAPI service.
+// Thin client for the SemanticLift FastAPI service.
 const token = () => localStorage.getItem('semlift_token')
 
 async function request(method, url, body, isForm) {

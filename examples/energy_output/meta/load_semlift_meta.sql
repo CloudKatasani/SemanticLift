@@ -1,4 +1,4 @@
--- Mirror of the SemLift canonical model for analysis in Snowflake
+-- Mirror of the SemanticLift canonical model for analysis in Snowflake
 CREATE SCHEMA IF NOT EXISTS SEMLIFT_META;
 CREATE STAGE IF NOT EXISTS SEMLIFT_META.LOAD_STAGE FILE_FORMAT = (TYPE = JSON);
 CREATE OR REPLACE TABLE SEMLIFT_META.SOURCE_SYSTEM (PAYLOAD VARIANT);

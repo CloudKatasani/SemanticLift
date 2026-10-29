@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="shell">
       <aside className="nav">
-        <div className="brand">Sem<span>Lift</span></div>
+        <div className="brand">Semantic<span>Lift</span></div>
         <div className="brand-sub">Cognos → Data Platform semantic layer</div>
         {PAGES.map((p, i) => (
           <React.Fragment key={p.key}>

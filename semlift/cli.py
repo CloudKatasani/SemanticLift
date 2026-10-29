@@ -1,4 +1,4 @@
-"""SemLift command line.
+"""SemanticLift command line.
 
     semlift run <bundle.zip|folder> [-w WORKSPACE] [-c CONFIG]   ingest -> design -> generate package
     semlift review <object-id> approve|reject|reset [--ack]      record a review decision
@@ -37,7 +37,7 @@ def cmd_run(args) -> int:
 def _print_summary(st: dict) -> None:
     c = st["ingest"]["counts"]
     rat = st["estate"]["rationalization"]
-    print(f"SemLift {st['tool_version']}  run {st['run_id']}")
+    print(f"SemanticLift {st['tool_version']}  run {st['run_id']}")
     print(f"  ingest   : {len(st['ingest']['files'])} files, {c['reports']} reports, {c['report_items']} data items, "
           f"{c['filters']} filters, {c['security_rules']} security rules")
     ps = st.get("portfolio_summary", {})
@@ -105,7 +105,7 @@ def cmd_serve(args) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="semlift", description="Cognos-to-Data-Platform Semantic Layer Migrator")
-    p.add_argument("--version", action="version", version=f"SemLift {__version__}")
+    p.add_argument("--version", action="version", version=f"SemanticLift {__version__}")
     p.add_argument("-w", "--workspace", default="workspace", help="workspace folder (default ./workspace)")
     sub = p.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run", help="ingest a Cognos bundle and generate the design package")

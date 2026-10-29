@@ -1,6 +1,6 @@
-# SemLift — Cognos-to-Data-Platform Semantic Layer Migrator
+# SemanticLift — Cognos-to-Data-Platform Semantic Layer Migrator
 
-SemLift ingests a Cognos estate export and works out which business logic lives in the BI semantic layer. It then generates a governed semantic model on Snowflake: deployable DDL, semantic views, data product contracts and a traceability matrix that maps every surviving report column to its new home. Databricks metric views and a dbt project are generated from the same intermediate model.
+SemanticLift ingests a Cognos estate export and works out which business logic lives in the BI semantic layer. It then generates a governed semantic model on Snowflake: deployable DDL, semantic views, data product contracts and a traceability matrix that maps every surviving report column to its new home. Databricks metric views and a dbt project are generated from the same intermediate model.
 
 The full specification is in [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md). The design rule catalogue and requirement coverage are in [`docs/DESIGN_RULES.md`](docs/DESIGN_RULES.md). The sample bundle is [`samples/Cognos Lineage Input.zip`](samples/), and [`examples/energy_output/`](examples/energy_output/) holds the package generated from it.
 
