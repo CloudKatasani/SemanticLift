@@ -102,6 +102,7 @@ export default function Home({ current }) {
         <p className="home-sub">SemanticLift turns decades of Cognos reports into a governed semantic layer and data products on your cloud data platform. Less clutter carried over. One answer per KPI. Proof every number still matches.</p>
         <div className="row gap wrap">
           <a className="btn home-cta" href={start}>Start your lift →</a>
+          <a className="btn home-ghost" href="#/demo">▶ Watch the demo</a>
           <a className="btn home-ghost" href="#/strategy">See the approach</a>
         </div>
         <div className="home-flow" aria-hidden="true">

@@ -5,6 +5,7 @@ import { api, currentProject, setProject } from './api'
 import { setPackageAffixes } from './components'
 import Projects from './pages/Projects'
 import Home from './pages/Home'
+import Demo from './pages/Demo'
 import ExportGuide from './pages/ExportGuide'
 import Audit from './pages/Audit'
 import Ingest from './pages/Ingest'
@@ -23,6 +24,7 @@ import Deploy from './pages/Deploy'
 
 const PAGES = [
   { key: 'home', label: 'Product overview', icon: '✦', el: Home, section: 'Overview', global: true },
+  { key: 'demo', label: 'Demo walkthrough', icon: '▶', el: Demo, section: 'Overview', global: true },
   { key: 'strategy', label: 'Strategy & approach', icon: '★', el: Strategy, section: 'Overview', global: true },
   { key: 'ingest', label: 'Upload & run', icon: '⇪', el: Ingest, section: 'Setup' },
   { key: 'rationalization', label: '1. Report rationalization', icon: '◧', el: Rationalization, section: 'Migration workflow' },
