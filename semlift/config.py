@@ -66,7 +66,8 @@ DEFAULTS: dict[str, Any] = {
         "mapping_table_names": {},       # Cognos security rule -> SEC.MAP_USER_<x>
         "subject_areas": {},             # semantic view name -> {domain, facts:[...], description}
         "aggregate_names": {},
-        "package_affixes": [r"_Package$", r"^Package_"],   # regexes stripped from package names for display / codes
+        "package_affixes": [r"_Package$", r"^Package_"],
+        "constants_table": "REF_CONSTANT_FACTOR",   # REF table for constants externalized from FM calculations   # regexes stripped from package names for display / codes
     },
     "governance": {
         "four_eyes": False,              # an approver may not approve DDL they edited themselves

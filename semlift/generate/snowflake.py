@@ -5,6 +5,7 @@ import re
 
 from .. import __version__
 from ..design.model import Design, TableDesign
+from ..design.naming import constants_table
 from ..model import MetaGraph, TargetObject
 from ..util import sql_str
 
@@ -133,16 +134,17 @@ class SnowflakeGenerator:
         if self.d.constants:
             rows = ",\n    ".join(f"({sql_str(c['code'])}, {c['value']}, {sql_str(c['unit'])}, '1900-01-01'::DATE, NULL, "
                                    f"{sql_str(c['description'])}, {sql_str(c['entity'] + '.' + c['item'])})" for c in self.d.constants)
-            ddl = ("CREATE OR ALTER TABLE REF.REF_EMISSION_FACTOR (\n    FACTOR_CODE VARCHAR NOT NULL,\n    FACTOR_VALUE NUMBER(18,6) NOT NULL,\n"
+            ct = constants_table(self.cfg)
+            ddl = (f"CREATE OR ALTER TABLE {ct} (\n    FACTOR_CODE VARCHAR NOT NULL,\n    FACTOR_VALUE NUMBER(18,6) NOT NULL,\n"
                    "    UNIT VARCHAR,\n    EFFECTIVE_FROM DATE NOT NULL,\n    EFFECTIVE_TO DATE,\n    DESCRIPTION VARCHAR,\n"
-                   "    COGNOS_SOURCE VARCHAR,\n    CONSTRAINT PK_REF_EMISSION_FACTOR PRIMARY KEY (FACTOR_CODE, EFFECTIVE_FROM)\n)\n"
+                   f"    COGNOS_SOURCE VARCHAR,\n    CONSTRAINT PK_{ct.split('.')[1]} PRIMARY KEY (FACTOR_CODE, EFFECTIVE_FROM)\n)\n"
                    "COMMENT = 'Governed, effective-dated constants externalized from FM calculations (finding F12)';\n\n"
                    "-- Seed with the value hard-coded in Cognos; stewards add new effective-dated rows going forward.\n"
-                   "MERGE INTO REF.REF_EMISSION_FACTOR t USING (SELECT * FROM VALUES\n    " + rows +
+                   f"MERGE INTO {ct} t USING (SELECT * FROM VALUES\n    " + rows +
                    "\n) s (FACTOR_CODE, FACTOR_VALUE, UNIT, EFFECTIVE_FROM, EFFECTIVE_TO, DESCRIPTION, COGNOS_SOURCE)\n"
                    "ON t.FACTOR_CODE = s.FACTOR_CODE AND t.EFFECTIVE_FROM = s.EFFECTIVE_FROM\n"
                    "WHEN NOT MATCHED THEN INSERT VALUES (s.FACTOR_CODE, s.FACTOR_VALUE, s.UNIT, s.EFFECTIVE_FROM, s.EFFECTIVE_TO, s.DESCRIPTION, s.COGNOS_SOURCE);")
-            self.add("ref", "REF.REF_EMISSION_FACTOR", "table", ddl, comment="Externalized constants", rules=["CORE-05"],
+            self.add("ref", ct, "table", ddl, comment="Externalized constants", rules=["CORE-05"],
                      owner=self._own(), cls="Internal", domain="ENTERPRISE", product="ENTERPRISE", deps=["SETUP.SCHEMAS"],
                      cognos="; ".join(f"{c['entity']}.{c['item']} literal {c['value']}" for c in self.d.constants))
 

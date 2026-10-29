@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 
 from .. import expr as cx
 from ..model import MetaGraph
+from ..design.naming import constants_table
 from .rationalize import as_of
 
 CODES = {
@@ -273,7 +274,7 @@ def build_findings(g: MetaGraph, cfg: dict) -> None:
             g.add_finding("F12", f"{m.entity}.{m.name} uses literal {', '.join(str(c) for c in consts)}",
                           severity="medium", obj=f"{m.entity}.{m.name}",
                           evidence=f"{m.expression}" + (f" ({m.description})" if getattr(m, "description", "") else ""),
-                          owner=steward, resolution="Externalize to REF.EMISSION_FACTOR with effective dates")
+                          owner=steward, resolution=f"Externalize to {constants_table(cfg)} with effective dates")
 
     # F14 join issues
     for j in g.analysis.get("join_issues", []):

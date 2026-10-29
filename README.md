@@ -4,7 +4,7 @@ SemanticLift ingests a Cognos estate export and works out which business logic l
 
 SemanticLift serves many client engagements from one deployment: each client project is isolated, access is granted per project and role (with single sign-on through an authenticating proxy), every change is recorded in an audit trail, and pipeline runs execute in the background. See [`docs/OPERATIONS.md`](docs/OPERATIONS.md) to run it and [`docs/PRODUCT_REVIEW.md`](docs/PRODUCT_REVIEW.md) for the enterprise-readiness review and roadmap.
 
-The full specification is in [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md). The design rule catalogue and requirement coverage are in [`docs/DESIGN_RULES.md`](docs/DESIGN_RULES.md). The sample bundle is [`samples/Cognos Lineage Input.zip`](samples/), and [`examples/energy_output/`](examples/energy_output/) holds the package generated from it.
+The full specification is in [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md). The design rule catalogue and requirement coverage are in [`docs/DESIGN_RULES.md`](docs/DESIGN_RULES.md). The sample bundle is [`samples/Cognos Lineage Input.zip`](samples/) (energy utility). A second, synthetic telecommunications estate for testing is [`samples/Cognos Telco Input.zip`](samples/telco/README.md) with [`config/telco_estate.yaml`](config/telco_estate.yaml), and [`examples/energy_output/`](examples/energy_output/) holds the package generated from it.
 
 ## Quick start
 

@@ -8,7 +8,7 @@ from .. import expr as cx
 from ..model import LogicalAttribute, Measure, MetaGraph
 from ..util import snake_upper, title_words
 from .model import ColumnDesign, Design, ForeignKey, JoinDesign, TableDesign
-from .naming import dim_name, fact_name
+from .naming import constants_table, dim_name, fact_name
 
 TYPE_MAP = {"string": "VARCHAR", "integer": "NUMBER(38,0)", "decimal": "NUMBER(18,4)", "date": "DATE",
             "datetime": "TIMESTAMP_NTZ", "boolean": "BOOLEAN", "number": "NUMBER(18,4)", "varchar": "VARCHAR",
@@ -214,7 +214,7 @@ class CoreBuilder:
         self.add_foreign_keys()
         self.d.constants = self.constants
         if self.constants:
-            self.d.ref_tables["REF.REF_EMISSION_FACTOR"] = {"kind": "constants", "rows": self.constants}
+            self.d.ref_tables[constants_table(self.cfg)] = {"kind": "constants", "rows": self.constants}
 
     def _items(self, entity: str, include_unused: bool) -> tuple[list[LogicalAttribute], list[Measure]]:
         g = self.g
@@ -304,7 +304,7 @@ class CoreBuilder:
                            f" AND src.{cst['date_column']} < COALESCE({cst['alias']}.EFFECTIVE_TO, '9999-12-31'::DATE)")
                 else:
                     on += f" AND {cst['alias']}.EFFECTIVE_TO IS NULL"
-                t.joins.append(JoinDesign(alias=cst["alias"], table="REF.REF_EMISSION_FACTOR", on=on,
+                t.joins.append(JoinDesign(alias=cst["alias"], table=constants_table(self.cfg), on=on,
                                           comment="F12: externalized constant"))
         t.grain = list(e.grain)
         t.comment = (f"{'Dimension' if kind == 'dimension' else 'Fact'} at {e.name} grain. Source: {src_desc}. Origin: {origin_txt}"
