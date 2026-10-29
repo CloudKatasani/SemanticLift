@@ -20,7 +20,7 @@ export default function DataProducts({ arg }) {
     <div>
       <h1>6. Data products &amp; semantic layer</h1>
       <p className="lede">What moves from Cognos to the data platform, per data product. It covers the business logic (calculations, aggregation rules, prompts and security) as semantic views, aggregated views and secure data-product outputs, with lineage from source tables to the reports they replace.</p>
-      <Tabs value={tab} onChange={setTab} tabs={[{ key: 'products', label: 'Data products' }, { key: 'columns', label: 'Column-level lineage' }, { key: 'aggregates', label: 'Aggregate planner' }]} />
+      <Tabs value={tab} onChange={setTab} tabs={[{ key: 'products', label: 'Data products' }, { key: 'columns', label: 'Column-level lineage' }, { key: 'aggregates', label: 'Aggregated views (planner)' }]} />
       {tab === 'products' && <Products />}
       {tab === 'columns' && <div className="embedded"><Lineage /></div>}
       {tab === 'aggregates' && <div className="embedded"><Aggregates /></div>}
