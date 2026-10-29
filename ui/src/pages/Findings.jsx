@@ -42,7 +42,7 @@ export default function Findings() {
               <SearchBox value={q} onChange={setQ} />
               <select value={sev} onChange={(e) => setSev(e.target.value)}><option value="">All severities</option>{['high', 'medium', 'low', 'info'].map((s) => <option key={s}>{s}</option>)}</select>
               <select value={status} onChange={(e) => setStatus(e.target.value)}><option value="">All statuses</option>{STATUSES.map((s) => <option key={s}>{s}</option>)}</select>
-              <a className="btn" href="/api/download/findings">Export findings.md</a>
+              <button className="btn" onClick={() => api.download('/api/download/findings', 'findings.md')}>Export findings.md</button>
             </div>}>
               <table className="tbl">
                 <thead><tr><th>ID</th><th>Sev</th><th>Finding</th><th>Object</th><th>Owner</th><th>Status</th></tr></thead>

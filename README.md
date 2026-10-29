@@ -2,6 +2,8 @@
 
 SemanticLift ingests a Cognos estate export and works out which business logic lives in the BI semantic layer. It then generates a governed semantic model on Snowflake: deployable DDL, semantic views, data product contracts and a traceability matrix that maps every surviving report column to its new home. Databricks metric views and a dbt project are generated from the same intermediate model.
 
+SemanticLift serves many client engagements from one deployment: each client project is isolated, access is granted per project and role (with single sign-on through an authenticating proxy), every change is recorded in an audit trail, and pipeline runs execute in the background. See [`docs/OPERATIONS.md`](docs/OPERATIONS.md) to run it and [`docs/PRODUCT_REVIEW.md`](docs/PRODUCT_REVIEW.md) for the enterprise-readiness review and roadmap.
+
 The full specification is in [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md). The design rule catalogue and requirement coverage are in [`docs/DESIGN_RULES.md`](docs/DESIGN_RULES.md). The sample bundle is [`samples/Cognos Lineage Input.zip`](samples/), and [`examples/energy_output/`](examples/energy_output/) holds the package generated from it.
 
 ## Quick start
@@ -13,6 +15,12 @@ semlift run "samples/Cognos Lineage Input.zip" -c config/energy_estate.yaml
 
 cd ui && npm ci && npm run build && cd ..   # build the web UI once
 semlift serve                                # http://127.0.0.1:8000  (API docs at /docs)
+
+# multi-client mode: one project per client under SEMLIFT_HOME
+export SEMLIFT_HOME=$PWD/semlift_home
+semlift projects create "Cognos wave 1" --client Acme -c config/energy_estate.yaml
+semlift -p acme-cognos-wave-1 run "samples/Cognos Lineage Input.zip"
+semlift serve
 ```
 
 Or run the container:
@@ -31,6 +39,9 @@ docker build -t semlift . && docker run -p 8000:8000 -v $PWD/data:/data semlift
 | `semlift deploy [--branch B] [--remote URL --push]` | Commit the approved objects to a Git branch with a CI pipeline (schemachange or Snowflake CLI) |
 | `semlift parity` | Run the parity SQL against Snowflake (needs `SEMLIFT_SNOWFLAKE_*`) |
 | `semlift serve` / `semlift summary` | Start the API and UI, or print the last run summary |
+| `semlift projects list\|create NAME [--client C] [-c config.yaml]` | List or create client projects under `SEMLIFT_HOME`; any command takes `-p PROJECT` instead of `-w PATH` |
+| `semlift config check config.yaml` | Report unknown settings and wrong value types in an estate configuration |
+| `semlift token` | Generate a personal API token and the hash to put in the users file |
 
 ## Pipeline
 
@@ -53,9 +64,9 @@ docker build -t semlift . && docker run -p 8000:8000 -v $PWD/data:/data semlift
 | `semlift/analyze` | Resolution, catalog matching, classification, rationalization, join diagnostics, aggregate planning, findings |
 | `semlift/design` | Design engine that turns the canonical graph into a physical design, and naming rules |
 | `semlift/generate` | Snowflake DDL, Cortex semantic YAML, Databricks metric views, dbt, contracts, OpenLineage, traceability, parity SQL, workbook |
-| `semlift/service` | Workspace (runs, review, diff, deploy, parity), compile checks, LLM assist, metadata repository, CI templates |
+| `semlift/service` | Workspace (runs, review, diff, deploy, parity, audit), project registry, identity and roles, background jobs, compile checks, LLM assist, metadata repository, CI templates |
 | `semlift/api` | FastAPI service used by the UI |
-| `ui/` | React UI. Opens on **Strategy & approach**: the migration story step by step (review the estate → rationalize → resolve KPI conflicts → scope platform objects → logical model → data products and semantic views → object lineage → review, deploy and parity), with live figures from the last run and a link to each step's page. Migration workflow: 1. Report rationalization (Keep / Review / Consolidate / Retire with evidence and overrides), 2. KPI lineage (KPI → FM → report → database → schema → table), 3. Common KPIs (competing definitions; approve the correct one), 4. Databases & tables in scope (Keep + Review reports, review-only objects flagged), 5. Logical data model, 6. Data products & semantic layer (business logic moved, semantic and aggregated views, outputs, lineage), 7. Object lineage (for every platform object: source tables, upstream objects, the aggregates, semantic views and data products it feeds, and the Cognos reports it serves with their outcome). Plus Upload & run, Findings, Design review, Deploy & validate and Model canvas |
+| `ui/` | React UI. **Client projects** lists every engagement the user can access with progress (decisions, approvals, findings) and a project switcher; **Audit trail** shows every change. Opens on **Strategy & approach**: the migration story step by step (review the estate → rationalize → resolve KPI conflicts → scope platform objects → logical model → data products and semantic views → object lineage → review, deploy and parity), with live figures from the last run and a link to each step's page. Migration workflow: 1. Report rationalization (Keep / Review / Consolidate / Retire with evidence and overrides), 2. KPI lineage (KPI → FM → report → database → schema → table), 3. Common KPIs (competing definitions; approve the correct one), 4. Databases & tables in scope (Keep + Review reports, review-only objects flagged), 5. Logical data model, 6. Data products & semantic layer (business logic moved, semantic and aggregated views, outputs, lineage), 7. Object lineage (for every platform object: source tables, upstream objects, the aggregates, semantic views and data products it feeds, and the Cognos reports it serves with their outcome). Plus Upload & run, Findings, Design review, Deploy & validate and Model canvas |
 
 ## Results on the supplied export
 
@@ -80,7 +91,7 @@ Design output: 32 logical entities, 148 target objects (52 proposed, 96 stubs th
 
 ## Steward decisions
 
-Pages 1, 3 and 4 record decisions in `workspace/review/portfolio_decisions.json`: report dispositions, approved KPI definitions and source scope. A banner offers **Apply decisions (re-run)**. On re-run:
+Pages 1, 3 and 4 record decisions in the project's `review/portfolio_decisions.json`, attributed to the signed-in user and written to the audit trail: report dispositions, approved KPI definitions and source scope. A banner offers **Apply decisions (re-run)**. On re-run:
 
 - A report forced to Keep or Review brings its duplicate group back into the design. One set to Retire drops it.
 - An approved aggregation rule becomes the semantic-layer aggregation. Choosing SUM for a non-additive KPI is allowed but recorded as finding F21.
@@ -88,14 +99,18 @@ Pages 1, 3 and 4 record decisions in `workspace/review/portfolio_decisions.json`
 
 ## Configuration
 
-`semlift/config.py` holds the generic defaults: thresholds, confidence levels, additivity patterns, cardinality estimates and the aggregate planner budget. An estate YAML such as [`config/energy_estate.yaml`](config/energy_estate.yaml) is merged on top and supplies names and boundaries: product names, domain codes, fact names for split entities, reference attributes, policy names, subject areas and RAW schema routing. The same inputs and configuration always produce byte-identical DDL.
+`semlift/config.py` holds the generic defaults: thresholds, confidence levels, additivity patterns, cardinality estimates and the aggregate planner budget. An estate YAML such as [`config/energy_estate.yaml`](config/energy_estate.yaml) is merged on top and supplies names, boundaries and vocabulary: product names, domain codes, package-name affixes, fact names for split entities, reference attributes, policy names, subject areas, RAW schema routing, the industry glossary and governance options such as `four_eyes`. Start a new client from [`config/template_estate.yaml`](config/template_estate.yaml); unknown settings and wrong types are reported after every run. The same inputs and configuration always produce byte-identical DDL.
 
 Environment variables:
 
 | Variable | Use |
 | --- | --- |
-| `SEMLIFT_WORKSPACE` | Workspace folder for the API (default `./workspace`) |
-| `SEMLIFT_API_TOKEN` | When set, the API requires `Authorization: Bearer <token>` |
+| `SEMLIFT_HOME` | Root of the multi-client project registry (one isolated workspace per project) |
+| `SEMLIFT_WORKSPACE` | Legacy single workspace; appears as project `default` |
+| `SEMLIFT_USERS_FILE` | Users, personal token hashes and IdP group → per-project roles |
+| `SEMLIFT_TRUST_PROXY_HEADERS` | `1` to take identity from an SSO proxy (`X-Forwarded-Email`, `X-Forwarded-Groups`) |
+| `SEMLIFT_API_TOKEN` | Legacy shared administrator token (`Authorization: Bearer <token>`) |
+| `SEMLIFT_MAX_CONCURRENT_RUNS` | Background pipeline runs at once across projects (default 2) |
 | `SEMLIFT_ENV` | Shown in the UI; deployment is always Git + CI regardless |
 | `SEMLIFT_SNOWFLAKE_ACCOUNT`, `_USER`, `_ROLE`, `_WAREHOUSE`, `_DATABASE`, `_AUTHENTICATOR` | Optional live connection for EXPLAIN compile checks, parity runs and the Cortex LLM provider |
 | `SEMLIFT_DB_URL` | `postgresql://…` to store the canonical graph in Postgres (default: SQLite `workspace/semlift.db`) |
@@ -104,5 +119,5 @@ Environment variables:
 ## Tests
 
 ```bash
-python -m pytest -q        # 66 tests: units, the F1–F12 reproduction, design invariants, determinism, workspace and API
+python -m pytest -q        # 71 tests: units, the F1–F12 reproduction, design invariants, determinism, workspace and API
 ```

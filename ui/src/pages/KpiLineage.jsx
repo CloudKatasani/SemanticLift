@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Conf, Disp, LaneDiagram, Loading, SearchBox, Section, useApi } from '../components'
+import { Conf, Disp, LaneDiagram, Loading, SearchBox, Section, pkgLabel, useApi } from '../components'
 
 const LANES = [
   { key: 'kpi', title: 'KPI', sub: 'business measure' },
@@ -11,7 +11,7 @@ const LANES = [
 ]
 const DISP_FILL = { Keep: '#e3f4ec', Review: '#fdf2dc', Consolidate: '#e5eeff', Retire: '#fbe7e3' }
 const MAX_REPORTS = 25
-const short = (p) => (p || '').replace(/^Energy_|_Package$/g, '')
+const short = (p) => pkgLabel(p)
 
 export default function KpiLineage({ arg }) {
   const { data, error, loading } = useApi('/api/kpis')

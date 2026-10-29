@@ -17,6 +17,8 @@ use a non-approved definition for review.
 """
 from __future__ import annotations
 
+from ..design.naming import package_label
+
 from collections import defaultdict
 
 from .. import expr as cx
@@ -227,7 +229,7 @@ def _groups(g: MetaGraph, cfg: dict, kpis: dict) -> list[dict]:
             variants.append({"id": _vid("concept", name, r), "kpi": r, "aggregation": k["default_aggregation"],
                              "filter": "", "formula": f"{k['default_aggregation']}({r})" + (f"  [{k['unit']}]" if k["unit"] else ""),
                              "reports": names, "live_reports": _live(k["reports"], names), "recommended": r == best,
-                             "note": f"{k['origin']} · {', '.join(p.replace('Energy_', '').replace('_Package', '') for p in k['packages'])}"})
+                             "note": f"{k['origin']} · {', '.join(package_label(p, cfg) for p in k['packages'])}"})
         units = sorted({kpis[r]["unit"] or "-" for r in refs})
         groups.append({
             "id": _vid("concept", name), "kind": "concept", "title": name, "kpis": refs,

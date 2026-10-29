@@ -84,6 +84,15 @@ export function Section({ title, children, actions }) {
   )
 }
 
+let PACKAGE_AFFIXES = ['_Package$', '^Package_']
+/** Set from the project's configuration (naming.package_affixes) once the run summary loads. */
+export function setPackageAffixes(list) { if (Array.isArray(list)) PACKAGE_AFFIXES = list }
+export function pkgLabel(p) {
+  let s = p || ''
+  for (const a of PACKAGE_AFFIXES) { try { s = s.replace(new RegExp(a), '') } catch { /* invalid pattern */ } }
+  return s || p || ''
+}
+
 export const fmt = (n, d = 0) => (n == null || n === '' ? '–' : Number(n).toLocaleString(undefined, { maximumFractionDigits: d }))
 
 /** Banner shown when steward decisions are saved but not yet applied to the design. */
@@ -93,7 +102,7 @@ export function RerunBanner({ pending, onDone }) {
   if (!pending) return null
   const go = async () => {
     setBusy(true); setErr(null)
-    try { await api.post('/api/rerun'); onDone && onDone() } catch (e) { setErr(e.message) }
+    try { await api.runJob('rerun'); onDone && onDone() } catch (e) { setErr(e.message) }
     setBusy(false)
   }
   return (

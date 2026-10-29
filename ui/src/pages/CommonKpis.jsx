@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react'
 import { api } from '../api'
-import { Kpi, Loading, RerunBanner, SearchBox, Tabs, useApi } from '../components'
+import { Kpi, Loading, RerunBanner, SearchBox, Tabs, pkgLabel, useApi } from '../components'
 
 const KINDS = {
   aggregation: { label: 'Aggregation rule', help: 'Reports aggregate the KPI differently from its FM / semantic-layer default.' },
   filter: { label: 'Filter rule', help: 'The same KPI is reported under different filters (subsets of rows).' },
   concept: { label: 'Business definition', help: 'One business KPI is implemented by different items in different packages.' },
 }
-const short = (p) => (p || '').replace(/^Energy_|_Package$/g, '')
+const short = (p) => pkgLabel(p)
 
 export default function CommonKpis({ arg }) {
   const { data, error, loading, reload, setData } = useApi('/api/kpis')

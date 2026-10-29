@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Conf, Disp, Kpi, LaneDiagram, Loading, SearchBox, Section, Status, downloadCsv, useApi } from '../components'
+import { Conf, Disp, Kpi, LaneDiagram, Loading, SearchBox, Section, Status, downloadCsv, pkgLabel, useApi } from '../components'
 
 const LAYERS = [['', 'All'], ['core', 'Core'], ['ref', 'Reference'], ['sec', 'Security'], ['agg', 'Aggregate'], ['sem', 'Semantic view'], ['dp', 'Data product']]
 const FILL = { source: '#f4efe6', core: '#e5eeff', ref: '#eef1f6', sec: '#fbeef0', agg: '#fdf2dc', sem: '#e3f4ec', dp: '#efe7fb' }
@@ -110,7 +110,7 @@ export default function ObjectLineage({ arg }) {
                       <table className="tbl compact">
                         <thead><tr><th>Report</th><th>Package</th><th>Outcome</th><th>Served by</th></tr></thead>
                         <tbody>{shownReps.map((r) => (
-                          <tr key={r.report}><td><a href={`#/rationalization/${r.report}`}>{r.report}</a></td><td className="small">{(r.package || '').replace(/^Energy_|_Package$/g, '')}</td>
+                          <tr key={r.report}><td><a href={`#/rationalization/${r.report}`}>{r.report}</a></td><td className="small">{pkgLabel(r.package)}</td>
                             <td><Disp value={r.disposition} /></td>
                             <td className="tiny mono" style={{ wordBreak: 'break-all' }}>{r.disposition === 'Consolidate' ? `→ ${r.redirect_to || ''}` : r.disposition === 'Retire' ? 'not migrated'
                               : (cur.feeds.filter((x) => ['sem', 'agg'].includes(byId[x]?.layer) && byId[x].reports.includes(r.report)).join(' · ') || cur.id)}</td></tr>))}</tbody>

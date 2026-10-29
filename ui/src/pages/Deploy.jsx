@@ -76,9 +76,9 @@ export default function Deploy() {
             </Section>
             <Section title="Downloads">
               <div className="row gap wrap">
-                <a className="btn primary" href="/api/download/package">Design package (.zip)</a>
-                <a className="btn" href="/api/download/workbook">Design workbook (.xlsx)</a>
-                <a className="btn" href="/api/download/findings">Findings (.md)</a>
+                <button className="btn primary" onClick={() => api.download('/api/download/package', 'semanticlift_design_package.zip')}>Design package (.zip)</button>
+                <button className="btn" onClick={() => api.download('/api/download/workbook', 'design_workbook.xlsx')}>Design workbook (.xlsx)</button>
+                <button className="btn" onClick={() => api.download('/api/download/findings', 'findings.md')}>Findings (.md)</button>
               </div>
               <h4>Data products</h4>
               <table className="tbl compact"><thead><tr><th>Product</th><th>Semantic views</th><th>Outputs</th><th>Clusters</th></tr></thead>

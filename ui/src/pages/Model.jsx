@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react'
-import { Conf, Loading, Section, fmt, useApi } from '../components'
+import { Conf, Loading, Section, fmt, pkgLabel, useApi } from '../components'
 
 const W = 1100, H = 720, PAD = 60
 
@@ -112,7 +112,7 @@ export default function Model({ arg }) {
             <table className="tbl"><thead><tr><th>Dimension</th><th>Packages</th><th>Core attributes</th><th>Package extensions</th></tr></thead>
               <tbody>{Object.entries(data.conformed).map(([k, v]) => (
                 <tr key={k}><td><b>{k}</b></td><td className="small">{v.packages.filter((p) => v.per_package[p]).length}</td><td className="small">{v.core.join(', ')}</td>
-                  <td className="small">{Object.entries(v.extensions).filter(([, x]) => x.length).map(([p, x]) => `${p.replace(/^Energy_|_Package$/g, '')}: ${x.join(', ')}`).join(' · ')}</td></tr>))}</tbody></table>
+                  <td className="small">{Object.entries(v.extensions).filter(([, x]) => x.length).map(([p, x]) => `${pkgLabel(p)}: ${x.join(', ')}`).join(' · ')}</td></tr>))}</tbody></table>
           </Section>
         </div>
       )}

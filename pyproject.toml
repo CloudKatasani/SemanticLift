@@ -27,6 +27,7 @@ dev = ["pytest>=8", "httpx>=0.27"]
 
 [project.scripts]
 semlift = "semlift.cli:main"
+semanticlift = "semlift.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["semlift*"]

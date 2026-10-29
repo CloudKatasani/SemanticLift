@@ -7,6 +7,7 @@ import json
 import os
 import shutil
 import subprocess
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -26,6 +27,7 @@ from .llm import draft_suggestions
 from .repository import meta_mirror, save_graph
 
 REVIEW_STATES = ("approved", "rejected", "edited")
+_AUDIT_LOCK = threading.Lock()
 
 
 def _read_json(p: Path, default):
@@ -36,8 +38,11 @@ def _read_json(p: Path, default):
 
 
 def _write_json(p: Path, data) -> None:
+    """Atomic write: readers (other requests, other replicas on shared storage) never see a partial file."""
     p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(data, indent=2, sort_keys=True, default=str), encoding="utf-8")
+    tmp = p.with_name(f".{p.name}.{os.getpid()}.{threading.get_ident()}.tmp")
+    tmp.write_text(json.dumps(data, indent=2, sort_keys=True, default=str), encoding="utf-8")
+    os.replace(tmp, p)
 
 
 def _now() -> str:
@@ -97,6 +102,61 @@ class Workspace:
         cur = self.settings()
         cur.update(data)
         _write_json(self.root / "settings.json", cur)
+
+    # ------------------------------------------------------------ audit trail
+    @property
+    def audit_path(self) -> Path:
+        return self.root / "audit.jsonl"
+
+    def audit(self, user: str, action: str, target: str = "", detail: dict | None = None) -> None:
+        """Append-only record of every change: who, what, when (one JSON object per line)."""
+        rec = {"time": _now(), "user": user, "action": action, "target": target, "detail": detail or {}}
+        with _AUDIT_LOCK, self.audit_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, sort_keys=True, default=str) + "\n")
+
+    def audit_log(self, limit: int = 200, offset: int = 0, action: str | None = None, user: str | None = None) -> dict:
+        rows = []
+        if self.audit_path.exists():
+            for line in self.audit_path.read_text(encoding="utf-8").splitlines():
+                try:
+                    rows.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+        rows = [r for r in reversed(rows) if (not action or r["action"].startswith(action)) and (not user or r["user"] == user)]
+        return {"total": len(rows), "entries": rows[offset:offset + limit],
+                "actions": sorted({r["action"] for r in rows}), "users": sorted({r["user"] for r in rows})}
+
+    # ------------------------------------------------------------ project card summary
+    def refresh_summary(self) -> dict | None:
+        """Small per-project summary used by the multi-client Projects page (avoids loading state.json)."""
+        st = self.state()
+        if not st:
+            return None
+        disp = _read_json(self.root / "views" / "portfolio.json", {}).get("summary", {})
+        kpis = _read_json(self.root / "views" / "kpis.json", {}).get("groups", [])
+        out = {"run_id": st["run_id"], "time": st["time"], "tool_version": st["tool_version"],
+               "reports": st["ingest"]["counts"]["reports"], "packages": st["ingest"]["counts"]["packages"],
+               "dispositions": disp, "kpi_groups": len(kpis), "kpi_ids": sorted(g["id"] for g in kpis),
+               "objects": len(st["objects"]), "findings": len(st["findings"]),
+               "findings_open": sum(1 for f in st["findings"] if f["status"] == "open"),
+               "last_deploy": (st.get("deploy") or {}).get("last")}
+        _write_json(self.root / "views" / "summary.json", out)
+        return out
+
+    def card(self) -> dict | None:
+        """Project card: last-run summary plus live decision progress (cheap: small files only)."""
+        summ = _read_json(self.root / "views" / "summary.json", None)
+        if summ is None:
+            return None
+        port = self.portfolio_decisions()
+        reviews = self.decisions()
+        status: dict[str, int] = {}
+        for d in reviews.values():
+            status[d.get("status", "")] = status.get(d.get("status", ""), 0) + 1
+        ids = set(summ.pop("kpi_ids", []))
+        return summ | {"report_decisions": len(port["reports"]), "source_decisions": len(port["sources"]),
+                       "kpi_approved": sum(1 for k in port["kpis"] if k in ids), "object_reviews": status,
+                       "pending_rerun": self.decisions_pending()}
 
     # ------------------------------------------------------------ upload / config
     def add_upload(self, filename: str, data: bytes) -> Path:
@@ -163,6 +223,7 @@ class Workspace:
         _write_json(self.root / "views" / "applied_decisions.json", {"hash": stable_hash(decisions, 16)})
         state = self._build_state(res, run_id, diff, files)
         _write_json(self.state_path, state)
+        self.refresh_summary()
         return state
 
     def _next_run_id(self, res: RunResult) -> str:
@@ -238,6 +299,9 @@ class Workspace:
             if obj["confidence"] < thr and not acknowledge_low_confidence:
                 raise ReviewError(f"confidence {obj['confidence']:.2f} is below {thr}: inferred objects cannot be "
                                   "auto-approved; a steward must acknowledge the TODO source mappings")
+            gov = self.config().get("governance", {})
+            if gov.get("four_eyes") and cur.get("status") == "edited" and cur.get("reviewer") == reviewer:
+                raise ReviewError("four-eyes rule: the DDL was edited by you; another approver must approve it")
             entry.update({"status": "approved", "acknowledged_low_confidence": acknowledge_low_confidence})
         elif action == "reject":
             entry["status"] = "rejected"
@@ -634,6 +698,7 @@ class Workspace:
         _write_json(self.root / "deploy" / "history.json", hist)
         state["deploy"] = {"last": result, "history": [{k: h[k] for k in ("time", "branch", "commit", "pushed")} for h in hist[-20:]]}
         _write_json(self.state_path, state)
+        self.refresh_summary()
         return result
 
     # ------------------------------------------------------------ parity (FR-14)
