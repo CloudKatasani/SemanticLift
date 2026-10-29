@@ -10,6 +10,11 @@ TIME_TOKENS = {"FullDate": "DAY", "ISOWeek": "WEEK", "MonthName": "MONTH", "Mont
                "Quarter": "QUARTER", "FiscalYear": "YEAR"}
 
 
+def constants_table(cfg: dict) -> str:
+    """REF table holding constants externalized from FM calculations (CORE-05)."""
+    return "REF." + (cfg.get("naming", {}).get("constants_table") or "REF_CONSTANT_FACTOR")
+
+
 DEFAULT_PACKAGE_AFFIXES = [r"_Package$", r"^Package_"]
 
 

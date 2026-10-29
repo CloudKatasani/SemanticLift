@@ -25,6 +25,7 @@ aggregates:
 
 naming:
   package_affixes: ['^Energy_', '_Package$']
+  constants_table: REF_EMISSION_FACTOR
   product_names:
     Energy_Operations_Package: Grid Operations
     Energy_Billing_Package: Customer Billing and Metering
