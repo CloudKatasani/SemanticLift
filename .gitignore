@@ -10,3 +10,4 @@ build/
 .kokoro/
 deploy/aws-ec2/semanticlift.env
 deploy/aws-ec2/oauth2-proxy.env
+dist-static/

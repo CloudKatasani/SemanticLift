@@ -2,7 +2,7 @@
 
 ## Deployment
 
-For a step-by-step install on a single AWS EC2 instance (Docker, nginx with HTTPS, single sign-on through oauth2-proxy, EBS backups), see [DEPLOY_AWS_EC2.md](DEPLOY_AWS_EC2.md).
+For a step-by-step install on a single AWS EC2 instance (Docker, nginx with HTTPS, single sign-on through oauth2-proxy, EBS backups), see [DEPLOY_AWS_EC2.md](DEPLOY_AWS_EC2.md). A read-only showcase with no server can be published to an S3 static website: [DEPLOY_AWS_S3_STATIC.md](DEPLOY_AWS_S3_STATIC.md).
 
 ```bash
 docker build -t semanticlift .

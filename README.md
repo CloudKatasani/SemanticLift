@@ -23,7 +23,7 @@ semlift -p acme-cognos-wave-1 run "samples/Cognos Lineage Input.zip"
 semlift serve
 ```
 
-To host it for a team on AWS, follow [`docs/DEPLOY_AWS_EC2.md`](docs/DEPLOY_AWS_EC2.md).
+To host it for a team on AWS, follow [`docs/DEPLOY_AWS_EC2.md`](docs/DEPLOY_AWS_EC2.md). For a public, read-only showcase on the sample estate with no server, build it with `python scripts/static/export_static.py` and publish it to an S3 static website ([`docs/DEPLOY_AWS_S3_STATIC.md`](docs/DEPLOY_AWS_S3_STATIC.md)).
 
 Or run the container:
 
