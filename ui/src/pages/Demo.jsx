@@ -25,7 +25,7 @@ export default function Demo() {
   return (
     <div className="demo">
       <h1>Demo walkthrough</h1>
-      <p className="lede">A {meta ? mmss(meta.duration) : 'two-minute'} tour of SemanticLift on the bundled sample Cognos estate: from the product overview and a client project, through the seven migration steps with real steward decisions, to design review, deployment and the audit trail. Click a chapter to jump to it.</p>
+      <p className="lede">A {meta ? mmss(meta.duration) : 'three-minute'} narrated tour of SemanticLift on the bundled sample Cognos estate: from the product overview and a client project, through the seven migration steps with real steward decisions, to design review, deployment and the audit trail. Click a chapter to jump to it.</p>
       {missing ? (
         <div className="empty">The demo video has not been generated in this installation. Run <span className="mono">scripts/demo/record_demo.sh</span> and rebuild the UI.</div>
       ) : (
@@ -53,7 +53,7 @@ export default function Demo() {
             {chapters.map((c, i) => (
               <li key={c.title + i}><a href="#" onClick={(e) => { e.preventDefault(); seek(c.start) }}><b>{c.title}</b></a> <span className="muted small">{mmss(c.start)}</span><div>{c.text}</div></li>))}
           </ol>
-          <p className="tiny muted">The video was recorded from this application on the bundled energy sample estate, with real decisions made on screen. Regenerate it after UI changes with <span className="mono">scripts/demo/record_demo.sh</span>.</p>
+          <p className="tiny muted">The video was recorded from this application on the bundled energy sample estate, with real decisions made on screen. The voice-over is generated locally with the open Kokoro text-to-speech model. Regenerate it after UI changes with <span className="mono">scripts/demo/record_demo.sh</span>.</p>
         </section>)}
     </div>
   )

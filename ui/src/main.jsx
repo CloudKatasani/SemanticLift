@@ -24,7 +24,6 @@ import Deploy from './pages/Deploy'
 
 const PAGES = [
   { key: 'home', label: 'Product overview', icon: '✦', el: Home, section: 'Overview', global: true },
-  { key: 'demo', label: 'Demo walkthrough', icon: '▶', el: Demo, section: 'Overview', global: true },
   { key: 'strategy', label: 'Strategy & approach', icon: '★', el: Strategy, section: 'Overview', global: true },
   { key: 'ingest', label: 'Upload & run', icon: '⇪', el: Ingest, section: 'Setup' },
   { key: 'rationalization', label: '1. Report rationalization', icon: '◧', el: Rationalization, section: 'Migration workflow' },
@@ -41,6 +40,7 @@ const PAGES = [
   { key: 'model', label: 'Model canvas', icon: '◎', el: Model, section: 'Explore' },
   { key: 'projects', label: 'Client projects', icon: '▦', el: Projects, section: 'Administration', global: true },
   { key: 'export-guide', label: 'Cognos export guide', icon: '⇩', el: ExportGuide, section: 'Administration', global: true },
+  { key: 'demo', label: 'Demo walkthrough', icon: '▶', el: Demo, section: 'Learn', global: true },
 ]
 // older deep links keep working
 const ALIASES = { why: ['home', ''], estate: ['rationalization', ''], lineage: ['products', 'lineage'], aggregates: ['products', 'aggregates'] }
