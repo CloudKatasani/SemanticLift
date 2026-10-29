@@ -840,7 +840,9 @@ class Workspace:
         aggs = [{"id": a.id, "name": a.name, "fact": a.fact, "fact_table": a.fact_table, "grain": a.grain_refs,
                  "implementation": a.implementation, "coverage_pct": a.coverage_pct, "clusters": a.clusters,
                  "est_rows": a.est_rows, "credits_per_day": a.credits_per_day, "target_lag": a.target_lag,
-                 "excluded": a.excluded, "stub": a.stub} for a in sorted(d.aggregates.values(), key=lambda a: a.id)]
+                 "excluded": a.excluded, "stub": a.stub, "domain": a.domain,
+                 "measures": [{"name": m[0], "kind": m[2]} for m in a.measures]}
+                for a in sorted(d.aggregates.values(), key=lambda a: a.id)]
         prods = [{"key": p.key, "name": p.name, "slug": p.slug, "schema": p.schema, "semantic_views": p.semantic_views,
                   "outputs": p.outputs, "core_tables": p.core_tables, "source_systems": p.source_systems,
                   "confidence": p.confidence, "clusters": p.clusters, "reports": p.reports} for p in d.products.values()]

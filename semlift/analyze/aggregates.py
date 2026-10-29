@@ -169,7 +169,7 @@ def plan_aggregates(g: MetaGraph, cfg: dict) -> None:
                 "implementation": impl,
             })
         fact_summary[f] = {
-            "clusters": len(demand), "total_weight": round(total_w, 4),
+            "clusters": len(demand), "total_weight": round(total_w, 4), "fact_rows": fact_rows,
             "covered_weight": round(cov_total, 4),
             "coverage_pct": round(100.0 * cov_total / total_w, 2) if total_w else 0.0,
             "aggregates": [p["name"] for p in plans if p["fact"] == f],

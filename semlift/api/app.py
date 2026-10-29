@@ -555,7 +555,14 @@ def decide(sug_id: str, d: SuggestionDecision):
 
 @app.get("/api/aggregates", dependencies=[Depends(need("viewer"))])
 def aggregates():
-    return state()["aggregates"]
+    st = state()
+    agg = st["aggregates"]
+    used = {d["cluster"] for f in agg["facts"].values() for d in f["demand"]}
+    groups = {c["id"]: {"canonical": c["canonical"], "members": len(c["members"]), "package": c["package"],
+                        "runs_per_day": c["runs_per_day"]} for c in st["estate"]["clusters"] if c["id"] in used}
+    keys = ("coverage_target", "max_per_fact", "min_aggregate_coverage", "min_reduction_ratio", "plain_view_below_rows",
+            "default_fact_rows", "warehouse", "low_volume_domains")
+    return agg | {"groups": groups, "settings": {k: ws().config()["aggregates"].get(k) for k in keys}}
 
 
 @app.get("/api/products", dependencies=[Depends(need("viewer"))])
