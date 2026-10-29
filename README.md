@@ -55,7 +55,7 @@ docker build -t semlift . && docker run -p 8000:8000 -v $PWD/data:/data semlift
 | `semlift/generate` | Snowflake DDL, Cortex semantic YAML, Databricks metric views, dbt, contracts, OpenLineage, traceability, parity SQL, workbook |
 | `semlift/service` | Workspace (runs, review, diff, deploy, parity), compile checks, LLM assist, metadata repository, CI templates |
 | `semlift/api` | FastAPI service used by the UI |
-| `ui/` | React UI. Migration workflow: 1. Report rationalization (Keep / Review / Consolidate / Retire with evidence and overrides), 2. KPI lineage (KPI → FM → report → database → schema → table), 3. Common KPIs (competing definitions; approve the correct one), 4. Databases & tables in scope (Keep + Review reports, review-only objects flagged), 5. Logical data model, 6. Data products & semantic layer (business logic moved, semantic and aggregated views, outputs, lineage). Plus Upload & run, Findings, Design review, Deploy & validate and Model canvas |
+| `ui/` | React UI. Opens on **Strategy & approach**: the migration story step by step (review the estate → rationalize → resolve KPI conflicts → scope platform objects → logical model → data products and semantic views → object lineage → review, deploy and parity), with live figures from the last run and a link to each step's page. Migration workflow: 1. Report rationalization (Keep / Review / Consolidate / Retire with evidence and overrides), 2. KPI lineage (KPI → FM → report → database → schema → table), 3. Common KPIs (competing definitions; approve the correct one), 4. Databases & tables in scope (Keep + Review reports, review-only objects flagged), 5. Logical data model, 6. Data products & semantic layer (business logic moved, semantic and aggregated views, outputs, lineage), 7. Object lineage (for every platform object: source tables, upstream objects, the aggregates, semantic views and data products it feeds, and the Cognos reports it serves with their outcome). Plus Upload & run, Findings, Design review, Deploy & validate and Model canvas |
 
 ## Results on the supplied export
 
@@ -104,5 +104,5 @@ Environment variables:
 ## Tests
 
 ```bash
-python -m pytest -q        # 56 tests: units, the F1–F12 reproduction, design invariants, determinism, workspace and API
+python -m pytest -q        # 66 tests: units, the F1–F12 reproduction, design invariants, determinism, workspace and API
 ```
