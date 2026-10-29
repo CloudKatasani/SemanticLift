@@ -2,6 +2,8 @@
 
 ## Deployment
 
+For a step-by-step install on a single AWS EC2 instance (Docker, nginx with HTTPS, single sign-on through oauth2-proxy, EBS backups), see [DEPLOY_AWS_EC2.md](DEPLOY_AWS_EC2.md).
+
 ```bash
 docker build -t semanticlift .
 docker run -p 8000:8000 -v $PWD/data:/data \

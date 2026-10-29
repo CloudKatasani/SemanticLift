@@ -23,6 +23,8 @@ semlift -p acme-cognos-wave-1 run "samples/Cognos Lineage Input.zip"
 semlift serve
 ```
 
+To host it for a team on AWS, follow [`docs/DEPLOY_AWS_EC2.md`](docs/DEPLOY_AWS_EC2.md).
+
 Or run the container:
 
 ```bash
