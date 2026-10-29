@@ -34,6 +34,8 @@ To check it locally, run `python -m http.server 8080 --directory dist-static` an
 
 ## 2. Create the bucket and turn on website hosting
 
+> Prefer clicking to typing? Steps 2–7 are also written for the AWS Management Console in [Using the AWS console instead of the CLI](#using-the-aws-console-instead-of-the-cli).
+
 The commands use the AWS CLI v2 with credentials that can manage S3. Pick a globally unique bucket name and your region:
 
 ```bash
@@ -133,6 +135,100 @@ HTTPS on a custom domain is not possible with S3 alone.
 ## 8. Cost
 
 Storage is about 18 MB, which costs fractions of a cent per month. Requests are cheap. The main cost is **data transfer out**: each full view of the demo video is about 9 MB, so 1,000 video views is about 9 GB of transfer, billed at the standard S3 internet egress rate after the monthly free allowance. Use an AWS Budget alarm if the link may circulate widely.
+
+## Using the AWS console instead of the CLI
+
+The same result, done entirely in the browser at https://console.aws.amazon.com. You still build `dist-static/` once on your machine (step 1); everything after that is clicks.
+
+### A. Create the bucket
+
+1. Open **S3** and choose **Create bucket**.
+2. Set these options:
+   - **Bucket type:** *General purpose*.
+   - **Bucket name:** unique, for example `semanticlift-demo-yourcompany`. For your own domain, use the exact host name, such as `demo.semanticlift.example.com`.
+   - **AWS Region:** the region you want, shown at the top right.
+   - **Object Ownership:** leave *ACLs disabled (recommended)*.
+3. Under **Block Public Access settings for this bucket**:
+   - Untick the two **bucket policy** boxes: *Block public access … granted through new public bucket or access point policies* and *… through any public bucket or access point policies*.
+   - Leave the two **ACL** boxes ticked.
+   - Tick the acknowledgement that the bucket may become public.
+4. Leave **Bucket Versioning** off and **Default encryption** on SSE-S3, then choose **Create bucket**.
+
+If you later get *Access denied* while saving the policy, open **Block Public Access settings for this account** in the S3 left menu. Public policies are blocked for the whole account; an administrator must allow them, or use a separate account for public sites.
+
+### B. Upload the files
+
+1. Open the bucket and choose **Upload**.
+2. Open `dist-static/` on your computer, select **everything inside it** (`index.html`, `assets`, `data`, `demo`), and drag it onto the upload area.
+
+   Do not drag the `dist-static` folder itself, and do not use **Add folder** on it: either creates a `dist-static/` prefix, and the site would then live at `…/dist-static/index.html`.
+3. Check that the list shows about 190 files, then choose **Upload** and wait for *Upload succeeded*. The console sets each file's type from its extension (`video/mp4`, `application/json`, `text/html`).
+
+### C. Turn on static website hosting
+
+1. Open the bucket's **Properties** tab, scroll to **Static website hosting**, and choose **Edit**.
+2. Choose **Enable**, then **Host a static website**.
+3. Set **Index document** to `index.html` and **Error document** to `index.html`.
+4. Choose **Save changes**.
+5. Back in **Properties › Static website hosting**, copy the **Bucket website endpoint** (`http://…s3-website…amazonaws.com`). This is the site's address.
+
+### D. Make it readable
+
+1. Open the **Permissions** tab, go to **Bucket policy**, and choose **Edit**.
+2. Paste the policy below, replacing `YOUR-BUCKET-NAME`, and choose **Save changes**:
+
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [{
+       "Sid": "PublicReadShowcase",
+       "Effect": "Allow",
+       "Principal": "*",
+       "Action": "s3:GetObject",
+       "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
+     }]
+   }
+   ```
+
+   To show it only inside your company network, add `"Condition": { "IpAddress": { "aws:SourceIp": ["203.0.113.0/24"] } }` after `"Resource"`, with your office ranges.
+3. The bucket now shows the red **Publicly accessible** label, as expected for a website.
+
+### E. Stop browsers caching the start page (recommended)
+
+1. On the **Objects** tab, tick `index.html` and choose **Actions › Edit metadata**.
+2. Choose **Add metadata**: **Type** *System defined*, **Key** `Cache-Control`, **Value** `no-cache`.
+3. Choose **Save changes**.
+
+New releases then show up as soon as they are uploaded.
+
+### F. Check it
+
+Open the **Bucket website endpoint** from C5, then run the checks in step 5 above: read-only banner, demo video with sound, read-only notice on **Keep**, and the workbook download.
+
+### G. Your own domain (optional, still HTTP)
+
+1. The bucket must be named exactly as the host name (A2).
+2. In **Route 53 › Hosted zones**, open your domain and choose **Create record**.
+3. Enter the subdomain in **Record name**, for example `demo.semanticlift`, keep **Record type** *A*, and turn on **Alias**.
+4. Under **Route traffic to**, choose **Alias to S3 website endpoint**, then your region, then your bucket.
+5. Choose **Create records**.
+
+For DNS outside Route 53, add a **CNAME** to the endpoint host name, without `http://`.
+
+### H. Update, budget and removal
+
+- **Update:**
+  1. Rebuild with step 1.
+  2. In the bucket, tick the `assets` folder and choose **Delete**, so old script files do not pile up.
+  3. Upload the new contents of `dist-static/` as in B. Files with the same name are replaced.
+  4. Repeat E for the new `index.html`.
+- **Budget alarm:**
+  1. Open **Billing and Cost Management › Budgets** and choose **Create budget**.
+  2. Pick the *Monthly cost budget* template, set an amount such as 10 USD, and enter an email address.
+- **Remove:**
+  1. In the S3 bucket list, select the bucket and choose **Empty**, then confirm.
+  2. Choose **Delete** and type the bucket name.
+  3. If you made one, delete the Route 53 record.
 
 ## Troubleshooting
 
