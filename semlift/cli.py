@@ -116,7 +116,11 @@ def cmd_serve(args) -> int:
     import uvicorn
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
     if not os.environ.get("SEMLIFT_HOME"):
-        os.environ["SEMLIFT_WORKSPACE"] = str(Path(args.workspace).resolve())
+        legacy = Path(args.workspace).resolve()
+        if (legacy / "state.json").exists():
+            os.environ["SEMLIFT_WORKSPACE"] = str(legacy)       # keep an existing single workspace as project "default"
+        else:
+            os.environ["SEMLIFT_HOME"] = str(Path("semlift_home").resolve())   # start clean: projects are created in the UI
     uvicorn.run("semlift.api.app:app", host=args.host, port=args.port, log_level="info")
     return 0
 

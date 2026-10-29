@@ -276,3 +276,20 @@ details.acc summary { cursor: pointer; font-weight: 600; }
 @media (max-width: 1200px) { .home-stat-grid { grid-template-columns: repeat(3, 1fr); } .home-acts, .home-feature-grid { grid-template-columns: 1fr 1fr; } .home-split { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .home-hero { padding: 36px 22px; } .home-title { font-size: 32px; } .home-acts, .home-feature-grid, .home-ent { grid-template-columns: 1fr; } .home-stat-grid { grid-template-columns: 1fr 1fr; } }
 @media (prefers-reduced-motion: reduce) { .home-glow, .home-title, .home-sub { animation: none; } }
+/* consolidated overview + playbook */
+.home-problem, .home-how { margin: 6px 0 34px; }
+.home-lead { color: #3d4757; font-size: 15.5px; line-height: 1.6; max-width: 900px; margin: -6px 0 16px; }
+.home-steps { display: grid; grid-template-columns: repeat(7, 1fr auto) 1fr; gap: 6px; align-items: stretch; }
+.home-step { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 6px; align-content: start; font-size: 12.5px; }
+.home-step b { font-size: 13.5px; } .home-step span:last-child { color: var(--muted); line-height: 1.4; }
+.home-step-arrow { display: grid; place-items: center; color: #6fa2ff; font-size: 18px; }
+@media (max-width: 1400px) { .home-steps { grid-template-columns: repeat(4, 1fr); } .home-step-arrow { display: none; } }
+@media (max-width: 760px) { .home-steps { grid-template-columns: 1fr 1fr; } }
+.play-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0 6px; }
+.play-cell { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.5; }
+.play-cell > span { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 3px; }
+.play-cell.guide { background: #fffaf0; border-color: #f3dfb0; } .play-cell.outcome { background: #effaf4; border-color: #bfe6cf; }
+@media (max-width: 1100px) { .play-grid { grid-template-columns: 1fr; } }
+.play-arrow { text-align: center; color: #6fa2ff; font-size: 16px; margin: -8px 0 8px; }
+.nav-proj { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.nav-proj a { color: #8fb6ff; margin-left: 4px; }

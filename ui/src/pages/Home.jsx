@@ -35,22 +35,34 @@ function Count({ to, suffix = '', run }) {
   return <>{v.toLocaleString()}{suffix}</>
 }
 
-const ACTS = [
-  { act: 'Act I', title: 'The sprawl', tone: 'act-1',
-    text: 'Monday, 9 a.m. Two dashboards, one question, two revenue numbers. Behind them sit thousands of reports built up over twenty years: copies of copies, personal variants, reports nobody has opened since the last reorganisation. The business logic that makes the numbers is locked inside the BI tool, in models only a handful of people can still read.' },
-  { act: 'Act II', title: 'The lift', tone: 'act-2',
-    text: 'SemanticLift reads the whole estate: every report specification, every query and filter, every audit log line, every security rule. It shows which reports are really used and which are copies, finds every KPI calculated three different ways, and traces each one back to the column it comes from. People decide; the evidence sits next to every decision.' },
-  { act: 'Act III', title: 'The landing', tone: 'act-3',
-    text: 'What lands on the cloud platform is smaller and better: one approved definition per KPI, a conformed model, governed semantic views and data products that every BI tool, notebook and AI agent shares. Lineage proves where every number comes from, parity checks prove it still matches, and the old tool can finally be switched off.' },
+const PROBLEMS = [
+  { icon: '▦', title: 'Report sprawl across many tools', text: 'Years of Cognos, BusinessObjects, Power BI, Tableau and MicroStrategy content: thousands of reports, many of them archive copies, personal variants or never opened. Nobody can say which ones the business still needs.' },
+  { icon: '⚙', title: 'Business logic trapped in the BI layer', text: 'KPI formulas, aggregation rules, prompts and joins live in Framework Manager models, universes, DAX datasets and workbook calculations. They are tool-specific, undocumented and invisible to the data platform.' },
+  { icon: '≠', title: 'The same KPI, different numbers', text: 'Revenue, volume or peak demand are calculated differently by package and by report. Every migration wave restarts the argument about which number is right.' },
+  { icon: '⇄', title: 'Unknown lineage', text: 'Which tables, columns and filters feed which report is buried in report specs. Without it, teams cannot scope what to land, prove the new numbers match, or switch the old tool off.' },
+  { icon: '🔒', title: 'Security hidden in the tool', text: 'Row-level filters, column masking and group grants are defined inside the BI tool. They are easy to lose in a lift-and-shift and hard to recreate on the platform.' },
+  { icon: '⏱', title: 'Slow, manual, risky migrations', text: 'Analysts inventory reports in spreadsheets for months, rebuild logic by hand per report and find out at go-live that totals changed. Licences for the old tool keep running in parallel.' },
 ]
 
-const FEATURES = [
-  { icon: '◉', title: 'Read everything', text: 'Report specs, Framework Manager models, audit usage, prompts and security in one metadata graph, with provenance for every element.' },
-  { icon: '✂', title: 'Cut with evidence', text: 'Keep, Review, Consolidate or Retire for every report, with the rule, the usage and the KPI overlap behind it.' },
-  { icon: '≡', title: 'One truth per KPI', text: 'Conflicting aggregations, filters and definitions are surfaced up front, and a steward approves the right one.' },
-  { icon: '◈', title: 'Generate the platform', text: 'Snowflake DDL, semantic views, aggregates, row and column policies, data-product contracts, Databricks metric views and dbt.' },
-  { icon: '⇄', title: 'Trace every number', text: 'Lineage from report column to platform column, and from every object to the reports it replaces.' },
-  { icon: '✓', title: 'Prove it, then ship', text: 'Human review, Git and CI deployment, and parity SQL that compares old and new numbers before cut-over.' },
+const STEPS = [
+  ['Review the estate', 'A complete inventory with usage and findings'],
+  ['Rationalize reports', 'Evidence-backed list of what to carry forward'],
+  ['Resolve KPI conflicts', 'One approved definition per KPI'],
+  ['Scope platform objects', 'Only the tables surviving reports read'],
+  ['Design the model', 'Conformed facts and dimensions, no double counting'],
+  ['Generate the semantic layer', 'Semantic views, aggregates, policies, data products'],
+  ['Trace every object', 'Lineage from report column to platform column'],
+  ['Review, deploy, prove', 'Approved, deployed through CI, parity checked'],
+]
+
+const COMPARE = [
+  ['Inventory', 'Spreadsheets compiled by hand over weeks', 'Parsed from the exports in one run, with provenance'],
+  ['What to migrate', 'Report owners nominate; nearly everything survives', 'Usage and duplicate evidence; owners challenge recommendations'],
+  ['KPI definitions', 'Discovered at UAT when numbers differ', 'Conflicts found up front; one definition approved per KPI'],
+  ['Business logic', 'Re-implemented per report in the new BI tool', 'Generated once into semantic views shared by every tool and AI agent'],
+  ['Security', 'Re-keyed manually, easy to miss', 'Row and column rules generated as platform policies'],
+  ['Lineage & sign-off', 'Partial, rebuilt for audits', 'Complete, from report column to platform column'],
+  ['Change control', 'Ad hoc', 'Human review, audit trail, Git and CI deployment, parity checks'],
 ]
 
 const ENTERPRISE = [
@@ -90,7 +102,7 @@ export default function Home({ current }) {
         <p className="home-sub">SemanticLift turns decades of Cognos reports into a governed semantic layer and data products on your cloud data platform. Less clutter carried over. One answer per KPI. Proof every number still matches.</p>
         <div className="row gap wrap">
           <a className="btn home-cta" href={start}>Start your lift →</a>
-          <a className="btn home-ghost" href="#/why">See how it works</a>
+          <a className="btn home-ghost" href="#/strategy">See the approach</a>
         </div>
         <div className="home-flow" aria-hidden="true">
           <span>Thousands of reports</span><i>→</i><span>Evidence</span><i>→</i><span>Decisions</span><i>→</i><span className="hl">One semantic layer</span>
@@ -101,13 +113,27 @@ export default function Home({ current }) {
         <div className="home-quote">“The hard part of a BI migration was never the reports. It was the meaning inside them.”</div>
       </section>
 
-      <section className="home-acts">
-        {ACTS.map((a) => (
-          <div key={a.act} className={`home-act ${a.tone}`}>
-            <div className="home-act-n">{a.act}</div>
-            <h3>{a.title}</h3>
-            <p>{a.text}</p>
-          </div>))}
+      <section className="home-problem">
+        <h2>The problem every large BI estate has</h2>
+        <p className="home-lead">Monday, 9 a.m. Two dashboards, one question, two revenue numbers. Behind them sit years of reports across several tools, and the business logic that makes the numbers is locked inside them.</p>
+        <div className="pain-grid">
+          {PROBLEMS.map((p) => (
+            <div key={p.title} className="pain"><div className="pain-icon">{p.icon}</div><b>{p.title}</b><p>{p.text}</p></div>))}
+        </div>
+        <div className="why-cost">The result: migrations that take years, copy the clutter onto the new platform, re-argue every KPI, keep two BI tools licensed in parallel, and leave AI and self-service without a trusted semantic layer.</div>
+      </section>
+
+      <section className="home-how">
+        <h2>How SemanticLift lifts it</h2>
+        <p className="home-lead">Eight steps from estate to production. The tool does the analysis and generation; people make the decisions, with the evidence next to each one.</p>
+        <div className="home-steps">
+          {STEPS.map(([t, o], i) => (
+            <React.Fragment key={t}>
+              <div className="home-step"><span className="flow-n">{i + 1}</span><b>{t}</b><span>{o}</span></div>
+              {i < STEPS.length - 1 && <div className="home-step-arrow" aria-hidden="true">→</div>}
+            </React.Fragment>))}
+        </div>
+        <a className="btn" href="#/strategy" style={{ marginTop: 14 }}>Read the full playbook: why, guidelines and decisions per step →</a>
       </section>
 
       <section className="home-stats" ref={statsRef}>
@@ -124,11 +150,11 @@ export default function Home({ current }) {
       </section>
 
       <section className="home-features">
-        <h2>Everything a migration needs. Nothing it doesn't.</h2>
-        <div className="home-feature-grid">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="home-feature"><div className="home-feature-icon">{f.icon}</div><b>{f.title}</b><p>{f.text}</p></div>))}
-        </div>
+        <h2>Manual migration vs SemanticLift</h2>
+        <table className="tbl compare card">
+          <thead><tr><th /><th>Typical manual migration</th><th>With SemanticLift</th></tr></thead>
+          <tbody>{COMPARE.map(([k, a, b]) => <tr key={k}><td><b>{k}</b></td><td className="muted">{a}</td><td>{b}</td></tr>)}</tbody>
+        </table>
       </section>
 
       <section className="home-split">
@@ -146,6 +172,25 @@ export default function Home({ current }) {
         </div>
       </section>
 
+      <section className="home-features">
+        <h2>Where it fits</h2>
+        <div className="fit">
+          <div className="fit-col">
+            <h4>BI sources</h4>
+            <div><span className="pill good">available</span> IBM Cognos: report specifications, Framework Manager models, usage audit, security, prompts</div>
+            <div><span className="pill">roadmap</span> Power BI, Tableau, SAP BusinessObjects, MicroStrategy, read into the same platform-neutral model</div>
+          </div>
+          <div className="fit-arrow">➜</div>
+          <div className="fit-col center"><h4>SemanticLift</h4><div>Platform-neutral metadata graph, design rules, steward decisions, audit trail</div></div>
+          <div className="fit-arrow">➜</div>
+          <div className="fit-col">
+            <h4>Cloud data platform</h4>
+            <div><span className="pill good">available</span> Snowflake: DDL, semantic views, row and column policies, data-product listings, CI deployment</div>
+            <div><span className="pill good">available</span> Databricks metric views and a dbt project, generated from the same model</div>
+          </div>
+        </div>
+      </section>
+
       <section className="home-final">
         <h2>Stop migrating reports.<br />Start lifting meaning.</h2>
         <p>Bring one Cognos export. Leave with a scoped, evidence-backed plan and a generated semantic layer to review.</p>
@@ -153,7 +198,6 @@ export default function Home({ current }) {
           <a className="btn home-cta" href={start}>Start your lift →</a>
           <a className="btn home-ghost" href="#/export-guide">What to export from Cognos</a>
         </div>
-        <div className="home-fine">IBM Cognos available today · Snowflake, Databricks metric views and dbt generated · More BI sources on the roadmap</div>
       </section>
     </div>
   )
