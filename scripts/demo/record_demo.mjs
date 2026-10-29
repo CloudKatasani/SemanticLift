@@ -7,7 +7,7 @@
 // The script creates a demo project, uploads the bundle, runs the pipeline, then walks every page
 // with on-screen captions and a visible cursor. chapters.json records when each chapter starts.
 import { createRequire } from 'node:module'
-import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs'
 import { basename, join } from 'node:path'
 
 const { chromium } = createRequire(import.meta.url)('playwright')   // resolves a global install via NODE_PATH
@@ -18,6 +18,9 @@ const BUNDLE = process.env.BUNDLE || 'samples/Cognos Lineage Input.zip'
 const CONFIG = process.env.CONFIG || 'energy_estate'
 const W = 1440, H = 810
 mkdirSync(OUT, { recursive: true })
+// captions and voice-over lines; durations.json (from narrate.py speak) makes each caption last as long as its line
+const N = JSON.parse(readFileSync(new URL('./narration.json', import.meta.url), 'utf8'))
+const DUR = existsSync(join(OUT, 'durations.json')) ? JSON.parse(readFileSync(join(OUT, 'durations.json'), 'utf8')) : {}
 
 async function api(path, opts = {}, project) {
   const headers = { ...(opts.headers || {}) }
@@ -43,6 +46,8 @@ await ctx.addInitScript((pid) => { try { localStorage.setItem('semlift_project',
 const page = await ctx.newPage()
 const t0 = Date.now()
 const chapters = []
+const segments = []          // {key, start}: when each narration line starts, relative to the video
+let speechEnds = 0
 const pause = (ms) => page.waitForTimeout(ms)
 
 const OVERLAY = () => {
@@ -62,7 +67,16 @@ const OVERLAY = () => {
   const k = document.createElement('div'); k.id = 'demo-cursor'; document.body.appendChild(k)
 }
 
-async function caption(title, text) {
+async function waitSpeech() {
+  const left = speechEnds - Date.now()
+  if (left > 0) await pause(left)
+}
+
+async function caption(key) {
+  await waitSpeech()
+  const { title, text } = N[key]
+  segments.push({ key, start: Math.round((Date.now() - t0 + 300) / 100) / 10 })
+  speechEnds = Date.now() + 300 + (DUR[key] || 0) * 1000 + 500
   await page.evaluate(OVERLAY)
   await page.evaluate(([t, x]) => {
     const c = document.getElementById('demo-cap')
@@ -71,12 +85,13 @@ async function caption(title, text) {
   }, [title, text])
 }
 
-async function chapter(title, hash, text, holdMs = 3500) {
-  chapters.push({ title, start: Math.max(0, Math.round((Date.now() - t0) / 100) / 10), text })
+async function chapter(key, hash, holdMs = 3500) {
+  await waitSpeech()
+  chapters.push({ title: N[key].title, start: Math.max(0, Math.round((Date.now() - t0) / 100) / 10), text: N[key].text })
   await page.goto(`${BASE}/#/${hash}`)
   await page.waitForLoadState('networkidle').catch(() => {})
   await pause(700)
-  await caption(title, text)
+  await caption(key)
   await pause(holdMs)
 }
 
@@ -109,75 +124,73 @@ async function scroll(px, steps = 6) {
 // ---------------------------------------------------------------- the walkthrough
 await page.goto(`${BASE}/#/home`)
 await page.waitForSelector('.home-hero')
-await chapter('Meet SemanticLift', 'home',
-  'Decades of Cognos reports hide a semantic layer. SemanticLift lifts it out onto the cloud data platform.', 4500)
+await chapter('intro', 'home', 2500)
 await scroll(800, 6)
-await caption('The problem', 'Report sprawl, business logic trapped in the BI tool, the same KPI with different numbers, unknown lineage.')
-await pause(3500)
+await caption('problem')
+await pause(2500)
 await scroll(650, 5)
-await caption('How it works', 'Eight steps from estate to production: the tool does the analysis and generation, people make the decisions.')
-await pause(3500)
+await caption('how')
+await pause(2500)
 await scroll(550, 5)
-await caption('The lift, in numbers', 'Figures from the open project: 588 reports analysed, 85% fewer to migrate, 70 KPI conflicts surfaced before build.')
-await pause(4000)
+await caption('numbers')
+await pause(2500)
 
-await chapter('Client projects', 'projects', 'Each client engagement is an isolated project, with its progress, roles and an audit trail.', 4000)
+await chapter('projects', 'projects', 2500)
 
-await chapter('Upload & run', 'ingest', 'Upload one Cognos export. Every file is detected and parsed, and stated counts are reconciled.', 3000)
+await chapter('ingest', 'ingest', 2000)
 await scroll(700, 5)
-await pause(2000)
 
-await chapter('Strategy & approach', 'strategy', 'The playbook: for each step why it matters, what SemanticLift does, the team guideline, the outcome and this project\u2019s figures.', 3500)
+await chapter('strategy', 'strategy', 2000)
 await scroll(900, 6)
-await pause(1500)
 
-await chapter('1. Report rationalization', 'rationalization', 'Every report gets Keep, Review, Consolidate or Retire, with the rule and evidence behind it.', 3000)
+await chapter('rationalization', 'rationalization', 1500)
 await point('select >> nth=2')
 await page.locator('select').nth(2).selectOption('Review').catch(() => {})
 await pause(1200)
 await point('table:has(th:has-text("Consolidate into")) tbody tr', { click: true, nth: 0 })
-await caption('1. Report rationalization', 'The steward reviews the evidence and decides: this one is kept. The decision is saved and audited.')
+await caption('decide')
 await point('.detail button:has-text("Keep")', { click: true })
-await pause(2500)
+await pause(1500)
 
-await chapter('2. KPI lineage', 'kpi-lineage', 'Trace any KPI: KPI → Framework Manager item → reports → database → schema → table.', 2500)
+await chapter('kpi_lineage', 'kpi-lineage', 1500)
 await point('.obj', { click: true, nth: 2 })
-await pause(3000)
-
-await chapter('3. Common KPIs', 'common-kpis', 'KPIs that reports calculate differently are surfaced up front, and a steward approves the correct definition.', 3000)
-await point('input[type=radio]', { click: true, nth: 0 })
-await point('button:has-text("Approve selected definition")', { click: true })
 await pause(2000)
 
-await chapter('4. Databases & tables', 'sources', 'Only the tables surviving reports really read are in scope; tables used only by Review reports are flagged.', 4000)
+await chapter('common_kpis', 'common-kpis', 1500)
+await point('input[type=radio]', { click: true, nth: 0 })
+await point('button:has-text("Approve selected definition")', { click: true })
+await pause(1500)
 
-await chapter('5. Logical data model', 'ldm', 'A conformed model of facts and dimensions, with join-path risks diagnosed.', 4500)
+await chapter('sources', 'sources', 3000)
 
-await chapter('6. Data products & semantic layer', 'products', 'Business logic leaves Cognos: semantic views, aggregated views, policies and data-product contracts.', 2500)
+await chapter('ldm', 'ldm', 3000)
+
+await chapter('products', 'products', 1500)
 await point('.prod-card', { click: true, nth: 1 })
 await scroll(700, 5)
-await caption('Apply decisions', 'Saved decisions reach the design with one click: the pipeline re-runs in the background.')
+await caption('apply')
 await scroll(-700, 4)
 await point('button:has-text("Apply decisions")', { click: true })
 await page.waitForSelector('.banner', { state: 'detached', timeout: 60000 }).catch(() => {})
-await pause(1500)
+await pause(1000)
 await point('button.tab:has-text("Aggregated views")', { click: true })
-await caption('Aggregated views', 'A few pre-summarised tables answer the busiest reports from hundreds of rows instead of millions.')
-await pause(3500)
+await caption('aggregates')
+await pause(2500)
 
-await chapter('7. Object lineage', 'objects/CORE.FCT_BILLING', 'Every platform object traced: its sources, the semantic objects it feeds and the reports it serves.', 5000)
+await chapter('objects', 'objects/CORE.FCT_BILLING', 3500)
 
-await chapter('Design review', 'review/CORE.DIM_DATE', 'Nothing deploys without a person. Approvers see the generated DDL next to the Cognos source.', 2500)
+await chapter('review', 'review/CORE.DIM_DATE', 1500)
 await point('button:has-text("Approve")', { click: true })
 await pause(1500)
 
-await chapter('Deploy & validate', 'deploy', 'Approved objects are committed to Git and deployed by CI; parity SQL proves the numbers still match.', 4000)
+await chapter('deploy', 'deploy', 3000)
 
-await chapter('Audit trail', 'audit', 'Every upload, run and decision, attributed to a person, ready for the client’s governance team.', 4000)
+await chapter('audit', 'audit', 3000)
 
-await chapter('Lift the meaning', 'home', 'SemanticLift: fewer reports, one truth per KPI, a governed semantic layer, proven.', 1500)
+await chapter('outro', 'home', 1000)
 await scroll(5000, 10)
-await pause(3500)
+await waitSpeech()
+await pause(2000)
 
 const total = Math.round((Date.now() - t0) / 100) / 10
 const video = page.video()
@@ -185,4 +198,5 @@ await ctx.close()
 await browser.close()
 renameSync(await video.path(), join(OUT, 'semanticlift-demo.webm'))
 writeFileSync(join(OUT, 'chapters.json'), JSON.stringify({ duration: total, project, chapters }, null, 2))
+writeFileSync(join(OUT, 'segments.json'), JSON.stringify(segments, null, 2))
 console.log(`recorded ${total}s, ${chapters.length} chapters`)

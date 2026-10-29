@@ -1,80 +1,80 @@
 {
-  "duration": 129.3,
+  "duration": 183.2,
   "project": "northwind-energy-cognos-wave-1",
   "chapters": [
     {
       "title": "Meet SemanticLift",
-      "start": 0.2,
+      "start": 0.4,
       "text": "Decades of Cognos reports hide a semantic layer. SemanticLift lifts it out onto the cloud data platform."
     },
     {
       "title": "Client projects",
-      "start": 21.9,
+      "start": 38.5,
       "text": "Each client engagement is an isolated project, with its progress, roles and an audit trail."
     },
     {
       "title": "Upload & run",
-      "start": 26.6,
+      "start": 45.9,
       "text": "Upload one Cognos export. Every file is detected and parsed, and stated counts are reconciled."
     },
     {
       "title": "Strategy & approach",
-      "start": 33.9,
+      "start": 53.9,
       "text": "The playbook: for each step why it matters, what SemanticLift does, the team guideline, the outcome and this project’s figures."
     },
     {
       "title": "1. Report rationalization",
-      "start": 41.3,
+      "start": 64.2,
       "text": "Every report gets Keep, Review, Consolidate or Retire, with the rule and evidence behind it."
     },
     {
       "title": "2. KPI lineage",
-      "start": 53.2,
+      "start": 80,
       "text": "Trace any KPI: KPI → Framework Manager item → reports → database → schema → table."
     },
     {
       "title": "3. Common KPIs",
-      "start": 61.2,
+      "start": 89.1,
       "text": "KPIs that reports calculate differently are surfaced up front, and a steward approves the correct definition."
     },
     {
       "title": "4. Databases & tables",
-      "start": 70.6,
+      "start": 98.3,
       "text": "Only the tables surviving reports really read are in scope; tables used only by Review reports are flagged."
     },
     {
       "title": "5. Logical data model",
-      "start": 75.3,
+      "start": 108.3,
       "text": "A conformed model of facts and dimensions, with join-path risks diagnosed."
     },
     {
       "title": "6. Data products & semantic layer",
-      "start": 80.5,
+      "start": 115.5,
       "text": "Business logic leaves Cognos: semantic views, aggregated views, policies and data-product contracts."
     },
     {
       "title": "7. Object lineage",
-      "start": 99.4,
+      "start": 140.8,
       "text": "Every platform object traced: its sources, the semantic objects it feeds and the reports it serves."
     },
     {
       "title": "Design review",
-      "start": 105.1,
+      "start": 149.8,
       "text": "Nothing deploys without a person. Approvers see the generated DDL next to the Cognos source."
     },
     {
       "title": "Deploy & validate",
-      "start": 111.6,
+      "start": 158.1,
       "text": "Approved objects are committed to Git and deployed by CI; parity SQL proves the numbers still match."
     },
     {
       "title": "Audit trail",
-      "start": 116.3,
+      "start": 166.2,
       "text": "Every upload, run and decision, attributed to a person, ready for the client’s governance team."
     },
     {
       "title": "Lift the meaning",
-      "start": 121,
+      "start": 173.5,
       "text": "SemanticLift: fewer reports, one truth per KPI, a governed semantic layer, proven."
     }
   ]
