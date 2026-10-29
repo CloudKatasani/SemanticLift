@@ -1,0 +1,22 @@
+# Caddy in front of SemanticLift: automatic HTTPS (Let's Encrypt) for SITE_HOST, e.g. 3-121-45-67.sslip.io.
+# Values come from caddy.env. See docs/DEPLOY_AWS_EC2.md.
+{$SITE_HOST} {
+	encode zstd gzip
+
+	# Optional: only let your own networks in (no sign-in needed). Uncomment and list your IP ranges.
+	# Certificates still renew, because Caddy answers the Let's Encrypt challenges before this rule applies.
+	# @outsiders not remote_ip 203.0.113.0/24 198.51.100.10/32
+	# respond @outsiders "This SemanticLift instance is not available from your network." 403
+
+	request_body {
+		max_size 500MB
+	}
+
+	reverse_proxy {$UPSTREAM} {
+		# never let a browser supply identity headers itself
+		header_up -X-Forwarded-User
+		header_up -X-Forwarded-Email
+		header_up -X-Forwarded-Groups
+		header_up -X-Forwarded-Preferred-Username
+	}
+}
