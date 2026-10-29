@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles.css'
-import { api, currentProject, setProject } from './api'
+import { api, currentProject, isStatic, setProject } from './api'
 import { setPackageAffixes } from './components'
 import Projects from './pages/Projects'
 import Home from './pages/Home'
@@ -142,6 +142,7 @@ function App() {
         </div>
       </aside>
       <main className="main">
+        {isStatic && <div className="banner static-banner"><b>Read-only demo.</b> Every page shows a real SemanticLift run on the bundled sample Cognos estate. Uploads, decisions and re-runs are switched off in this showcase.</div>}
         {proj && proj.status === 'archived' && <div className="banner">This project is archived and read-only.</div>}
         <Page arg={r.arg} summary={summary} me={me} current={project} onOpen={open} onChanged={loadProjects}
               onRun={() => { setTick((t) => t + 1); loadProjects() }} key={`${project}/${needsProject ? 'projects' : r.page}/${r.arg}`} />

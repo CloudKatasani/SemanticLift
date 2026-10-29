@@ -9,7 +9,7 @@ export default function Demo() {
   const [now, setNow] = useState(0)
 
   useEffect(() => {
-    fetch('/demo/chapters.json').then((r) => (r.ok ? r.json() : Promise.reject())).then(setMeta).catch(() => setMissing(true))
+    fetch('demo/chapters.json').then((r) => (r.ok ? r.json() : Promise.reject())).then(setMeta).catch(() => setMissing(true))
   }, [])
 
   const chapters = meta?.chapters || []
@@ -31,9 +31,9 @@ export default function Demo() {
       ) : (
         <div className="demo-grid">
           <div className="demo-player">
-            <video ref={video} controls preload="metadata" poster="/demo/poster.jpg" onTimeUpdate={(e) => setNow(e.currentTarget.currentTime)}>
-              <source src="/demo/semanticlift-demo.mp4" type="video/mp4" />
-              Your browser cannot play this video. <a href="/demo/semanticlift-demo.mp4">Download it</a>.
+            <video ref={video} controls preload="metadata" poster="demo/poster.jpg" onTimeUpdate={(e) => setNow(e.currentTarget.currentTime)}>
+              <source src="demo/semanticlift-demo.mp4" type="video/mp4" />
+              Your browser cannot play this video. <a href="demo/semanticlift-demo.mp4">Download it</a>.
             </video>
             {chapters[current] && (
               <div className="demo-now"><span className="flow-n">{current + 1}</span><div><b>{chapters[current].title}</b><div className="small muted">{chapters[current].text}</div></div></div>)}
