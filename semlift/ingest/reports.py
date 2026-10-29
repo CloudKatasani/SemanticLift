@@ -35,18 +35,25 @@ def parse_reports(path: Path, rel: str, g: MetaGraph) -> int:
         reports = [root]
     n = 0
     for rep in reports:
-        _parse_report(rep, rel, g)
+        # a report specification exported straight from Cognos carries no name: use the file name
+        _parse_report(rep, rel, g, default_name=path.stem if len(reports) == 1 else "")
         n += 1
     return n
 
 
-def _parse_report(rep, rel: str, g: MetaGraph) -> None:
-    name = rep.get("name") or text(kid(rep, "reportProperties"), "reportName")
+def _package_from_model_path(rep) -> str:
+    """'/content/package[@name='GO Sales']/model[@name='model']' -> 'GO Sales'."""
+    m = re.search(r"package\[@name='([^']+)'\]", text(rep, "modelPath"))
+    return m.group(1) if m else ""
+
+
+def _parse_report(rep, rel: str, g: MetaGraph, default_name: str = "") -> None:
+    props = kid(rep, "reportProperties")
+    name = rep.get("name") or (text(props, "reportName") if props is not None else "") or default_name
     loc = f"/contentExport/report[@name='{name}']"
     rtype = TYPE_MAP.get((rep.get("type") or "L").lower(), rep.get("type") or "L")
     sim = rep.get("similarityScore")
-    props = kid(rep, "reportProperties")
-    r = Report(name=name, type=rtype, package=rep.get("package") or "", folder=rep.get("folder") or "",
+    r = Report(name=name, type=rtype, package=rep.get("package") or _package_from_model_path(rep), folder=rep.get("folder") or "",
                path=rep.get("reportPath") or "", dup_group=rep.get("duplicateGroupID") or "",
                similarity=float(sim) if sim else None,
                description=text(props, "description") if props is not None else "",

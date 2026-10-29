@@ -5,6 +5,7 @@ import { api, currentProject, setProject } from './api'
 import { setPackageAffixes } from './components'
 import Projects from './pages/Projects'
 import Why from './pages/Why'
+import ExportGuide from './pages/ExportGuide'
 import Audit from './pages/Audit'
 import Ingest from './pages/Ingest'
 import Strategy from './pages/Strategy'
@@ -37,6 +38,7 @@ const PAGES = [
   { key: 'audit', label: 'Audit trail', icon: '☰', el: Audit, section: 'Delivery' },
   { key: 'model', label: 'Model canvas', icon: '◎', el: Model, section: 'Explore' },
   { key: 'projects', label: 'Client projects', icon: '▦', el: Projects, section: 'Administration', global: true },
+  { key: 'export-guide', label: 'Cognos export guide', icon: '⇩', el: ExportGuide, section: 'Administration', global: true },
 ]
 // older deep links keep working
 const ALIASES = { estate: ['rationalization', ''], lineage: ['products', 'lineage'], aggregates: ['products', 'aggregates'] }
