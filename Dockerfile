@@ -1,4 +1,4 @@
-# SemLift container: React UI built in stage 1, FastAPI + pipeline in stage 2.
+# SemanticLift container: React UI built in stage 1, FastAPI + pipeline in stage 2.
 # Runs inside the client tenant (Snowpark Container Services or a client VPC); inputs never leave it.
 FROM node:22-slim AS ui
 WORKDIR /ui

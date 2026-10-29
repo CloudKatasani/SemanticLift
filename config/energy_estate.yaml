@@ -1,4 +1,4 @@
-# SemLift estate configuration for the Energy & Utilities Cognos export.
+# SemanticLift estate configuration for the Energy & Utilities Cognos export.
 # Merged on top of semlift/config.py DEFAULTS. Only naming and boundaries are
 # estate-specific; every design rule stays generic and deterministic.
 

@@ -1,4 +1,4 @@
-"""The seven-stage SemLift pipeline (spec 3): ingest -> rationalize -> design -> review -> generate -> deploy -> validate.
+"""The seven-stage SemanticLift pipeline (spec 3): ingest -> rationalize -> design -> review -> generate -> deploy -> validate.
 
 Stages 1-4 run here; review (5) is the human checkpoint in the workspace; deploy (6) and parity
 validation (7) run from CI using the generated package.

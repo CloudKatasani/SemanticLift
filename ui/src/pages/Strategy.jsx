@@ -131,7 +131,7 @@ export default function Strategy({ onRun }) {
                   <p className="chapter-why">{s.why}</p>
                   <div className="chapter-grid">
                     <div>
-                      <h4>What SemLift did</h4>
+                      <h4>What SemanticLift did</h4>
                       <ul className="reasons">{s.did.map((t, j) => <li key={j}>{t}</li>)}</ul>
                       {s.decide && <div className="chapter-decide"><b>Your decision:</b> {s.decide}</div>}
                     </div>

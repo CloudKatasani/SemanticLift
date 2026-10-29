@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "semlift"
 version = "1.0.0"
-description = "SemLift - Cognos-to-Data-Platform Semantic Layer Migrator"
+description = "SemanticLift - Cognos-to-Data-Platform Semantic Layer Migrator"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

@@ -1,4 +1,4 @@
-"""FastAPI service behind the SemLift web UI (spec 8.2)."""
+"""FastAPI service behind the SemanticLift web UI (spec 8.2)."""
 from __future__ import annotations
 
 import io
@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DIR = Path(os.environ.get("SEMLIFT_CONFIG_DIR", ROOT / "config"))
 UI_DIST = Path(os.environ.get("SEMLIFT_UI_DIST", ROOT / "ui" / "dist"))
 
-app = FastAPI(title="SemLift", version=__version__,
+app = FastAPI(title="SemanticLift", version=__version__,
               description="Cognos-to-Data-Platform Semantic Layer Migrator")
 app.add_middleware(GZipMiddleware, minimum_size=2048)
 _ws: Workspace | None = None
@@ -421,4 +421,4 @@ if UI_DIST.exists():
 else:
     @app.get("/")
     def root():
-        return {"app": "SemLift", "version": __version__, "ui": "not built - run `npm run build` in ui/", "docs": "/docs"}
+        return {"app": "SemanticLift", "version": __version__, "ui": "not built - run `npm run build` in ui/", "docs": "/docs"}

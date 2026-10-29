@@ -60,5 +60,5 @@ def meta_mirror(g: MetaGraph) -> dict[str, str]:
                   f"-- PUT file://meta/{table}.jsonl @SEMLIFT_META.LOAD_STAGE AUTO_COMPRESS=TRUE OVERWRITE=TRUE;",
                   f"COPY INTO SEMLIFT_META.{table.upper()} FROM @SEMLIFT_META.LOAD_STAGE/{table}.jsonl.gz "
                   f"FILE_FORMAT = (TYPE = JSON) MATCH_BY_COLUMN_NAME = NONE;"]
-    files["meta/load_semlift_meta.sql"] = "-- Mirror of the SemLift canonical model for analysis in Snowflake\n" + "\n".join(stmts) + "\n"
+    files["meta/load_semlift_meta.sql"] = "-- Mirror of the SemanticLift canonical model for analysis in Snowflake\n" + "\n".join(stmts) + "\n"
     return files

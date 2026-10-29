@@ -1,4 +1,4 @@
-# SemLift design rules and requirement coverage
+# SemanticLift design rules and requirement coverage
 
 Every generated object records the rule IDs that produced it, in its DDL header and in the design workbook. All rules are deterministic and configurable (`semlift/config.py` plus the estate YAML). An LLM is only used to draft descriptions and synonyms, and those stay *suggested* until a steward accepts them.
 
@@ -114,7 +114,7 @@ Physical objects are resolved from the FM physical layer when the item is FM-def
 
 ## Implementation notes and deviations
 
-- **Cognos expression grammar.** The spec names ANTLR. SemLift uses a hand-written recursive-descent parser with the same grammar (documented in `semlift/expr.py`), which avoids a generated-code build step. Malformed expressions such as `= < 0.3` are rejected and raised as F13.
+- **Cognos expression grammar.** The spec names ANTLR. SemanticLift uses a hand-written recursive-descent parser with the same grammar (documented in `semlift/expr.py`), which avoids a generated-code build step. Malformed expressions such as `= < 0.3` are rejected and raised as F13.
 - **Repository.** SQLite by default and Postgres through `SEMLIFT_DB_URL`. Every output package also carries a `meta/` mirror and a load script for a Snowflake `SEMLIFT_META` schema.
 - **Live platform features.** EXPLAIN compile checks, parity execution and the Cortex LLM provider need a Snowflake connection, which is not available offline. Without one, compile checks run offline with sqlglot and parity results report `not_run`.
 - **Python version.** The spec targets Python 3.12. The code runs on 3.11+ and the container uses 3.12.
