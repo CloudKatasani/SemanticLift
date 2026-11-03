@@ -7,7 +7,7 @@
 // The script creates a demo project, uploads the bundle, runs the pipeline, then walks every page
 // with on-screen captions and a visible cursor. chapters.json records when each chapter starts.
 import { createRequire } from 'node:module'
-import { existsSync, readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync, renameSync } from 'node:fs'
 import { basename, join } from 'node:path'
 
 const { chromium } = createRequire(import.meta.url)('playwright')   // resolves a global install via NODE_PATH
@@ -16,6 +16,7 @@ const BASE = process.env.BASE || 'http://127.0.0.1:8799'
 const OUT = process.env.OUT_DIR || 'demo-out'
 const BUNDLE = process.env.BUNDLE || 'samples/Cognos Lineage Input.zip'
 const CONFIG = process.env.CONFIG || 'energy_estate'
+const GOV = process.env.GOV_DIR || 'samples/governance'
 const W = 1440, H = 810
 mkdirSync(OUT, { recursive: true })
 // captions and voice-over lines; durations.json (from narrate.py speak) makes each caption last as long as its line
@@ -35,6 +36,7 @@ const project = (await api('/api/projects', { method: 'POST', headers: { 'Conten
   body: JSON.stringify({ name: 'Cognos wave 1', client: 'Northwind Energy', description: 'Demo project on the bundled sample estate', config: CONFIG }) })).id
 const fd = new FormData()
 fd.append('files', new Blob([readFileSync(BUNDLE)]), basename(BUNDLE))
+for (const f of readdirSync(GOV).sort()) fd.append('files', new Blob([readFileSync(join(GOV, f))]), f)   // governance exports
 await api('/api/uploads', { method: 'POST', body: fd }, project)
 await api('/api/run', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ config: CONFIG }) }, project)
 console.log('demo project ready:', project)
@@ -138,18 +140,38 @@ await pause(2500)
 await chapter('projects', 'projects', 2500)
 
 await chapter('ingest', 'ingest', 2000)
-await scroll(700, 5)
+await point('.gov-hint')
+await scroll(650, 5)
+await caption('governance')
+await point('.card:has(h3:has-text("Governance metadata")) .kpi', { nth: 1 })
+await pause(2500)
+await scroll(-650, 4)
+await caption('run_ai')
+await point('.run-mode:has-text("Run with AI")', { click: true })
+await point('.ai-form select', { nth: 1 })
+await pause(600)
+await point('.ai-form input[type=password]', { click: true })
+await page.locator('.ai-form input[type=password]').pressSequentially('sk-ant-demo-key-0000', { delay: 45 }).catch(() => {})
+await point('.ai-form .note input[type=checkbox]', { click: true })
+await pause(800)
+await point('button:has-text("Run pipeline with AI")', { click: true })
+await caption('ai_done')
+await page.waitForSelector('.ok', { timeout: 180000 }).catch(() => {})
+await point('.ok')
+await pause(2500)
 
 await chapter('strategy', 'strategy', 2000)
 await scroll(900, 6)
 
 await chapter('rationalization', 'rationalization', 1500)
-await point('select >> nth=2')
-await page.locator('select').nth(2).selectOption('Review').catch(() => {})
-await pause(1200)
-await point('table:has(th:has-text("Consolidate into")) tbody tr', { click: true, nth: 0 })
-await caption('decide')
-await point('.detail button:has-text("Keep")', { click: true })
+await point('.ai-box')
+await pause(800)
+await point('button:has-text("Show where AI differs")', { click: true })
+await point('table:has(th:has-text("AI suggests")) tbody tr', { click: true, nth: 0 })
+await caption('ai_suggest')
+await point('.detail .ai-box')
+await pause(1500)
+await point('.detail button:has-text("Accept AI suggestion")', { click: true })
 await pause(1500)
 
 await chapter('kpi_lineage', 'kpi-lineage', 1500)
@@ -166,7 +188,13 @@ await chapter('sources', 'sources', 3000)
 await chapter('ldm', 'ldm', 3000)
 
 await chapter('products', 'products', 1500)
-await point('.prod-card', { click: true, nth: 1 })
+await point('.prod-card', { click: true, nth: 0 })
+await scroll(560, 5)
+await caption('ai_products')
+await point('.card:has(h3:has-text("Governance metadata")) li', { nth: 0 })
+await pause(1500)
+await point('.card:has(h3:has-text("AI review")) .ai-box')
+await pause(2000)
 await scroll(700, 5)
 await caption('apply')
 await scroll(-700, 4)
