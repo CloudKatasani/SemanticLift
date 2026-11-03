@@ -1,10 +1,27 @@
-# SemanticLift on a single EC2 instance. See docs/DEPLOY_AWS_EC2.md.
+# SemanticLift on a single EC2 instance, behind Caddy (automatic HTTPS). See docs/DEPLOY_AWS_EC2.md.
 #
-#   docker compose up -d --build                  # app only (personal tokens, or the shared token)
-#   docker compose --profile sso up -d --build    # app + oauth2-proxy for single sign-on
+#   docker compose up -d --build                  # Caddy + app
+#   docker compose --profile sso up -d --build    # Caddy + oauth2-proxy (single sign-on) + app
 #
-# The app listens on 127.0.0.1 only; nginx on the host terminates TLS and is the only public entry point.
+# Only Caddy is published to the internet (80 and 443). The app port is bound to 127.0.0.1 for local health checks.
 services:
+  caddy:
+    image: caddy:2.8                                 # pin the current 2.x release you have approved
+    restart: unless-stopped
+    depends_on: [semanticlift]
+    ports:
+      - "80:80"                                      # HTTP -> HTTPS redirect and Let's Encrypt challenges
+      - "443:443"
+      - "443:443/udp"                                # HTTP/3
+    env_file: caddy.env
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /data/caddy/data:/data                       # certificates and keys (kept across rebuilds)
+      - /data/caddy/config:/config
+    logging:
+      driver: json-file
+      options: { max-size: "20m", max-file: "3" }
+
   semanticlift:
     build:
       context: ../..
@@ -25,8 +42,6 @@ services:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0  # pin the current release you have approved
     restart: unless-stopped
     depends_on: [semanticlift]
-    ports:
-      - "127.0.0.1:4180:4180"
     env_file: oauth2-proxy.env
     command:
       - --http-address=0.0.0.0:4180

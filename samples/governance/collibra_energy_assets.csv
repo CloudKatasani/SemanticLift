@@ -1,0 +1,16 @@
+Asset Id,Full Name,Name,Asset Type,Community,Domain,Status,Definition,Description,Data Owner,Data Steward,Personal Data Classification,Synonym
+c-0001,ENERGY_DW>BILLING,BILLING,Table,Customer,Customer Billing,Approved,,"Customer bills: one row per bill with charges, tax and payment status.",Maria Lopez,Billing Data Stewards,,
+c-0002,ENERGY_DW>BILLING>BILL_AMOUNT,BILL_AMOUNT,Column,Customer,Customer Billing,Approved,,"Total billed amount before tax, in USD.",Maria Lopez,Billing Data Stewards,Confidential - Financial,
+c-0003,ENERGY_DW>BILLING>PAYMENT_STATUS,PAYMENT_STATUS,Column,Customer,Customer Billing,Approved,,"Payment state of the bill: Paid, Pending or Overdue.",Maria Lopez,Billing Data Stewards,,
+c-0004,ENERGY_DW>BILLING>DUE_DATE,DUE_DATE,Column,Customer,Customer Billing,Candidate,,Date by which the bill must be paid.,Maria Lopez,Billing Data Stewards,,
+c-0005,ENERGY_DW>CUSTOMER,CUSTOMER,Table,Customer,Customer Master,Approved,,"Customer master record, one row per customer account.",Daniel Okafor,Customer Data Stewards,,
+c-0006,ENERGY_DW>CUSTOMER>CUSTOMER_NAME,CUSTOMER_NAME,Column,Customer,Customer Master,Approved,,Legal name of the customer or business.,Daniel Okafor,Customer Data Stewards,Personal Data (PII),
+c-0007,ENERGY_DW>CUSTOMER>CREDIT_SCORE,CREDIT_SCORE,Column,Customer,Customer Master,Approved,,Internal credit score from the credit-risk model.,Daniel Okafor,Customer Data Stewards,Restricted - Credit,
+c-0008,ENERGY_DW>CUSTOMER>CUSTOMER_SEGMENT,CUSTOMER_SEGMENT,Column,Customer,Customer Master,Approved,,"Residential, Commercial or Industrial segment.",Daniel Okafor,Customer Data Stewards,,Customer Type
+c-0009,ENERGY_DW>LOCATION>ADDRESS,ADDRESS,Column,Customer,Customer Master,Approved,,Service street address.,Daniel Okafor,Customer Data Stewards,Personal Data (PII),
+c-0010,ENERGY_DW>METER_READING,METER_READING,Table,Metering,Meter Data,Approved,,"Interval and register meter reads, one row per meter per read date.",Priya Nair,Metering Data Stewards,,
+c-0011,ENERGY_DW>METER_READING>CONSUMPTION_KWH,CONSUMPTION_KWH,Column,Metering,Meter Data,Approved,,Energy consumed in the read period (kWh).,Priya Nair,Metering Data Stewards,,Usage
+c-0012,,Bill Amount,Business Term,Customer,Business Glossary,Approved,"The amount charged to a customer for energy and demand in a billing period, excluding tax.",,Maria Lopez,Billing Data Stewards,,Billed Revenue;Invoice Amount
+c-0013,,Peak Demand KW,Business Term,Metering,Business Glossary,Approved,Highest 15-minute average demand in the period (kW).,,Priya Nair,Metering Data Stewards,,Max Demand
+c-0014,,Customer Segment,Business Term,Customer,Business Glossary,Approved,"Classification of a customer as Residential, Commercial or Industrial for tariff and reporting purposes.",,Daniel Okafor,Customer Data Stewards,,Rate Class
+c-0015,,Customer Billing,Domain,Customer,,Approved,Billing and revenue data of retail customers.,,Maria Lopez,,,

@@ -9,6 +9,7 @@ from pathlib import Path
 from ..model import IngestFile, MetaGraph, Package, Provenance, Report
 from . import fm as fmmod
 from .reports import parse_reports
+from .governance import parse_governance
 from .sheets import parse_catalog, parse_mapping, parse_usage
 from .unpack import detect_adapter, unpack
 
@@ -156,6 +157,8 @@ def ingest_folder(root: Path, cfg: dict) -> MetaGraph:
                 rec.records = parse_mapping(p, rel, g)
             elif adapter == "SRC-CAT":
                 rec.records = parse_catalog(p, rel, g)
+            elif adapter == "GOV":
+                rec.records = parse_governance(p, rel, g)
         except Exception as e:
             rec.status = "rejected"
             rec.warnings.append(f"{adapter} parse error: {e}")

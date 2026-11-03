@@ -136,7 +136,16 @@ def detect_adapter(path: Path) -> tuple[str, str]:
                 return "USAGE", "audit extract"
             if "fm package" in low and "source database/system" in low:
                 return "MAP", "package mapping"
+            from .governance import detect_tool, looks_like_governance
+            if looks_like_governance(r):
+                return "GOV", detect_tool(r, path.name)
             if {"table_name", "column_name"} <= low:
                 return "SRC-CAT", "catalog csv"
         return "", "no recognised header in first 10 rows"
+    if suffix == ".json":
+        from .governance import detect_tool, json_headers, looks_like_governance
+        hs = json_headers(path)
+        if hs and looks_like_governance(hs):
+            return "GOV", detect_tool(hs, path.name)
+        return "", "JSON file without recognised governance metadata"
     return "", f"unsupported file type {suffix or '(none)'}"

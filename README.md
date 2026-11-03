@@ -23,7 +23,7 @@ semlift -p acme-cognos-wave-1 run "samples/Cognos Lineage Input.zip"
 semlift serve
 ```
 
-To host it for a team on AWS, follow [`docs/DEPLOY_AWS_EC2.md`](docs/DEPLOY_AWS_EC2.md). For a public, read-only showcase on the sample estate with no server, build it with `python scripts/static/export_static.py` and publish it to an S3 static website ([`docs/DEPLOY_AWS_S3_STATIC.md`](docs/DEPLOY_AWS_S3_STATIC.md)).
+To host it on AWS, follow [`docs/DEPLOY_AWS_EC2.md`](docs/DEPLOY_AWS_EC2.md): one EC2 instance behind Caddy with automatic HTTPS on a free `<ip>.sslip.io` address, open access for demos and pilots, sign-in when you need it. For a public, read-only showcase on the sample estate with no server, build it with `python scripts/static/export_static.py` and publish it to an S3 static website ([`docs/DEPLOY_AWS_S3_STATIC.md`](docs/DEPLOY_AWS_S3_STATIC.md)).
 
 Or run the container:
 
@@ -60,15 +60,15 @@ docker build -t semlift . && docker run -p 8000:8000 -v $PWD/data:/data semlift
 
 | Package | Contents |
 | --- | --- |
-| `semlift/ingest` | Adapters FM-PROJ, FM-NS, FM-SEC, FM-PARAM, FM-DS, RPT, USAGE, MAP and SRC-CAT, each with provenance (file + XPath or sheet!row) |
+| `semlift/ingest` | Adapters FM-PROJ, FM-NS, FM-SEC, FM-PARAM, FM-DS, RPT, USAGE, MAP, SRC-CAT and GOV (Collibra, Atlan, Alation or generic governance exports), each with provenance (file + XPath or sheet!row) |
 | `semlift/expr.py` | Cognos expression grammar: tokenizer, recursive-descent parser, AST and Snowflake SQL translation |
 | `semlift/model.py` | Canonical, platform-neutral metadata graph (spec section 5) |
 | `semlift/analyze` | Resolution, catalog matching, classification, rationalization, join diagnostics, aggregate planning, findings |
 | `semlift/design` | Design engine that turns the canonical graph into a physical design, and naming rules |
 | `semlift/generate` | Snowflake DDL, Cortex semantic YAML, Databricks metric views, dbt, contracts, OpenLineage, traceability, parity SQL, workbook |
-| `semlift/service` | Workspace (runs, review, diff, deploy, parity, audit), project registry, identity and roles, background jobs, compile checks, LLM assist, metadata repository, CI templates |
+| `semlift/service` | Workspace (runs, review, diff, deploy, parity, audit), project registry, identity and roles, background jobs, compile checks, LLM assist, optional AI advisor (`ai.py`), metadata repository, CI templates |
 | `semlift/api` | FastAPI service used by the UI |
-| `ui/` | React UI. **Demo walkthrough** (at the bottom of the menu) plays a 3-minute narrated tour of the app with chapters and a transcript (regenerate it with `scripts/demo/record_demo.sh`). Two overview pages. **Product overview** (opens first) is the pitch: the problem a large BI estate creates, the eight steps as one arrow strip, figures from the current project or the bundled sample, manual migration vs SemanticLift, enterprise capabilities, value per role and where it fits. **Strategy & approach** is the playbook: for each step why it matters, what SemanticLift does, a guideline for the team, the outcome, the decision needed and, once the project has a run, its live figures. Under Administration, **Client projects** lists every engagement the user can access with its progress (the current project and a Change link sit at the foot of the menu), and the **Cognos export guide** tells Cognos administrators how to export each input with column definitions, starting queries and CSV templates. **Audit trail** shows every change. Migration workflow: 1. Report rationalization (Keep / Review / Consolidate / Retire with evidence and overrides), 2. KPI lineage (KPI → FM → report → database → schema → table), 3. Common KPIs (competing definitions; approve the correct one), 4. Databases & tables in scope (Keep + Review reports, review-only objects flagged), 5. Logical data model, 6. Data products & semantic layer (business logic moved, semantic and aggregated views, outputs, lineage), 7. Object lineage (for every platform object: source tables, upstream objects, the aggregates, semantic views and data products it feeds, and the Cognos reports it serves with their outcome). Plus Upload & run, Findings, Design review, Deploy & validate and Model canvas |
+| `ui/` | React UI. **Demo walkthrough** (at the bottom of the menu) plays a 3-minute narrated tour of the app with chapters and a transcript (regenerate it with `scripts/demo/record_demo.sh`). Two overview pages. **Product overview** (opens first) is the pitch: the problem a large BI estate creates, the eight steps as one arrow strip, figures from the current project or the bundled sample, manual migration vs SemanticLift, enterprise capabilities, value per role and where it fits. **Strategy & approach** is the playbook: for each step why it matters, what SemanticLift does, a guideline for the team, the outcome, the decision needed and, once the project has a run, its live figures. Under Administration, **Client projects** lists every engagement the user can access with its progress (the current project and a Change link sit at the foot of the menu), and the **Cognos export guide** tells Cognos administrators how to export each input with column definitions, starting queries and CSV templates. **Audit trail** shows every change. Migration workflow: 1. Report rationalization (Keep / Review / Consolidate / Retire with evidence and overrides), 2. KPI lineage (KPI → FM → report → database → schema → table), 3. Common KPIs (competing definitions; approve the correct one), 4. Databases & tables in scope (Keep + Review reports, review-only objects flagged), 5. Logical data model, 6. Data products & semantic layer (business logic moved, semantic and aggregated views, outputs, lineage), 7. Object lineage (for every platform object: source tables, upstream objects, the aggregates, semantic views and data products it feeds, and the Cognos reports it serves with their outcome). Plus Upload & run (choose **Run without AI** or **Run with AI**: provider, model and an API key used for that run only), Findings, Design review, Deploy & validate and Model canvas |
 
 ## Results on the supplied export
 
@@ -90,6 +90,12 @@ One run takes about 0.6 s of pipeline time (about 2.5 s including the package an
 | F12 | `CO2EstimateKg` literal 0.233 moved to `REF.REF_EMISSION_FACTOR` (effective-dated) |
 
 Design output: 32 logical entities, 148 target objects (52 proposed, 96 stubs that depend on inferred entities), 23 demand-driven aggregates, 11 semantic views, 7 data products, 4 row access policies, 5 masking policies. The fan trap Billing → Meter ← MeterReading → Tariff is detected, and TariffType is left out of the billing aggregates.
+
+## Governance metadata and AI (optional)
+
+**Governance tools.** Upload asset exports from Collibra, Atlan or Alation (CSV, XLSX or JSON) next to the Cognos files; samples are in [`samples/governance/`](samples/governance). The GOV adapter recognises each tool's column names, matches tables, columns and business terms to the estate, and uses them (rules GOV-01 to GOV-06): governance descriptions become comments and semantic-view descriptions, glossary terms become synonyms, sensitive classifications tag columns and raise F22 when Cognos does not protect them, uncertified assets in use raise F23, governance owners and stewards become data-product owners, and each data product gets governance recommendations.
+
+**AI.** On Upload & run choose **Run without AI** (rules only, nothing leaves the server) or **Run with AI**. With AI, the rules run first; then the chosen model (Anthropic Claude, OpenAI or any OpenAI-compatible endpoint) reviews every report group's rationalization and every data product, using the governance metadata when present. Only metadata is sent (names, descriptions, expressions, usage figures, rule outcomes), never business data. The API key is used for that run only: it is not stored, logged or audited. AI suggestions appear next to the rules on Report rationalization (with **Accept AI suggestion**) and on Data products; nothing changes until a person accepts. Install the Anthropic SDK with `pip install ".[ai]"` (the Docker image includes it). Tune batch size, parallel requests, effort and token limits under `ai:` in the estate configuration.
 
 ## Steward decisions
 
@@ -116,10 +122,12 @@ Environment variables:
 | `SEMLIFT_ENV` | Shown in the UI; deployment is always Git + CI regardless |
 | `SEMLIFT_SNOWFLAKE_ACCOUNT`, `_USER`, `_ROLE`, `_WAREHOUSE`, `_DATABASE`, `_AUTHENTICATOR` | Optional live connection for EXPLAIN compile checks, parity runs and the Cortex LLM provider |
 | `SEMLIFT_DB_URL` | `postgresql://…` to store the canonical graph in Postgres (default: SQLite `workspace/semlift.db`) |
-| `ANTHROPIC_API_KEY` | Used only when `llm.provider: anthropic` is configured |
+| `ANTHROPIC_API_KEY` | Optional server-side key for **Run with AI** (Anthropic) and for `llm.provider: anthropic`; without it users enter a key per run |
+| `OPENAI_API_KEY` | Optional server-side key for **Run with AI** (OpenAI) |
+| `SEMLIFT_AI_COMPATIBLE_API_KEY` | Optional server-side key for an OpenAI-compatible endpoint (Azure OpenAI, a gateway, a local model) |
 
 ## Tests
 
 ```bash
-python -m pytest -q        # 71 tests: units, the F1–F12 reproduction, design invariants, determinism, workspace and API
+python -m pytest -q        # 83 tests: units, governance metadata, the AI advisor with a fake provider, the F1–F12 reproduction, design invariants, determinism, workspace and API
 ```

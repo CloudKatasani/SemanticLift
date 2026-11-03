@@ -8,6 +8,26 @@ const INPUTS = [
   { n: 4, name: 'Framework Manager project', need: 'Recommended', from: 'FM project folder', format: 'Zip of the project folder', why: 'Confirms tables, measure aggregation rules, relationships, security' },
   { n: 5, name: 'Security and prompt definitions', need: 'Recommended', from: 'FM security, parameter maps', format: 'XML', why: 'Row and column policies, prompt defaults' },
   { n: 6, name: 'Source catalog', need: 'Optional', from: 'Landed data platform', format: 'CSV of tables and columns', why: 'Raises confidence for items not in the FM model' },
+  { n: 7, name: 'Governance metadata', need: 'Optional', from: 'Collibra, Atlan, Alation (data governance team)', format: 'CSV, XLSX or JSON asset export', why: 'Business descriptions, glossary synonyms, sensitivity, owners; better data-product recommendations' },
+]
+
+const GOV_COLS = [
+  ['Name', 'Required', 'Asset name: table, column, business term or domain.'],
+  ['Asset Type', 'Required', 'Table, View, Column, Business Term, Domain or Data Product.'],
+  ['Qualified Name', 'Strongly recommended', 'Full path such as ENERGY_DW.BILLING.BILLING.BILL_AMOUNT (Atlan qualifiedName, Collibra Full Name, Alation key). Or give Database, Schema, Table and Column separately.'],
+  ['Description', 'Strongly recommended', 'Business description or term definition. Becomes the object comment and semantic-view description.'],
+  ['Domain', 'Recommended', 'Business domain or Collibra community. Used to check data-product boundaries.'],
+  ['Owner, Steward', 'Recommended', 'Data owner and steward. Become the data product owner and steward.'],
+  ['Classification', 'Recommended', 'PII, Personal, Confidential, Financial, … Sensitive columns are tagged; unprotected ones raise finding F22.'],
+  ['Certification', 'Recommended', 'Certified / Verified / Approved, or Draft / Deprecated. Uncertified assets used by reports raise F23.'],
+  ['Business Terms, Synonyms', 'Optional', 'Glossary terms assigned to a column and their synonyms. Become semantic-view synonyms.'],
+]
+
+const GOV_TOOLS = [
+  ['Collibra', 'Asset grid or view of the domains in scope › Export › CSV or Excel. Include Full Name, Asset Type, Community, Domain, Description or Definition, Status, Data Owner, Data Steward and the classification attribute (for example "Personal Data Classification").'],
+  ['Atlan', 'Discover › filter the connection and glossary in scope › Download (CSV), or the assets search API (JSON). Include qualifiedName, typeName, description/userDescription, certificateStatus, ownerUsers, ownerGroups, atlanTags and meanings.'],
+  ['Alation', 'Catalog sets or a table/column search › Export (CSV/XLSX), or the Integration API (JSON). Include key, title, otype, description, Steward, the Trust Check flag and the glossary terms.'],
+  ['Other tools', 'Any CSV or XLSX with a name column and at least one of description, owner, steward, classification, certification, domain or terms. Download the template below.'],
 ]
 
 const USAGE_COLS = [
@@ -72,7 +92,8 @@ const LAYOUT = `client_cognos_export.zip
 ├── FM/sales_fm_project.zip           the Framework Manager project folder, zipped (zips may be nested)
 ├── report_usage.xlsx                 step 2
 ├── package_source_mapping.xlsx       step 3
-└── source_catalog.csv                step 6 (optional)`
+├── source_catalog.csv                step 6 (optional)
+└── governance/                       step 7 (optional): Collibra, Atlan or Alation exports`
 
 function Code({ text }) {
   const [copied, setCopied] = useState(false)
@@ -106,6 +127,10 @@ export default function ExportGuide() {
     { 'FM Package/Data Module': 'Sales_Orders_DM', 'FM Package': 'Sales_Package', 'Source Database/System': 'Oracle - SALES_DW' }])
   const catalogTemplate = () => downloadCsv('source_catalog_template.csv', [
     { table_catalog: 'SALES_DW', table_schema: 'RAW_SALES', table_name: 'ORDERS', column_name: 'ORDER_ID', data_type: 'NUMBER', row_count: 2500000 }])
+  const govTemplate = () => downloadCsv('governance_metadata_template.csv', [
+    { Name: 'ORDERS', 'Asset Type': 'Table', 'Qualified Name': 'SALES_DW.SALES.ORDERS', Description: 'One row per customer order line', Domain: 'Sales', Owner: 'Jane Doe', Steward: 'Sales Data Stewards', Classification: '', Certification: 'Certified', 'Business Terms': '', Synonyms: '' },
+    { Name: 'NET_REVENUE', 'Asset Type': 'Column', 'Qualified Name': 'SALES_DW.SALES.ORDERS.NET_REVENUE', Description: 'Revenue after discounts and returns', Domain: 'Sales', Owner: 'Jane Doe', Steward: 'Sales Data Stewards', Classification: 'Confidential - Financial', Certification: 'Certified', 'Business Terms': 'Net Revenue', Synonyms: 'Net Sales' },
+    { Name: 'Net Revenue', 'Asset Type': 'Business Term', 'Qualified Name': '', Description: 'Gross revenue minus discounts, returns and allowances', Domain: 'Sales', Owner: '', Steward: 'Sales Data Stewards', Classification: '', Certification: 'Approved', 'Business Terms': '', Synonyms: 'Net Sales; Revenue (net)' }])
 
   return (
     <div className="guide">
@@ -125,6 +150,7 @@ export default function ExportGuide() {
           <button className="btn" onClick={usageTemplate}>Usage (CSV)</button>
           <button className="btn" onClick={mappingTemplate}>Package mapping (CSV)</button>
           <button className="btn" onClick={catalogTemplate}>Source catalog (CSV)</button>
+          <button className="btn" onClick={govTemplate}>Governance metadata (CSV)</button>
         </div>
       </div>
 
@@ -190,11 +216,26 @@ export default function ExportGuide() {
         <Code text={CATALOG_SQL} />
       </Step>
 
+      <Step n={7} title="Governance metadata (Collibra, Atlan, Alation)" need="Optional">
+        <p>If the client runs a data governance tool, ask the governance team for an asset export of the tables, columns and business terms behind the Cognos packages. SemanticLift matches them to the estate by name and uses them for descriptions, glossary synonyms, sensitivity tags and masking checks, data-product owners and stewards, and data-product recommendations, with or without AI. Each tool's own column names are recognised; you do not need to rename them.</p>
+        <table className="tbl compact">
+          <thead><tr><th>Tool</th><th>How to export</th></tr></thead>
+          <tbody>{GOV_TOOLS.map(([t, d]) => <tr key={t}><td className="small nowrap"><b>{t}</b></td><td className="small">{d}</td></tr>)}</tbody>
+        </table>
+        <h4>Columns (generic template)</h4>
+        <table className="tbl compact">
+          <thead><tr><th>Column</th><th>Need</th><th>Meaning</th></tr></thead>
+          <tbody>{GOV_COLS.map(([c, n, d]) => <tr key={c}><td className="mono small">{c}</td><td className="small">{n}</td><td className="small">{d}</td></tr>)}</tbody>
+        </table>
+        <div className="row gap wrap" style={{ marginTop: 8 }}><button className="btn" onClick={govTemplate}>Download governance template (CSV)</button>
+          <span className="small muted">Examples: <span className="mono">samples/governance/</span> (one Collibra, Atlan and Alation export for the energy sample).</span></div>
+      </Step>
+
       <section className="card">
         <h2 style={{ marginTop: 0 }}>Package and check</h2>
         <Code text={LAYOUT} />
         <ul className="guide-list">
-          <li><b>Accepted files:</b> .zip (nested zips are unpacked), .xml, .cpf, .ns, .ds, .xlsx, .csv. File and folder names do not matter, except report specification file names (the report name).</li>
+          <li><b>Accepted files:</b> .zip (nested zips are unpacked), .xml, .cpf, .ns, .ds, .xlsx, .csv, .json (governance exports). File and folder names do not matter, except report specification file names (the report name).</li>
           <li><b>After uploading:</b> on <a href="#/ingest">Upload &amp; run</a>, check that every file shows an adapter and the status <i>parsed</i>, that the stated and actual report counts match, and that the usage join matched almost every report. A rejected file shows the reason next to it.</li>
           <li><b>Do not include:</b> data extracts, passwords or user lists. Only metadata is needed.</li>
           <li><b>Examples:</b> <span className="mono">samples/Cognos Lineage Input.zip</span> (energy utility) and <span className="mono">samples/Cognos Telco Input.zip</span> (telecommunications) in the repository show complete bundles.</li>
