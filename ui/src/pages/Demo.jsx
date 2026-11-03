@@ -25,7 +25,7 @@ export default function Demo() {
   return (
     <div className="demo">
       <h1>Demo walkthrough</h1>
-      <p className="lede">A {meta ? mmss(meta.duration) : 'three-minute'} narrated tour of SemanticLift on the bundled sample Cognos estate: from the product overview and a client project, through the seven migration steps with real steward decisions, to design review, deployment and the audit trail. Click a chapter to jump to it.</p>
+      <p className="lede">A {meta ? mmss(meta.duration) : 'three-minute'} narrated tour of SemanticLift on the bundled sample Cognos estate: from the product overview and a client project, governance metadata and Run with AI (the AI answers in the video are scripted, for illustration), through the seven migration steps with real steward decisions, to design review, deployment and the audit trail. Click a chapter to jump to it.</p>
       {missing ? (
         <div className="empty">The demo video has not been generated in this installation. Run <span className="mono">scripts/demo/record_demo.sh</span> and rebuild the UI.</div>
       ) : (

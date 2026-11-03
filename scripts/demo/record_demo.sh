@@ -11,7 +11,8 @@ WORK="$(mktemp -d)"
 DEST=ui/public/demo
 mkdir -p "$DEST"
 
-SEMLIFT_HOME="$WORK/home" python -m uvicorn semlift.api.app:app --port "$PORT" --log-level warning &
+# demo_ai.py = the app with a scripted AI provider, so "Run with AI" can be shown without an API key
+SEMLIFT_HOME="$WORK/home" python scripts/demo/demo_ai.py "$PORT" &
 SERVER=$!
 trap 'kill $SERVER 2>/dev/null || true; rm -rf "$WORK"' EXIT
 for _ in $(seq 1 40); do curl -sf "http://127.0.0.1:$PORT/api/health" >/dev/null && break; sleep 0.5; done
