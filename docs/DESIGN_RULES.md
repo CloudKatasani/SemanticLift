@@ -1,6 +1,6 @@
 # SemanticLift design rules and requirement coverage
 
-Every generated object records the rule IDs that produced it, in its DDL header and in the design workbook. All rules are deterministic and configurable (`semlift/config.py` plus the estate YAML). An LLM is only used to draft descriptions and synonyms, and those stay *suggested* until a steward accepts them.
+Every generated object records the rule IDs that produced it, in its DDL header and in the design workbook. All rules are deterministic and configurable (`semlift/config.py` plus the estate YAML). An LLM is only used to draft descriptions and synonyms, and those stay *suggested* until a steward accepts them. The optional AI review (AI-01) is advisory in the same way: AI suggests, people decide.
 
 ## Rule catalogue
 
@@ -52,6 +52,13 @@ Every generated object records the rule IDs that produced it, in its DDL header 
 | SEM-03 | Design | Synonyms from business names and report labels. Sample values come from pick lists. Required prompts become default filters. Up to 10 verified queries per view |
 | DP-01 | Design | One product per package plus Enterprise Reference. Secure `DP_<DOMAIN>.OUT_*` views over aggregates or atomic facts |
 | DP-02 | Design | Share plus internal marketplace listing (unpublished), and an ODCS-style contract with quality rules |
+| GOV-01 | Analyze | Governance exports (Collibra, Atlan, Alation, generic) are matched by physical table, entity, column and item name, case- and punctuation-insensitively; business terms match items by name or synonym, and a term assigned to a column flows to its item |
+| GOV-02 | Analyze | Governance descriptions become the business descriptions of entities and items, and from there object comments and semantic-view descriptions |
+| GOV-03 | Design | Glossary terms and synonyms become semantic-view field synonyms |
+| GOV-04 | Design | Sensitive classifications (PII, personal, confidential, financial, …) tag the column with `SENSITIVE` and `DATA_CLASSIFICATION`; a sensitive column that Cognos does not protect raises F22; an uncertified asset that reports use raises F23 |
+| GOV-05 | Design | Owners and stewards of a product's tables become the data product's owner and steward (fact tables weigh three times a dimension) |
+| GOV-06 | Design | Per data product: governance domains, certification, glossary coverage and unmasked sensitive columns, with recommendations |
+| AI-01 | Advisory | Optional (**Run with AI**). After the rules, an AI model reviews each canonical report group (Keep / Review / Consolidate / Retire, consolidation target restricted to reports of the same package) and each data product (name, owner, boundary, semantic-layer advice, risks, new product opportunities). Names the model invents are discarded. Only metadata is sent; the key is used for the run only. Suggestions never change the design: a person accepts them as their own decision |
 
 ## Report rationalization (page 1)
 

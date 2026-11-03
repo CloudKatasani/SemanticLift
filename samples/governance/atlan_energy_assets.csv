@@ -1,0 +1,11 @@
+qualifiedName,typeName,name,userDescription,ownerUsers,ownerGroups,certificateStatus,atlanTags,meanings,databaseName,schemaName,tableName
+default/oracle/1730000000/ENERGY_DW/ENERGY_DW/GENERATION,Table,GENERATION,"Hourly generation output per power source, with emissions.",li.wei,generation-stewards,VERIFIED,,,ENERGY_DW,ENERGY_DW,GENERATION
+default/oracle/1730000000/ENERGY_DW/ENERGY_DW/GENERATION/GENERATED_MWH,Column,GENERATED_MWH,Net energy generated in the hour (MWh).,li.wei,generation-stewards,VERIFIED,,Generated Energy,ENERGY_DW,ENERGY_DW,GENERATION
+default/oracle/1730000000/ENERGY_DW/ENERGY_DW/GENERATION/CAPACITY_FACTOR_PCT,Column,CAPACITY_FACTOR_PCT,Actual output divided by maximum possible output for the period. Average it; never sum it.,li.wei,generation-stewards,VERIFIED,,Capacity Factor,ENERGY_DW,ENERGY_DW,GENERATION
+default/oracle/1730000000/ENERGY_DW/ENERGY_DW/GENERATION/CO2_EMISSIONS_KG,Column,CO2_EMISSIONS_KG,Estimated CO2 emitted in the hour (kg).,li.wei,generation-stewards,VERIFIED,ESG,,ENERGY_DW,ENERGY_DW,GENERATION
+default/oracle/1730000000/ENERGY_DW/ENERGY_DW/OUTAGE_EVENT,Table,OUTAGE_EVENT,"Unplanned and planned outages, one row per outage event.",sam.taylor,grid-ops-stewards,VERIFIED,,,ENERGY_DW,ENERGY_DW,OUTAGE_EVENT
+default/oracle/1730000000/ENERGY_DW/ENERGY_DW/OUTAGE_EVENT/DURATION_MINUTES,Column,DURATION_MINUTES,Minutes from outage start to restoration.,sam.taylor,grid-ops-stewards,VERIFIED,,Outage Duration,ENERGY_DW,ENERGY_DW,OUTAGE_EVENT
+default/snowflake/1730000001/OPS_DW/FORECAST/LOAD_FORECAST,Table,LOAD_FORECAST,Day-ahead and actual system load by region.,sam.taylor,grid-ops-stewards,DRAFT,,,OPS_DW,FORECAST,LOAD_FORECAST
+default/snowflake/1730000001/OPS_DW/FORECAST/LOAD_FORECAST/FORECASTED_LOAD_MW,Column,FORECASTED_LOAD_MW,Day-ahead forecast load (MW). Definition under review.,sam.taylor,grid-ops-stewards,DRAFT,,,OPS_DW,FORECAST,LOAD_FORECAST
+,AtlasGlossaryTerm,Generated MWh,Net electrical energy delivered to the grid by a source in a period.,li.wei,generation-stewards,VERIFIED,,,,,
+,AtlasGlossaryTerm,Capacity Factor Pct,Share of maximum possible output actually produced. A ratio: average across hours and plants.,li.wei,generation-stewards,VERIFIED,,,,,

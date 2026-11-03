@@ -64,6 +64,16 @@ Every role includes `viewer`, and `admin` includes every role. Roles apply per p
 
 For regulated clients, set `governance.four_eyes: true` in the estate configuration. An approver then cannot approve DDL they edited themselves.
 
+## AI providers and keys
+
+**Run with AI** is optional; **Run without AI** sends nothing outside the server. With AI, the user picks a provider (Anthropic, OpenAI or an OpenAI-compatible endpoint such as Azure OpenAI, a gateway or a self-hosted model) and a model, and enters an API key, or uses the key configured on the server (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `SEMLIFT_AI_COMPATIBLE_API_KEY`).
+
+- The key travels with the run request, is held in memory for that run and is never written to disk, logs, the job record or the audit trail. The audit trail records `pipeline.run` / `ai.review` with the provider, model and tasks.
+- Only metadata is sent: report names and descriptions, KPI, dimension and filter expressions, usage figures, rule outcomes and reasons, data-product structure and governance descriptions, owners and classifications. No query results or business data. Check the client's contract before sending its metadata to a provider; the UI asks the user to confirm.
+- For clients that must keep metadata in their own cloud, point an OpenAI-compatible endpoint at the client's own model deployment, or run without AI.
+- Requests run in parallel batches (`ai.batch_size`, `ai.parallel`, `ai.effort`, `ai.max_tokens` in the estate configuration). A failed batch is reported and does not fail the pipeline run. Restrict outbound HTTPS to the provider's host if the network allows it.
+- `pip install ".[ai]"` installs the Anthropic SDK (included in the Docker image).
+
 ## Onboarding a new client
 
 1. Copy `config/template_estate.yaml` to `config/<client>_estate.yaml`. Fill in package affixes, product names, target database and RAW schema routing, KPI concepts and the industry glossary. Check it with `semlift config check config/<client>_estate.yaml`.

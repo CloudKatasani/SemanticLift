@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /
 WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY semlift ./semlift
-RUN pip install --no-cache-dir ".[snowflake]"
+RUN pip install --no-cache-dir ".[snowflake,ai]"
 COPY config ./config
 COPY --from=ui /ui/dist ./ui/dist
 # One project per client engagement under SEMLIFT_HOME. Mount client estate configs over /app/config if needed.

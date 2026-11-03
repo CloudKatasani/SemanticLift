@@ -132,10 +132,20 @@ async def _review_error(_req, exc: ReviewError):
     return JSONResponse(status_code=409, content={"detail": str(exc)})
 
 
+class AISettings(BaseModel):
+    """Run with AI. ``api_key`` is used for this run only and never stored, logged or audited."""
+    provider: str
+    model: Optional[str] = None
+    api_key: Optional[str] = None
+    base_url: Optional[str] = None
+    tasks: list[str] = ["rationalization", "products"]
+
+
 class RunRequest(BaseModel):
     config: Optional[str] = None
     overrides: Optional[dict] = None
     source: Optional[str] = None
+    ai: Optional[AISettings] = None          # None = run without AI
 
 
 class ReviewRequest(BaseModel):
@@ -315,16 +325,36 @@ def _prepare_run(req: RunRequest):
     return src
 
 
-def _do_run(w: Workspace, src, user: str, kind: str) -> dict:
+def _ai_summary(view: dict) -> dict:
+    return {k: view.get(k) for k in ("status", "provider", "provider_label", "model", "tasks", "usage", "error", "finished")}
+
+
+def _ai_settings(ai: "AISettings | None") -> dict | None:
+    if ai is None:
+        return None
+    from ..service.ai import PROVIDERS
+    if ai.provider not in PROVIDERS:
+        raise HTTPException(400, f"unknown AI provider {ai.provider}")
+    return ai.model_dump()
+
+
+def _ai_audit(settings: dict | None) -> dict:
+    return {"ai_provider": settings["provider"], "ai_model": settings.get("model") or "(default)",
+            "ai_tasks": settings.get("tasks")} if settings else {"ai": "off"}
+
+
+def _do_run(w: Workspace, src, user: str, kind: str, ai: dict | None = None) -> dict:
     t = time.perf_counter()
-    st = w.run(src)
+    st = w.run(src, ai=ai, keep_ai=(kind == "rerun"))
     out = summary_of(st) | {"config_warnings": validate_config(w.config())}
+    if ai or kind == "rerun":
+        out["ai"] = _ai_summary(w.ai_view())
     w.audit(user, f"pipeline.{kind}", st["run_id"], {"objects": out["objects"], "findings": out["findings"],
-                                                      "seconds": round(time.perf_counter() - t, 1)})
+                                                      "seconds": round(time.perf_counter() - t, 1), **_ai_audit(ai)})
     return out
 
 
-def _sync(kind: str, src=None) -> dict:
+def _sync(kind: str, src=None, ai: dict | None = None) -> dict:
     c = ctx()
     if jobs.active(c.project):
         raise HTTPException(409, "a run is already in progress for this project")
@@ -332,17 +362,17 @@ def _sync(kind: str, src=None) -> dict:
     if not lock.acquire(blocking=False):
         raise HTTPException(409, "a run is already in progress for this project")
     try:
-        return _do_run(c.ws, src, c.ident.name, kind)
+        return _do_run(c.ws, src, c.ident.name, kind, ai)
     except ValueError as e:
         raise HTTPException(400, str(e))
     finally:
         lock.release()
 
 
-def _submit(kind: str, src=None) -> dict:
+def _submit(kind: str, src=None, ai: dict | None = None) -> dict:
     c = ctx()
     try:
-        return jobs.submit(c.project, kind, c.ident.name, lambda: _do_run(c.ws, src, c.ident.name, kind),
+        return jobs.submit(c.project, kind, c.ident.name, lambda: _do_run(c.ws, src, c.ident.name, kind, ai),
                            registry().run_lock(c.project))
     except jobs.Busy as e:
         raise HTTPException(409, str(e))
@@ -351,14 +381,14 @@ def _submit(kind: str, src=None) -> dict:
 @app.post("/api/run", dependencies=[Depends(need("analyst"))])
 def run(req: RunRequest):
     """Synchronous run (CLI, scripts, tests). The UI uses POST /api/jobs/run."""
-    return _sync("run", _prepare_run(req))
+    return _sync("run", _prepare_run(req), _ai_settings(req.ai))
 
 
 @app.post("/api/jobs/run", dependencies=[Depends(need("analyst"))])
 def run_job(req: RunRequest):
     if not (ws().root / "uploads").exists() or not any((ws().root / "uploads").iterdir()):
         raise HTTPException(400, "No input files uploaded")
-    return _submit("run", _prepare_run(req))
+    return _submit("run", _prepare_run(req), _ai_settings(req.ai))
 
 
 @app.post("/api/jobs/rerun", dependencies=[Depends(need("analyst"))])
@@ -366,6 +396,35 @@ def rerun_job():
     if not ws().state():
         raise HTTPException(404, "no run yet - upload a bundle and run the pipeline")
     return _submit("rerun")
+
+
+@app.post("/api/jobs/ai", dependencies=[Depends(need("analyst"))])
+def ai_job(req: AISettings):
+    """Run (or re-run) only the AI advisor on the current run."""
+    if not ws().state():
+        raise HTTPException(404, "no run yet - upload a bundle and run the pipeline")
+    c, settings = ctx(), _ai_settings(req)
+
+    def work():
+        view = c.ws.run_ai(settings)
+        c.ws.audit(c.ident.name, "ai.review", view.get("model") or "", {**_ai_audit(settings), "status": view.get("status")})
+        return {"ai": _ai_summary(view)}
+    try:
+        return jobs.submit(c.project, "ai", c.ident.name, work, registry().run_lock(c.project))
+    except jobs.Busy as e:
+        raise HTTPException(409, str(e))
+
+
+@app.get("/api/ai/providers", dependencies=[Depends(signed_in)])
+def ai_providers():
+    from ..service.ai import providers_public
+    return providers_public()
+
+
+@app.get("/api/ai", dependencies=[Depends(need("viewer"))])
+def ai_view():
+    state()
+    return ws().ai_view()
 
 
 @app.get("/api/jobs", dependencies=[Depends(need("viewer"))])
@@ -400,7 +459,8 @@ def summary():
 
 @app.get("/api/ingest", dependencies=[Depends(need("viewer"))])
 def ingest():
-    return state()["ingest"]
+    st = state()
+    return st["ingest"] | {"governance": st.get("governance", {"loaded": False})}
 
 
 @app.get("/api/estate", dependencies=[Depends(need("viewer"))])

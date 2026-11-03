@@ -1,0 +1,7 @@
+[
+  {"otype": "table", "key": "7.ENERGY_DW.OUTAGE_EVENT", "title": "Outage events", "description": "Outage events with customers affected and reliability minutes.", "steward": "Grid Reliability Office", "trust_check": "endorsement", "domain": "Grid Operations"},
+  {"otype": "attribute", "key": "7.ENERGY_DW.OUTAGE_EVENT.CUSTOMERS_AFFECTED", "title": "Customers affected", "description": "Number of customers without supply during the outage.", "steward": "Grid Reliability Office", "trust_check": "endorsement", "domain": "Grid Operations"},
+  {"otype": "attribute", "key": "7.ENERGY_DW.OUTAGE_EVENT.SAIDI_MINUTES", "title": "SAIDI minutes", "description": "Contribution of the outage to the System Average Interruption Duration Index (customer-minutes / customers served).", "steward": "Grid Reliability Office", "trust_check": "endorsement", "domain": "Grid Operations", "synonyms": "SAIDI"},
+  {"otype": "table", "key": "7.ENERGY_DW.TARIFF", "title": "Tariffs", "description": "Tariff schedules with energy and demand rates.", "steward": "Pricing Team", "trust_check": "endorsement", "domain": "Customer Billing"},
+  {"otype": "attribute", "key": "7.ENERGY_DW.TARIFF.RATE_PER_KWH", "title": "Rate per kWh", "description": "Energy price per kWh under the tariff. A rate: average, never sum.", "steward": "Pricing Team", "trust_check": "endorsement", "domain": "Customer Billing"}
+]

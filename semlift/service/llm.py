@@ -9,7 +9,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import urllib.request
 
 from ..design.model import Design
 from ..model import MetaGraph
@@ -60,26 +59,28 @@ class CortexProvider:  # pragma: no cover - requires a live account
 
 
 class AnthropicProvider:  # pragma: no cover - requires network + key
+    """Claude through the official SDK (shared with the AI advisor in semlift.service.ai)."""
     name = "anthropic"
+    SCHEMA = {"type": "object", "additionalProperties": False, "required": ["description", "synonyms"],
+              "properties": {"description": {"type": "string"}, "synonyms": {"type": "array", "items": {"type": "string"}}}}
 
     def __init__(self, model: str | None, endpoint: str | None, domain: str = "enterprise"):
         self.domain = domain
-        self.model = model or "claude-sonnet-5-5"
-        self.endpoint = endpoint or "https://api.anthropic.com/v1/messages"
+        self.model = model or "claude-opus-5-5"
         self.key = os.environ.get("ANTHROPIC_API_KEY", "")
 
     def describe(self, kind: str, name: str, context: str) -> dict:
         if not self.key:
             return TemplateProvider().describe(kind, name, context)
-        body = json.dumps({"model": self.model, "max_tokens": 300, "messages": [{"role": "user", "content":
-                           f"Write a one-sentence business description and up to 3 synonyms for the {kind} '{name}' "
-                           f"({context}) in a {self.domain} semantic layer. Reply only with JSON: "
-                           '{"description": "...", "synonyms": ["..."]}'}]}).encode()
-        req = urllib.request.Request(self.endpoint, data=body, headers={
-            "x-api-key": self.key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read())
-        return _parse("".join(b.get("text", "") for b in data.get("content", [])))
+        from .ai import AIError, AnthropicLLM
+        try:
+            out, _ = AnthropicLLM(self.model, self.key, "low", 1024).complete_json(
+                f"You write short business descriptions for a {self.domain} semantic layer.",
+                f"Write a one-sentence business description and up to 3 synonyms for the {kind} '{name}' ({context}).",
+                self.SCHEMA, "description")
+        except AIError:
+            return TemplateProvider().describe(kind, name, context)
+        return {"description": str(out.get("description", ""))[:500], "synonyms": [str(x) for x in out.get("synonyms", [])][:5]}
 
 
 def _parse(text: str) -> dict:

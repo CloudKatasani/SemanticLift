@@ -3,6 +3,7 @@ with table-level lineage (source -> CORE -> AGG / SEM -> DP output -> reports se
 from __future__ import annotations
 
 from ..design.model import Design
+from ..analyze.governance import product_governance
 from ..model import MetaGraph
 
 
@@ -127,5 +128,6 @@ def build_products_view(g: MetaGraph, d: Design, cfg: dict) -> dict:
             "business_logic": logic,
             "reports": {k: sum(1 for x in reports if x["disposition"] == k) for k in ("Keep", "Review", "Consolidate", "Retire")},
             "lineage": {"nodes": list(nodes.values()), "edges": edges},
+            "governance": product_governance(g, d, key),
         })
     return {"products": products}

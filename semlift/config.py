@@ -100,6 +100,12 @@ DEFAULTS: dict[str, Any] = {
         "ClimateZone": 8, "_flag": 2, "_date": 2200, "_status": 6, "_type": 10, "_category": 10, "_segment": 4,
         "_name": 500, "_id": 1_000_000, "_default": 50,
     },
+    "ai": {                              # optional AI advisor (Run with AI)
+        "batch_size": 40,                # report groups per request (one package per request)
+        "parallel": 3,                   # requests at once
+        "effort": "medium",              # Claude effort level: low | medium | high | xhigh | max
+        "max_tokens": 16000,
+    },
     "llm": {
         "provider": "template",          # template | cortex | anthropic
         "model": None,
@@ -136,7 +142,7 @@ def load_config(path: str | Path | None = None, overrides: dict | None = None) -
 
 
 # sections whose keys are fixed (anything else is a typo); free-form maps are not checked
-_STRICT = ("rationalization", "confidence", "aggregates", "target", "security", "governance", "llm", "owners", "parity")
+_STRICT = ("rationalization", "confidence", "aggregates", "target", "security", "governance", "llm", "owners", "parity", "ai")
 
 
 def validate_config(cfg: dict) -> list[str]:

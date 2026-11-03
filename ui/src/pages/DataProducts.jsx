@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { api } from '../api'
 import { Conf, Kpi, LaneDiagram, Loading, RerunBanner, Section, Tabs, useApi } from '../components'
 import Lineage from './Lineage'
@@ -32,6 +32,8 @@ function Products() {
   const { data, error, loading, reload } = useApi('/api/products-view')
   const [sel, setSel] = useState(null)
   const [node, setNode] = useState(null)
+  const [ai, setAi] = useState(null)
+  useEffect(() => { api.get('/api/ai').then((v) => setAi(v && v.products ? v : null)).catch(() => setAi(null)) }, [])
   const p = data ? data.products.find((x) => x.key === sel) || data.products[0] : null
 
   const graph = useMemo(() => {
@@ -78,6 +80,15 @@ function Products() {
             </div>
             <div className="small muted">Sources: {p.source_systems.join(', ') || '–'}{p.data_modules.length > 0 && ` · Cognos data modules: ${p.data_modules.join(', ')}`}{p.default_filters.length > 0 && ` · default filters: ${p.default_filters.map((f) => `${f.dimension} = ${f.default}`).join(', ')}`}</div>
           </div>
+          {(p.governance || ai?.products?.[p.key]) && (
+            <div className="grid2">
+              {p.governance && <GovernancePanel g={p.governance} />}
+              {ai?.products?.[p.key] && <AiProductPanel a={ai.products[p.key]} ai={ai} />}
+            </div>)}
+          {ai?.opportunities?.length > 0 && p.key === data.products[0].key && (
+            <Section title={`New data product opportunities suggested by AI (${ai.opportunities.length})`}>
+              <ul className="guide-list">{ai.opportunities.map((o, i) => <li key={i}><b>{o.name}</b> — {o.rationale} {o.based_on.length > 0 && <span className="muted tiny">(based on {o.based_on.join(', ')})</span>}</li>)}</ul>
+            </Section>)}
           <Section title="Lineage: source → CORE → aggregated / semantic views → outputs → reports">
             <div className="lin-canvas"><LaneDiagram lanes={graph.lanes} nodes={graph.nodes} edges={graph.edges} laneWidth={200} selected={node} onSelect={setNode} /></div>
             <div className="legend small"><i style={{ background: '#fbe7e3' }} />stub (inferred source) <i style={{ background: '#fdf2dc' }} />report under review · click a box to trace it</div>
@@ -137,4 +148,33 @@ function Products() {
       )}
     </Loading>
   )
+}
+
+function GovernancePanel({ g }) {
+  return (
+    <Section title="Governance metadata">
+      <div className="kpis">
+        <Kpi label="Columns with metadata" value={`${g.columns_with_metadata} / ${g.columns}`} />
+        <Kpi label="Glossary coverage" value={`${g.glossary_coverage_pct}%`} tone={g.glossary_coverage_pct < 50 ? 'warn' : 'good'} />
+        <Kpi label="Sensitive columns" value={g.sensitive_columns.length} sub={g.unmasked_sensitive.length ? `${g.unmasked_sensitive.length} without masking` : 'all masked'} tone={g.unmasked_sensitive.length ? 'bad' : ''} />
+        <Kpi label="Certified tables" value={g.certified.length} sub={g.uncertified.length ? `${g.uncertified.length} not certified` : ''} />
+      </div>
+      <div className="small">Domains: {Object.keys(g.domains).join(', ') || '–'} · owners: {g.owners.join(', ') || '–'} · stewards: {g.stewards.join(', ') || '–'}</div>
+      {g.recommendations.length > 0 && (<><h4>Recommendations</h4><ul className="reasons">{g.recommendations.map((r, i) => <li key={i}>{r}</li>)}</ul></>)}
+    </Section>)
+}
+
+function AiProductPanel({ a, ai }) {
+  return (
+    <Section title={`AI review · ${ai.provider_label}`}>
+      <div className="ai-box" style={{ marginTop: 0 }}>
+        <div><b>Suggested name:</b> {a.recommended_name} <span className="muted tiny">({a.confidence} confidence · {ai.model})</span></div>
+        <div style={{ marginTop: 4 }}>{a.description}</div>
+      </div>
+      <div className="small"><b>Owner:</b> {a.owner_suggestion}</div>
+      <div className="small" style={{ marginTop: 4 }}><b>Boundary:</b> {a.boundary_advice}</div>
+      <div className="small" style={{ marginTop: 4 }}><b>Semantic layer:</b> {a.semantic_layer_advice}</div>
+      {a.risks?.length > 0 && (<><h4>Risks</h4><ul className="reasons flags">{a.risks.map((r, i) => <li key={i}>{r}</li>)}</ul></>)}
+      <div className="tiny muted">Advisory only: the generated design is unchanged until you act on it.</div>
+    </Section>)
 }

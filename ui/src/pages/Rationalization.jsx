@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react'
-import { api } from '../api'
+import React, { useEffect, useMemo, useState } from 'react'
+import { api, isStatic } from '../api'
 import { Disp, Kpi, Loading, RerunBanner, SearchBox, Section, downloadCsv, fmt, pkgLabel, useApi } from '../components'
 
 const DISPS = ['Keep', 'Review', 'Consolidate', 'Retire']
@@ -13,10 +13,15 @@ export default function Rationalization({ arg }) {
   const [rule, setRule] = useState('')
   const [q, setQ] = useState(arg || '')
   const [open, setOpen] = useState(arg || null)
+  const [ai, setAi] = useState(null)
+  const [aiFilter, setAiFilter] = useState('')
+  useEffect(() => { api.get('/api/ai').then((v) => setAi(v && v.reports ? v : null)).catch(() => setAi(null)) }, [])
+  const aiOf = (r) => ai?.reports?.[r.report]
 
   const rows = useMemo(() => (data ? data.reports.filter((r) => (!disp || r.disposition === disp) && (!pkg || r.package === pkg)
     && (!folder || r.folder === folder) && (!rule || r.rule === rule)
-    && (!q || `${r.report} ${r.kpis.join(' ')} ${r.reasons.join(' ')}`.toLowerCase().includes(q.toLowerCase()))) : []), [data, disp, pkg, folder, rule, q])
+    && (!aiFilter || (aiFilter === 'differs' ? aiOf(r) && aiOf(r).recommendation !== r.disposition : !!aiOf(r)))
+    && (!q || `${r.report} ${r.kpis.join(' ')} ${r.reasons.join(' ')}`.toLowerCase().includes(q.toLowerCase()))) : []), [data, disp, pkg, folder, rule, q, ai, aiFilter])
   const packages = data ? Object.keys(data.by_package) : []
   const byReport = useMemo(() => (data ? Object.fromEntries(data.reports.map((r) => [r.report, r])) : {}), [data])
 
@@ -31,7 +36,9 @@ export default function Rationalization({ arg }) {
     report: r.report, package: r.package, folder: r.folder, cluster: r.cluster, runs_per_day: r.runs_per_day,
     group_runs_per_day: r.group_runs_per_day, last_run: r.last_run, recommendation: r.recommendation, rule: r.rule,
     decision: r.decision?.disposition || '', disposition: r.disposition, target: r.target || '', kpis: r.kpis,
-    reasons: r.reasons, flags: r.flags, decision_comment: r.decision?.comment || '' })))
+    reasons: r.reasons, flags: r.flags, decision_comment: r.decision?.comment || '',
+    ...(ai ? { ai_recommendation: aiOf(r)?.recommendation || '', ai_consolidate_into: aiOf(r)?.consolidate_into || '',
+      ai_confidence: aiOf(r)?.confidence || '', ai_rationale: aiOf(r)?.rationale || '' } : {}) })))
 
   const runsBy = (d) => data.reports.filter((r) => r.disposition === d).reduce((a, r) => a + (r.runs_per_day || 0), 0)
   return (
@@ -41,6 +48,17 @@ export default function Rationalization({ arg }) {
           <h1>1. Report rationalization</h1>
           <p className="lede">Every Cognos report gets a recommendation of <b>Keep</b>, <b>Review</b>, <b>Consolidate</b> or <b>Retire</b>. The recommendation comes from usage, duplicate groups and the KPIs each report shares with others. Each one carries the evidence behind it. You can override it; decisions are saved and applied on the next run.</p>
           <RerunBanner pending={data.pending_rerun} onDone={reload} />
+          {ai && (() => {
+            const t = ai.tasks?.rationalization || {}
+            const differs = data.reports.filter((r) => aiOf(r) && aiOf(r).recommendation !== r.disposition).length
+            return (
+              <div className="ai-box">
+                <b>AI review</b> by {ai.provider_label} · <span className="mono tiny">{ai.model}</span> · {new Date(ai.finished || ai.started).toLocaleString()}: {fmt(t.reviewed || 0)} report groups reviewed, <b>{differs}</b> where the AI suggests something other than the current disposition.
+                {' '}AI suggestions are advisory: nothing changes until you accept one, and an accepted suggestion is recorded as your decision with the AI rationale as comment.
+                {differs > 0 && <button className="btn" style={{ marginLeft: 8 }} onClick={() => { setAiFilter(aiFilter === 'differs' ? '' : 'differs'); setFolder('') }}>{aiFilter === 'differs' ? 'Show all' : 'Show where AI differs'}</button>}
+                {ai.status === 'failed' && <div className="bad-t small">The AI review did not complete: {ai.error}</div>}
+              </div>)
+          })()}
           <div className="kpis">
             {DISPS.map((d) => (
               <div key={d} className={`kpi click ${d === 'Keep' ? 'good' : d === 'Review' ? 'warn' : d === 'Retire' ? 'bad' : 'info'} ${disp === d ? 'on' : ''}`}
@@ -82,10 +100,11 @@ export default function Rationalization({ arg }) {
             <select value={folder} onChange={(e) => setFolder(e.target.value)}><option value="">All folders (incl. copies)</option><option>Active</option><option>Archive</option><option>Community</option></select>
             <select value={pkg} onChange={(e) => setPkg(e.target.value)}><option value="">All packages</option>{packages.map((p) => <option key={p} value={p}>{short(p)}</option>)}</select>
             <select value={disp} onChange={(e) => setDisp(e.target.value)}><option value="">All dispositions</option>{DISPS.map((d) => <option key={d}>{d}</option>)}</select>
+            {ai && <select value={aiFilter} onChange={(e) => setAiFilter(e.target.value)}><option value="">All (AI)</option><option value="reviewed">Reviewed by AI</option><option value="differs">AI differs</option></select>}
             <button className="btn" onClick={exportCsv}>Export CSV</button>
           </div>}>
             <table className="tbl">
-              <thead><tr><th>Report</th><th>Package</th><th>Folder</th><th className="r">Runs/day</th><th>Last run</th><th>KPIs</th><th>Recommended</th><th>Decision</th><th>Consolidate into</th></tr></thead>
+              <thead><tr><th>Report</th><th>Package</th><th>Folder</th><th className="r">Runs/day</th><th>Last run</th><th>KPIs</th><th>Recommended</th>{ai && <th>AI suggests</th>}<th>Decision</th><th>Consolidate into</th></tr></thead>
               <tbody>{rows.map((r) => (
                 <React.Fragment key={r.report}>
                   <tr className={open === r.report ? 'sel' : ''} onClick={() => setOpen(open === r.report ? null : r.report)} style={{ cursor: 'pointer' }}>
@@ -94,10 +113,11 @@ export default function Rationalization({ arg }) {
                     <td className="r">{fmt(r.runs_per_day)}</td><td className="small nowrap">{r.last_run}</td>
                     <td className="small">{r.kpis.length}</td>
                     <td className="nowrap"><Disp value={r.recommendation} /> <span className="muted tiny">{r.rule}</span></td>
+                    {ai && <td className="nowrap">{aiOf(r) ? <span className={`ai-pill ${aiOf(r).recommendation !== r.disposition ? 'differs' : ''}`} title={aiOf(r).rationale}>{aiOf(r).recommendation} · {aiOf(r).confidence}</span> : <span className="muted small">–</span>}</td>}
                     <td>{r.decision ? <Disp value={r.decision.disposition} /> : <span className="muted small">–</span>}</td>
                     <td className="small">{r.disposition === 'Consolidate' ? r.target : ''}</td>
                   </tr>
-                  {open === r.report && <tr className="detail"><td colSpan="9"><Detail r={r} byReport={byReport} reports={data.reports} onDecide={decide} /></td></tr>}
+                  {open === r.report && <tr className="detail"><td colSpan={ai ? 10 : 9}><Detail r={r} byReport={byReport} reports={data.reports} onDecide={decide} ai={aiOf(r)} model={ai?.model} /></td></tr>}
                 </React.Fragment>))}</tbody>
             </table>
           </Section>
@@ -107,7 +127,7 @@ export default function Rationalization({ arg }) {
   )
 }
 
-function Detail({ r, byReport, reports, onDecide }) {
+function Detail({ r, byReport, reports, onDecide, ai, model }) {
   const [comment, setComment] = useState(r.decision?.comment || '')
   const [target, setTarget] = useState(r.target || '')
   const members = reports.filter((x) => x.cluster === r.cluster)
@@ -137,6 +157,13 @@ function Detail({ r, byReport, reports, onDecide }) {
             <tr key={m.report}><td className="small">{m.report}{m.report === r.canonical && <span className="pill good tiny">canonical</span>}</td><td className="small">{m.folder}</td>
               <td className="r small">{m.similarity}</td><td className="r small">{fmt(m.runs_per_day)}</td><td className="small">{m.last_run}</td><td><Disp value={m.disposition} /></td></tr>))}</tbody>
         </table>
+        {ai && (
+          <div className="ai-box">
+            <b>AI suggests {ai.recommendation}</b>{ai.consolidate_into && <> into <b>{ai.consolidate_into}</b></>} <span className="muted tiny">({ai.confidence} confidence{ai.business_domain && ` · ${ai.business_domain}`})</span>
+            <div>{ai.rationale}</div>
+            {!isStatic && (ai.recommendation !== r.disposition || (ai.consolidate_into && ai.consolidate_into !== r.target)) && (
+              <button className="btn" style={{ marginTop: 6 }} onClick={() => onDecide(r, ai.recommendation, `Accepted AI suggestion (${model}): ${ai.rationale}`.slice(0, 900), ai.recommendation === 'Consolidate' ? (ai.consolidate_into || r.target) : null)}>Accept AI suggestion</button>)}
+          </div>)}
         <h4>Decision</h4>
         <div className="btn-group">
           {DISPS.map((d) => <button key={d} className={`btn ${r.decision?.disposition === d ? `sel-${d.toLowerCase()}` : ''}`} onClick={() => onDecide(r, d, comment, d === 'Consolidate' ? (target || r.target) : null)}>{d}</button>)}

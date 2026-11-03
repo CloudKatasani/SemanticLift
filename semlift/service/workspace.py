@@ -182,7 +182,10 @@ class Workspace:
         return load_config(None)
 
     # ------------------------------------------------------------ run
-    def run(self, source: str | Path | None = None, *, live_compile: bool = False, extra_sources=None) -> dict:
+    def run(self, source: str | Path | None = None, *, live_compile: bool = False, extra_sources=None,
+            ai: dict | None = None, keep_ai: bool = False) -> dict:
+        """Run the pipeline. ``ai`` (provider, model, api_key, ...) also runs the AI advisor afterwards; without it the
+        previous AI review is dropped, unless ``keep_ai`` (re-runs that only apply steward decisions keep it)."""
         src = Path(source) if source else self.root / "uploads"
         if src.is_dir() and not any(src.iterdir()):
             raise ValueError("No input files uploaded")
@@ -221,10 +224,34 @@ class Workspace:
         from ..generate.object_lineage import build_object_lineage
         _write_json(self.root / "views" / "objects.json", build_object_lineage(res.graph, res.design, res.objects))
         _write_json(self.root / "views" / "applied_decisions.json", {"hash": stable_hash(decisions, 16)})
+        _write_json(self.root / "views" / "governance.json", res.graph.analysis.get("governance", {"loaded": False}))
         state = self._build_state(res, run_id, diff, files)
         _write_json(self.state_path, state)
         self.refresh_summary()
+        if ai:
+            self.run_ai(ai)
+        elif not keep_ai:
+            (self.root / "views" / "ai.json").unlink(missing_ok=True)
         return state
+
+    # ------------------------------------------------------------ AI advisor (advisory only)
+    def ai_view(self) -> dict:
+        return _read_json(self.root / "views" / "ai.json", {"status": "none"})
+
+    def run_ai(self, settings: dict) -> dict:
+        """Run the AI advisor on the current run's views. The API key in ``settings`` is never stored."""
+        from .ai import AIError, run_ai
+        if not self.state():
+            raise ReviewError("no run yet - run the pipeline first")
+        try:
+            view = run_ai(settings, self.portfolio_view(), self.view("products"), self.view("governance")
+                          if (self.root / "views" / "governance.json").exists() else {"loaded": False}, self.config())
+        except AIError as e:
+            view = {"status": "failed", "provider": settings.get("provider"), "model": settings.get("model"),
+                    "error": str(e), "tasks": {}, "reports": {}, "products": {}, "opportunities": [],
+                    "finished": _now()}
+        _write_json(self.root / "views" / "ai.json", view)
+        return view
 
     def _next_run_id(self, res: RunResult) -> str:
         n = len([p for p in (self.root / "runs").iterdir() if p.is_dir()]) + 1
@@ -866,6 +893,10 @@ class Workspace:
             "aggregates": {"plans": aggs, "facts": g.analysis.get("aggregate_facts", {})},
             "products": prods,
             "portfolio_summary": g.analysis.get("portfolio", {}).get("summary", {}),
+            "governance": {k: v for k, v in g.analysis.get("governance", {"loaded": False}).items() if k not in ("items", "entities")}
+                          | ({"entities_matched": len(g.analysis["governance"]["entities"]),
+                              "items_matched": len(g.analysis["governance"]["items"])}
+                             if g.analysis.get("governance", {}).get("loaded") else {}),
             "logical": self._logical_model(res),
             "validation": g.analysis.get("validation", []),
             "numbers_that_change": g.analysis.get("numbers_that_change", []),

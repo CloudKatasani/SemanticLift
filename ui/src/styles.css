@@ -305,3 +305,16 @@ details.acc summary { cursor: pointer; font-weight: 600; }
 .demo-transcript { margin: 0; padding-left: 20px; line-height: 1.55; } .demo-transcript li { margin: 8px 0; }
 @media (max-width: 1100px) { .demo-grid { grid-template-columns: 1fr; } .demo-chapters { position: static; } }
 .static-banner { background: #eef4ff; border-color: #cddcfb; }
+/* run modes (Upload & run) */
+.gov-hint { background: #eef4fb; border: 1px solid #cddcf0; border-radius: 10px; padding: 9px 12px; font-size: 12.5px; line-height: 1.5; margin: 10px 0; }
+.run-modes { display: grid; gap: 8px; }
+.run-mode { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line, #e3e6ea); border-radius: 10px; padding: 10px 12px; cursor: pointer; }
+.run-mode.on { border-color: #3c6fd8; background: #f2f6fe; }
+.run-mode.disabled { opacity: .55; cursor: not-allowed; }
+.run-mode span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.ai-form { margin-top: 12px; max-width: none; }
+.ai-tasks { border: 1px solid var(--line, #e3e6ea); border-radius: 8px; padding: 6px 10px; display: grid; gap: 4px; }
+.ai-tasks legend { font-size: 12px; color: var(--muted); padding: 0 4px; }
+.ai-pill { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 9px; background: #ece6fb; color: #4b2f9a; white-space: nowrap; }
+.ai-pill.differs { background: #fdecd4; color: #8a4b00; }
+.ai-box { background: #f6f3fd; border: 1px solid #ddd3f5; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.5; margin: 10px 0; }
